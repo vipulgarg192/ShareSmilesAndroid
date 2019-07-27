@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShareSmilesAndroid</string>
+    <string name="app_name">Share a Smiles</string>
 
     // login
     <string name="enterEmail">Enter Email</string>

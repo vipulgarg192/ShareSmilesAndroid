@@ -10,9 +10,13 @@
 
     <style name="MyAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/md_red_200</item>
-        <item name="colorPrimaryDark">@color/md_red_800</item>
-        <item name="colorAccent">@color/md_red_600</item>
+        <item name="colorPrimary">@color/md_red_A200</item>
+        <item name="colorPrimaryDark">@color/md_red_A700</item>
+        <item name="colorAccent">@color/md_red_A400</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
 
 
