@@ -6,17 +6,17 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.cipher.sharesmilesandroid.BaseActivity;
-import com.cipher.sharesmilesandroid.LoginActivity;
-import com.cipher.sharesmilesandroid.R;
+
 
 
 public class SplashActivity extends BaseActivity {
 
+    BaseActivity activity = SplashActivity.this;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_acitivity);
-
-        startActivity(new Intent(this, IntroActivity.class));
+        startActivity(new Intent(activity, IntroActivity.class));
+        finish();
     }
 }

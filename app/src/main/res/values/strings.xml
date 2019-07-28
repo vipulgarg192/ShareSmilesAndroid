@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Share a Smiles</string>
 
+    <string name="client_id">9217a25d70d24e57a0e6967b64075743</string>
+    <string name="callback_url">https://instagram.com/</string>
+    <string name="base_url">https://api.instagram.com/</string>
+
+    <string name="facebook_app_id">536307603859156</string>
+    <string name="fb_login_protocol_scheme">fb536307603859156</string>
+
     // login
     <string name="enterEmail">Enter Email</string>
     <string name="enterPassword">Enter Password</string>
@@ -8,5 +15,12 @@
     <string name="signUp">Sign Up</string>
     <string name="register">Register</string>
     <string name="joinUs">Join Us</string>
+    <string name="forgetPassword">Forget Password?</string>
+
+    <string name="loginWithFacebook">Login with Facebook</string>
+    <string name="instagramLogin">InstagramLogin</string>
+
+
+    <string name="LoginIntoShareSmiles">Login In to ShareSmiles</string>
 
 </resources>

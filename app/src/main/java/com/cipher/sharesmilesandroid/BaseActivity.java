@@ -1,17 +1,17 @@
 package com.cipher.sharesmilesandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,17 +28,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void onClick(View v){
 
-
-
-
     }
 
-    public void onStartTransition(){
+
+
+    public void onStartTransition(AppCompatActivity appCompatActivity , AppCompatActivity nextActivity){
+
+//        startActivity(new Intent(appCompatActivity,nextActivity));
 
     }
 
     public void onEndTransition(){
 
+    }
+
+    public void printToast(AppCompatActivity activity, String msg){
+        Toast.makeText(activity, msg , Toast.LENGTH_SHORT).show();
     }
 
 
