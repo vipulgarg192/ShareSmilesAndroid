@@ -27,8 +27,11 @@ import com.google.android.material.button.MaterialButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +45,7 @@ public class LoginActivity extends BaseActivity {
     EditText etEmail;
     EditText etPassword;
     Button btnLogin;
+    TextInputLayout email;
 
     CallbackManager callbackManager;
 
@@ -54,6 +58,9 @@ public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
+    CircleImageView img;
+
+
     LoginManager loginManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,11 +70,23 @@ public class LoginActivity extends BaseActivity {
         LoginManager.getInstance().logOut();
         ButterKnife.bind(activity);
 
+        TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.txlEmail);
+        inputLayout.setError("First name is required");
+
+//        etEmail = findViewById(R.id.etEmail);
+//        email =(TextInputLayout) findViewById(R.id.txlEmail);
+//        email.setErrorEnabled(true);
+//        email.setError("asdasdsdsd");
+
         callbackManager = CallbackManager.Factory.create();
 
         loginManager = LoginManager.getInstance();
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
+
+        img = findViewById(R.id.img);
+
+        img.setImageResource(R.drawable.splash_logo_bg);
 
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -150,6 +169,9 @@ public class LoginActivity extends BaseActivity {
         super.init();
 //        imgLogin = findViewById(R.id.imgLogin);
 //        etEmail = findViewById(R.id.etEmail);
+//        email =(TextInputLayout) findViewById(R.id.txlEmail);
+//        email.setErrorEnabled(true);
+//        email.setError("asdasdsdsd");
 //        etPassword = findViewById(R.id.etPassword);
 //        btnLogin = findViewById(R.id.btnLogin);
     }

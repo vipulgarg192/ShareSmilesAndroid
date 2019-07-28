@@ -27,4 +27,14 @@
         <item name="colorControlNormal">@color/md_white_1000</item>
     </style>
 
+    <style name="error" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorAccent</item> <!--apply the color you wat here -->
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/md_blue_A700</item>
+        <item name="colorControlActivated">@color/md_red_600</item>
+    </style>
+
 </resources>
