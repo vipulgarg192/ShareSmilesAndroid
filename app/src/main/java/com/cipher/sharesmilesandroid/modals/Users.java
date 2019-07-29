@@ -2,7 +2,7 @@ package com.cipher.sharesmilesandroid.modals;
 
 public class Users  {
 
-    private int userID;
+    private String userID;
     private String firstName;
     private String lastName;
     private String email;
@@ -10,13 +10,14 @@ public class Users  {
     private String dob;
     private String gender;
     private int userType;
+    private String userImage;
 
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
@@ -78,5 +79,13 @@ public class Users  {
 
     public String getFullName(){
         return firstName+" "+lastName;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 }

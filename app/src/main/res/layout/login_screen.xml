@@ -167,7 +167,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress|textNoSuggestions"
                     android:maxLines="1"
-                    android:textColor="@color/md_red_400" />
+                    android:textColor="@color/colorAccent" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -194,7 +194,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPassword|textNoSuggestions"
                     android:maxLines="1"
-                    android:textColor="@color/md_red_400"
+                    android:textColor="@color/colorAccent"
                     app:passwordToggleEnabled="true"
                     />
 
@@ -209,7 +209,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/md_red_600"
+                android:background="@color/colorPrimaryDark"
                 android:text="@string/signIn"
                 android:onClick="onClick"
                 android:textColor="@color/md_white_1000"

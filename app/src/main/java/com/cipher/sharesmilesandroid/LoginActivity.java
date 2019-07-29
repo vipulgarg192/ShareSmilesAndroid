@@ -10,10 +10,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.cipher.sharesmilesandroid.activities.MainActivity;
+import com.cipher.sharesmilesandroid.interfaces.FacebookInteface;
+import com.cipher.sharesmilesandroid.modals.Users;
+import com.cipher.sharesmilesandroid.ui.FacebookData;
 import com.cipher.sharesmilesandroid.utilities.Validations;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -24,25 +29,25 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 
-public class LoginActivity extends BaseActivity {
+
+public class LoginActivity extends BaseActivity  {
 
     AppCompatActivity activity = LoginActivity.this;
     CallbackManager callbackManager;
@@ -50,40 +55,43 @@ public class LoginActivity extends BaseActivity {
     private final String PUBLICPROFILE = "public_profile";
     private final String EMAIL = "email";
 
-    LoginButton loginButton;
 
     private static final String TAG = "LoginActivity";
 
-    @BindView(R.id.tilEmail)
-            TextInputLayout tilEmail;
-
-    @BindView(R.id.tilPassword)
-    TextInputLayout tilPassword;
+        TextInputLayout tilEmail;
+        TextInputLayout tilPassword;
 
         EditText etEmail;
-
         EditText etPassword;
 
-    @BindView(R.id.btnSignIn)
         MaterialButton btnSignIn;
+        MaterialButton btnFB;
+        LoginButton login_button;
 
-    @BindView(R.id.login_button)
-            LoginButton login_button;
+        private FirebaseAuth auth;
+        LoginManager loginManager;
 
 
-    LoginManager loginManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
-        ButterKnife.bind(this);
 
+        auth = FirebaseAuth.getInstance();
+
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
+        btnSignIn = findViewById(R.id.btnSignIn);
+        btnFB = findViewById(R.id.btnFB);
+        login_button = findViewById(R.id.login_button);
+
 
         LoginManager.getInstance().logOut();
+
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -104,6 +112,7 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(LoginResult loginResult) {
                 // App code
                 getFbInfo();
+
             }
 
             @Override
@@ -147,14 +156,29 @@ public class LoginActivity extends BaseActivity {
                             String id = object.getString("id");
                             String first_name = object.getString("first_name");
                             String last_name = object.getString("last_name");
-//                            String gender = object.getString("gender");
-//                            String birthday = object.getString("birthday");
-//                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-//
-//                            String email;
-//                            if (object.has("email")) {
-//                                email = object.getString("email");
-//                            }
+                            String gender = object.getString("gender");
+
+                            String birthday = "";
+                            if (object.has("birthday")) {
+                                birthday = object.getString("birthday");
+                            }
+
+                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
+                            String email = "";
+                            if (object.has("email")) {
+                                email = object.getString("email");
+                            }
+
+                            Users users = new Users();
+                            users.setUserID(id);
+                            users.setFirstName(first_name);
+                            users.setLastName(last_name);
+                            users.setEmail(email);
+                            users.setGender(gender);
+                            users.setDob(birthday);
+                            users.setUserImage(image_url);
+
+                           setFBInfo(users);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -170,15 +194,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void init() {
         super.init();
-
-
-//        imgLogin = findViewById(R.id.imgLogin);
-//        etEmail = findViewById(R.id.etEmail);
-//        email =(TextInputLayout) findViewById(R.id.txlEmail);
-//        email.setErrorEnabled(true);
-//        email.setError("asdasdsdsd");
-//        etPassword = findViewById(R.id.etPassword);
-//        btnLogin = findViewById(R.id.btnLogin);
     }
 
     @Override
@@ -188,46 +203,49 @@ public class LoginActivity extends BaseActivity {
 
         switch (id){
             case R.id.btnSignIn:
+                tilEmail.setError(null);
+                tilPassword.setError(null);
                 login();
                 break;
 
             case R.id.tvForgetPWD:
                 break;
 
+            case R.id.btnFB:
+                login_button.performClick();
+                break;
             default:
                 break;
         }
-
-//        if (v.getId()== R.id.btnFB){
-//            loginButton.performClick();
-//        }
     }
 
     private void login() {
 
         if (isValid()){
-          printToast(activity,"hello");
+          logIn(etEmail.getText().toString(), etPassword.getText().toString());
         }
     }
 
+
     private boolean isValid() {
         if (etEmail.getText().toString().isEmpty()){
-            printToast(activity,"empty email");
+            tilEmail.setError("Please Enter Email");
             return  false;
-        }else if (!Validations.isValidEmail(etEmail.getText())){
-            printToast(activity,"invalid email");
+        }else if (!Validations.isValidEmailId(etEmail.getText().toString())){
+            tilEmail.setError("Please Enter Valid Email");
             return  false;
         }
         else if (etPassword.getText().equals("")){
-            printToast(activity,"empty password");
+            tilPassword.setError("Please enter password");
             return false;
-        }else if (etPassword.getText().length()<=6){
-            printToast(activity,"password less than 6");
-            return false;
-        }else if (Validations.isValidPassword(etPassword.getText())){
-            printToast(activity,"password invalid");
+        }else if (etPassword.getText().length()<=6) {
+            tilPassword.setError("password length should me more than 6");
             return false;
         }
+//        }else if (Validations.isValidPassword(etPassword.getText())){
+//            tilPassword.setError("Please enter valid password");
+//            return false;
+//        }
         return  true;
     }
 
@@ -238,4 +256,46 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    public void setFBInfo(Users users) {
+        auth.createUserWithEmailAndPassword(users.getEmail(), users.getEmail())
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.e(TAG, "onComplete: "+"Authentication failed." + task.getException().getMessage());
+                            if (task.getException().getMessage().contains("The email address is already in use by another account")){
+                                logIn(users.getEmail(),users.getEmail());
+                            }
+                        } else {
+                            startActivity(new Intent(activity, MainActivity.class));
+                            finish();
+                        }
+                    }
+                });
+    }
+
+    public void logIn(String email , String password){
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+
+                        if (!task.isSuccessful()) {
+                            // there was an error
+                            Log.e(TAG, "onComplete: "+task.getException().getMessage() );
+                        } else {
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+    }
 }

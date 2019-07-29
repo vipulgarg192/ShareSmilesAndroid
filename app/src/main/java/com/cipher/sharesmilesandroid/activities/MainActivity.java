@@ -1,8 +1,10 @@
-package com.cipher.sharesmilesandroid;
+package com.cipher.sharesmilesandroid.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.cipher.sharesmilesandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 

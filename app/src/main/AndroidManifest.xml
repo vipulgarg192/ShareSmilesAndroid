@@ -49,6 +49,10 @@
         <activity android:name=".activities.RegisterActivity"
             android:theme="@style/MyAppTheme"/>
 
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/MyAppTheme"
+            />
+
 
     </application>
 

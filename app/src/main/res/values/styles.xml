@@ -3,16 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/md_red_A400</item>
+        <item name="colorPrimaryDark">@color/md_red_A700</item>
+        <item name="colorAccent">@color/md_red_A400</item>
         <item name="colorControlNormal">@color/md_white_1000</item>
+        <item name="android:windowBackground">@color/md_white_1000</item>
     </style>
 
     <style name="MyAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/md_red_600</item>
-        <item name="colorPrimaryDark">@color/md_red_700</item>
+        <item name="colorPrimary">@color/md_red_A400</item>
+        <item name="colorPrimaryDark">@color/md_red_A700</item>
         <item name="colorAccent">@color/md_red_A400</item>
         <item name="colorControlNormal">@color/md_white_1000</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
@@ -26,6 +27,11 @@
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@color/md_white_1000</item>
+        <item name="android:theme">@style/MyAppTheme</item>
+        <item name="android:background">@color/md_red_A700</item>
+        <item name="android:colorPrimary">@color/md_red_A700</item>
+        <item name="android:colorAccent">@color/md_red_A700</item>
+        <item name="android:colorBackground">@color/md_red_A700</item>
     </style>
 
     <style name="error" parent="@android:style/TextAppearance">
@@ -34,8 +40,8 @@
     </style>
 
     <style name="MyEditText" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/md_red_600</item>
-        <item name="colorControlActivated">@color/md_red_600</item>
+        <item name="colorControlNormal">@color/md_red_A400</item>
+        <item name="colorControlActivated">@color/md_red_A400</item>
     </style>
 
 </resources>
