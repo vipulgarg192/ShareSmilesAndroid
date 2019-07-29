@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.cipher.sharesmilesandroid.utilities.Validations;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,25 +32,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class LoginActivity extends BaseActivity {
+
     AppCompatActivity activity = LoginActivity.this;
-    ImageView imgLogin;
-    EditText etEmail;
-    EditText etPassword;
-    Button btnLogin;
-    TextInputLayout email;
-
     CallbackManager callbackManager;
-
-
 
     private final String PUBLICPROFILE = "public_profile";
     private final String EMAIL = "email";
@@ -58,7 +54,21 @@ public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
-    CircleImageView img;
+    @BindView(R.id.tilEmail)
+            TextInputLayout tilEmail;
+
+    @BindView(R.id.tilPassword)
+    TextInputLayout tilPassword;
+
+        EditText etEmail;
+
+        EditText etPassword;
+
+    @BindView(R.id.btnSignIn)
+        MaterialButton btnSignIn;
+
+    @BindView(R.id.login_button)
+            LoginButton login_button;
 
 
     LoginManager loginManager;
@@ -66,39 +76,30 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+        ButterKnife.bind(this);
+
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+
 
         LoginManager.getInstance().logOut();
-        ButterKnife.bind(activity);
-
-        TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.txlEmail);
-        inputLayout.setError("First name is required");
-
-//        etEmail = findViewById(R.id.etEmail);
-//        email =(TextInputLayout) findViewById(R.id.txlEmail);
-//        email.setErrorEnabled(true);
-//        email.setError("asdasdsdsd");
 
         callbackManager = CallbackManager.Factory.create();
 
         loginManager = LoginManager.getInstance();
-
-        loginButton = (LoginButton) findViewById(R.id.login_button);
-
-        img = findViewById(R.id.img);
-
-        img.setImageResource(R.drawable.splash_logo_bg);
 
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        loginButton.setPermissions(Arrays.asList(EMAIL,PUBLICPROFILE));
+        LoginButton login_button = findViewById(R.id.login_button);
+        login_button.setPermissions(Arrays.asList(EMAIL,PUBLICPROFILE));
         // If you are using in a fragment, call loginButton.setFragment(this);
 
         // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
@@ -118,8 +119,10 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    @Override
 
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
@@ -167,6 +170,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void init() {
         super.init();
+
+
 //        imgLogin = findViewById(R.id.imgLogin);
 //        etEmail = findViewById(R.id.etEmail);
 //        email =(TextInputLayout) findViewById(R.id.txlEmail);
@@ -179,10 +184,51 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        int id = v.getId();
 
-        if (v.getId()== R.id.btnFB){
-            loginButton.performClick();
+        switch (id){
+            case R.id.btnSignIn:
+                login();
+                break;
+
+            case R.id.tvForgetPWD:
+                break;
+
+            default:
+                break;
         }
+
+//        if (v.getId()== R.id.btnFB){
+//            loginButton.performClick();
+//        }
+    }
+
+    private void login() {
+
+        if (isValid()){
+          printToast(activity,"hello");
+        }
+    }
+
+    private boolean isValid() {
+        if (etEmail.getText().toString().isEmpty()){
+            printToast(activity,"empty email");
+            return  false;
+        }else if (!Validations.isValidEmail(etEmail.getText())){
+            printToast(activity,"invalid email");
+            return  false;
+        }
+        else if (etPassword.getText().equals("")){
+            printToast(activity,"empty password");
+            return false;
+        }else if (etPassword.getText().length()<=6){
+            printToast(activity,"password less than 6");
+            return false;
+        }else if (Validations.isValidPassword(etPassword.getText())){
+            printToast(activity,"password invalid");
+            return false;
+        }
+        return  true;
     }
 
     @Override

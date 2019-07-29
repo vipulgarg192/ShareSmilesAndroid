@@ -55,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txlEmail"
                 app:layout_constraintTop_toBottomOf="@+id/tvlogin">
 
 

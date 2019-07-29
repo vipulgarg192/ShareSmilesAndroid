@@ -45,7 +45,7 @@
             android:background="@color/md_white_1000">
 
             <TextView
-                android:id="@+id/imageView"
+                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/text" />
 
             <RelativeLayout
                 android:id="@+id/rlFB"
@@ -78,7 +78,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/txlEmail"
+                app:layout_constraintStart_toStartOf="@+id/tilEmail"
                 app:layout_constraintTop_toBottomOf="@+id/tvlogin">
 
 
@@ -145,7 +145,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txlEmail"
+                android:id="@+id/tilEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -159,7 +159,7 @@
 
                 >
                 <!--app:errorTextAppearance="@style/error"-->
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -173,7 +173,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txlPassword"
+                android:id="@+id/tilPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -181,12 +181,13 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txlEmail"
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail"
                 app:passwordToggleEnabled="true"
                 android:theme="@style/MyEditText"
                 app:passwordToggleTint="@color/md_grey_500">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/password"
@@ -202,7 +203,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/btnSignIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -210,10 +211,11 @@
                 android:layout_marginEnd="8dp"
                 android:background="@color/md_red_600"
                 android:text="@string/signIn"
+                android:onClick="onClick"
                 android:textColor="@color/md_white_1000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txlPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
 
 
             <TextView
@@ -225,9 +227,10 @@
                 android:text="@string/forgetPassword"
                 android:textColor="@color/md_blue_900"
                 android:textSize="16sp"
+                android:onClick="onClick"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialButton" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -250,16 +253,28 @@
         app:layout_constraintTop_toBottomOf="@+id/llTop"
         app:layout_constraintVertical_bias="0.0">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img"
+
+
+        <androidx.cardview.widget.CardView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            app:cardElevation="10dp"
             android:layout_gravity="center_horizontal"
-            app:civ_border_color="@color/md_white_1000"
-            app:civ_border_overlay="true"
-            app:civ_border_width="2dp" />
+            android:layout_marginTop="10dp"
+            android:outlineSpotShadowColor="@color/md_red_600"
+            android:outlineAmbientShadowColor="@color/md_red_600"
+            app:cardCornerRadius="50dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/md_blue_A700"
+                android:outlineAmbientShadowColor="@color/md_red_600"
+                android:outlineSpotShadowColor="@color/md_red_600"
+                />
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 
