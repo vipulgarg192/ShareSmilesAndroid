@@ -9,8 +9,9 @@
     <string name="fb_login_protocol_scheme">fb536307603859156</string>
 
     // login
-    <string name="enterEmail">Enter Email</string>
-    <string name="enterPassword">Enter Password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confirm Password</string>
     <string name="signIn">Sign In</string>
     <string name="signUp">Sign Up</string>
     <string name="register">Register</string>
@@ -18,7 +19,14 @@
     <string name="forgetPassword">Forget Password?</string>
 
     <string name="loginWithFacebook">Login with Facebook</string>
+    <string name="signupWithFacebook">SignUp with Facebook</string>
     <string name="instagramLogin">InstagramLogin</string>
+
+
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="gender">Gender</string>
+    <string name="phone">Phone</string>
 
 
     <string name="LoginIntoShareSmiles">Login In to ShareSmiles</string>

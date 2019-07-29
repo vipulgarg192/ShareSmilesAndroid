@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "545201887021",
+    "firebase_url": "https://sharesmilesandroid.firebaseio.com",
+    "project_id": "sharesmilesandroid",
+    "storage_bucket": "sharesmilesandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545201887021:android:56932fb7548623d6",
+        "android_client_info": {
+          "package_name": "com.cipher.sharesmilesandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545201887021-prmduscp2eq80ooi12fkv8dr1rmdqhlk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cipher.sharesmilesandroid",
+            "certificate_hash": "21a9dea68f23d31816ff84a8672248db00ebc917"
+          }
+        },
+        {
+          "client_id": "545201887021-la15pb1i7l6n49kq79erqugukm6aasqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmhSAq9w71d4Ow6xboTJ3UX4vq5NmtMnk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545201887021-la15pb1i7l6n49kq79erqugukm6aasqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

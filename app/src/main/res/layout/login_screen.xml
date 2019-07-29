@@ -163,7 +163,7 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/enterEmail"
+                    android:hint="@string/email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress|textNoSuggestions"
                     android:maxLines="1"
@@ -189,7 +189,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/enterPassword"
+                    android:hint="@string/password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword|textNoSuggestions"
                     android:maxLines="1"
