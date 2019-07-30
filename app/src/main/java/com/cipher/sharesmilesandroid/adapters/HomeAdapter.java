@@ -36,7 +36,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
     @Override
     public int getItemCount() {
-        return 100;
+        return 10;
     }
 
     public class HomeView extends RecyclerView.ViewHolder{
