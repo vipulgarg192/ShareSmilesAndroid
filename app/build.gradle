@@ -50,6 +50,9 @@ dependencies {
 //    implementation 'com.android.support:design:24.2.0'
 
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    implementation 'com.google.android.material:material:1.0.0-alpha1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

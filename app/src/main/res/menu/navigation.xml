@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_songs"
-        android:title="Songs"/>
+        android:id="@+id/homeItem"
+        android:title="Home"/>
 
     <item
-        android:id="@+id/navigation_albums"
-        android:title="Albums"/>
+        android:id="@+id/activityItem"
+        android:title="Activity"/>
 
     <item
-        android:id="@+id/navigation_artists"
-        android:title="Artists"/>
+        android:id="@+id/profileItem"
+        android:title="Profile"/>
 
 </menu>

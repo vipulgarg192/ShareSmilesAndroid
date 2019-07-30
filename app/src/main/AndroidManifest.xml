@@ -34,8 +34,8 @@
 
 
         <activity
-            android:name=".activities.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name=".activities.MainActivity"
+          >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -49,9 +49,9 @@
         <activity android:name=".activities.RegisterActivity"
             android:theme="@style/MyAppTheme"/>
 
-        <activity android:name=".activities.MainActivity"
-            android:theme="@style/MyAppTheme"
-            />
+        <!--<activity android:name=".activities.MainActivity"-->
+            <!--android:theme="@style/MyAppTheme"-->
+            <!--/>-->
 
 
     </application>
