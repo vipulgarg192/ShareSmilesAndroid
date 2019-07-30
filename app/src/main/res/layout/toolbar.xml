@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/MyAppTheme">
-
-
     <com.google.android.material.appbar.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +21,7 @@
             android:background="?attr/colorPrimary"
             android:backgroundTint="@color/md_red_A700"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:theme="@style/ToolbarTheme"/>
+            android:theme="@style/ToolbarTheme"
+           />
     </com.google.android.material.appbar.AppBarLayout>
 
-</LinearLayout>

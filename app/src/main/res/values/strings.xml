@@ -30,5 +30,9 @@
 
 
     <string name="LoginIntoShareSmiles">Login In to ShareSmiles</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

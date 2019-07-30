@@ -3,6 +3,7 @@ package com.cipher.sharesmilesandroid.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,9 +26,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    BottomAppBar bottomNavigationView;
+    BottomNavigationView bottomNavigationView;
     FrameLayout container;
-    LinearLayoutCompat llToolbar;
+//    LinearLayoutCompat llToolbar;
 
     Fragment active;
     @Override
@@ -37,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         container = findViewById(R.id.container);
-        llToolbar = findViewById(R.id.llToolbar);
+//        llToolbar = findViewById(R.id.llToolbar);
 
 
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigationViewBehavior());
+//        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+//        layoutParams.setBehavior(new BottomNavigationViewBehavior());
 
 
         switchToFragment1();
@@ -58,25 +59,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()) {
-//                    case R.id.homeItem:
-//                        switchToFragment1();
-//                        return true;
-//
-//                    case R.id.activityItem:
-//                        switchToFragment2();
-//                        return true;
-//
-//                    case R.id.profileItem:
-//                        switchToFragment3();
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.homeItem:
+                        switchToFragment1();
+                        return true;
+
+                    case R.id.activityItem:
+                        switchToFragment2();
+                        return true;
+
+                    case R.id.profileItem:
+                        switchToFragment3();
+                        return true;
+                }
+                return false;
+            }
+        });
 
 
 
