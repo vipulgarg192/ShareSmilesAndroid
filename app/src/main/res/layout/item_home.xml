@@ -1,112 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto"
-       android:id="@+id/cardView"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:minHeight="200dp"
-       app:cardElevation="@dimen/_10sdp"
-    android:outlineAmbientShadowColor="@color/md_green_500"
-    android:layout_marginBottom="@dimen/_5sdp">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="vertical">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp"
+        app:cardElevation="@dimen/_10sdp"
+        android:outlineAmbientShadowColor="@color/md_green_500"
+        android:layout_marginBottom="@dimen/_10sdp">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:padding="@dimen/_10sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-           <com.google.android.material.card.MaterialCardView
-               android:layout_width="@dimen/_50sdp"
-               android:layout_height="@dimen/_50sdp"
-               app:cardCornerRadius="@dimen/_10sdp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/_10sdp">
 
-               <androidx.appcompat.widget.AppCompatImageView
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:background="@color/md_black_1000"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    app:cardCornerRadius="@dimen/_25sdp">
 
-           </com.google.android.material.card.MaterialCardView>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/md_black_1000"/>
 
+                </com.google.android.material.card.MaterialCardView>
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:paddingStart="@dimen/_10sdp"
-               android:paddingEnd="@dimen/_10sdp">
-
-               <androidx.appcompat.widget.AppCompatTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Title"/>
-
-               <androidx.appcompat.widget.AppCompatTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="desc"/>
-
-               <androidx.appcompat.widget.AppCompatRatingBar
-                   android:layout_width="wrap_content"
-                   android:layout_height="@dimen/_20sdp"
-                   android:max="5"
-                   android:numStars="3"
-                   />
-
-           </LinearLayout>
-       </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/_150sdp"
-           android:background="@color/md_green_500">
 
-           <androidx.appcompat.widget.AppCompatImageView
-               android:layout_width="match_parent"
-               android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
 
-       </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/title"
+                            android:textSize="@dimen/_13sdp"
+                            android:textColor="@color/md_black_1000"/>
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/description"
+                            android:ems="10"
+                            android:textSize="@dimen/_10sdp"/>
 
-               <androidx.appcompat.widget.AppCompatTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Name"/>
 
-               <androidx.appcompat.widget.AppCompatTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="desc"/>
 
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
 
-                   <androidx.appcompat.widget.AppCompatTextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="price"
-                       android:layout_centerVertical="true"/>
+                    </LinearLayout>
 
-                   <androidx.appcompat.widget.AppCompatImageView
-                       android:layout_width="@dimen/_20sdp"
-                       android:layout_height="@dimen/_20sdp"
-                       android:layout_alignParentRight="true"
-                       android:layout_centerVertical="true"
-                       app:srcCompat="@drawable/ic_pwdvisible"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true">
 
-               </RelativeLayout>
-           </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/imgBSave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/img_save"
+                            android:saveEnabled="true"
+                            android:background="@null"
 
-       </LinearLayout>
-   </com.google.android.material.card.MaterialCardView>
+                            />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:background="@color/md_green_500">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/productName"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/productDescription"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

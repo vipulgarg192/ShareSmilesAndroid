@@ -7,10 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+   <!-- <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        &lt;!&ndash;<LinearLayout&ndash;&gt;
+            &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+            &lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;
+            &lt;!&ndash;android:background="@color/md_red_A700">&ndash;&gt;
+            &lt;!&ndash;&ndash;&gt;
+        &lt;!&ndash;</LinearLayout>&ndash;&gt;
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,8 +27,9 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>-->
 
+    <include layout="@layout/toolbar"/>
 
 
 <com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView
@@ -36,6 +44,7 @@
 
 </com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fbAddIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/md_red_A700"
@@ -43,8 +52,8 @@
         app:layout_anchor="@id/bottomNavigationView"
         app:layout_anchorGravity="center"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:elevation="0dp"
-
+        android:elevation="20dp"
+        app:elevation="@dimen/_20sdp"
         app:layout_behavior="com.cipher.sharesmilesandroid.ui.FabBehaviour"
         />
     <FrameLayout
@@ -55,6 +64,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
+    <RelativeLayout
+        android:id="@+id/mRlContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
 
 
 

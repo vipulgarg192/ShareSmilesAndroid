@@ -8,10 +8,19 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -21,14 +30,20 @@ import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
 import com.cipher.sharesmilesandroid.ui.BottomNavigationViewBehavior;
 import com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView;
+import com.cipher.sharesmilesandroid.ui.GUIUtils;
+import com.cipher.sharesmilesandroid.ui.OnRevealAnimationListener;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     CustomBottomNavigationView bottomNavigationView;
     FrameLayout container;
+    FloatingActionButton fbAddIcon;
+
+    RelativeLayout mRlContainer;
 //    LinearLayoutCompat llToolbar;
 
     Fragment active;
@@ -38,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        mRlContainer = findViewById(R.id.mRlContainer);
         container = findViewById(R.id.container);
+        fbAddIcon = findViewById(R.id.fbAddIcon);
 //        llToolbar = findViewById(R.id.llToolbar);
 
 
@@ -80,10 +97,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fbAddIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
+            }
+        });
 
     }
+
+
     public void switchToFragment1() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new HomeFragment()).commit();

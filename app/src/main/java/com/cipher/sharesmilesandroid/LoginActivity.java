@@ -37,8 +37,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,7 +114,8 @@ public class LoginActivity extends BaseActivity  {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                getFbInfo();
+//                getFbInfo();
+                handleFacebookAccessToken(loginResult.getAccessToken());
 
             }
 
@@ -128,7 +132,34 @@ public class LoginActivity extends BaseActivity  {
 
     }
 
+    private void handleFacebookAccessToken(AccessToken accessToken) {
 
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.e(TAG, "signInWithCredential:success");
+                            FirebaseUser user = auth.getCurrentUser();
+
+                            Log.e(TAG, "onComplete: "+user.getDisplayName() );
+                            Log.e(TAG, "onComplete: "+user.getEmail() );
+                            Log.e(TAG, "onComplete: "+user.getPhoneNumber() );
+                            Log.e(TAG, "onComplete: "+user.getUid() );
+                            Log.e(TAG, "onComplete: "+user.getPhotoUrl() );
+                            Log.e(TAG, "onComplete: "+user.getProviderData() );
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e(TAG, "signInWithCredential:failure", task.getException());
+
+                        }
+
+                    }
+                });
+    }
 
 
     @Override

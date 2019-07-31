@@ -33,7 +33,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,6 +48,9 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:theme="@style/MyAppTheme" />
+
+        <activity android:name=".activities.MainActivity"/>
+
     </application>
 
 </manifest>

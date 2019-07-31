@@ -8,20 +8,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:background="@color/md_red_A700"
-        android:backgroundTint="@color/colorAccent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
         >
 
         <!-- Toolbar is the actual app bar with text and the action items -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:backgroundTint="@color/md_red_A700"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:theme="@style/ToolbarTheme"
-           />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+           >
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:gravity="center_vertical"
+               android:orientation="horizontal">
+
+               <com.google.android.material.card.MaterialCardView
+                   android:layout_width="@dimen/_30sdp"
+                   android:layout_height="@dimen/_30sdp"
+                   app:cardCornerRadius="@dimen/_15sdp">
+
+                   <androidx.appcompat.widget.AppCompatImageView
+                       android:id="@+id/imgToolbar"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent" />
+
+               </com.google.android.material.card.MaterialCardView>
+
+
+
+           </LinearLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
