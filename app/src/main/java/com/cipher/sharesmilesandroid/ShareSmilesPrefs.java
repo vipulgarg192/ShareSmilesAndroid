@@ -40,8 +40,8 @@ public class ShareSmilesPrefs  {
         return getPreference(context).getInt(key,defaultValue);
     }
 
-    public static void  writeBool(Context context , String key , int value){
-        getEditor(context).putInt(key,value).commit();
+    public static void  writeBool(Context context , String key , boolean value){
+        getEditor(context).putBoolean(key,value).commit();
     }
 
     public static Boolean readBool (Context  context , String key , boolean defaultValue){

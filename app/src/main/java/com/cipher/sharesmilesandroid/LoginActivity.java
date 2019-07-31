@@ -149,7 +149,16 @@ public class LoginActivity extends BaseActivity  {
                             Log.e(TAG, "onComplete: "+user.getPhoneNumber() );
                             Log.e(TAG, "onComplete: "+user.getUid() );
                             Log.e(TAG, "onComplete: "+user.getPhotoUrl() );
-                            Log.e(TAG, "onComplete: "+user.getProviderData() );
+
+
+                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
+
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -321,6 +330,14 @@ public class LoginActivity extends BaseActivity  {
                         if (!task.isSuccessful()) {
                             // there was an error
                             Log.e(TAG, "onComplete: "+task.getException().getMessage() );
+                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
+
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
