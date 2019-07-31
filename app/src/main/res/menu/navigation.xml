@@ -12,6 +12,9 @@
         android:title="Category"/>
 
     <item
+        android:title=""/>
+
+    <item
         android:id="@+id/activityItem"
         android:icon="@drawable/ic_notification"
         android:title="Activity"/>

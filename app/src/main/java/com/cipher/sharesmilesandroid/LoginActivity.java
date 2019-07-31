@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity  {
 
         loginManager = LoginManager.getInstance();
 
-        Toolbar toolbar =findViewById(R.id.toolbar);
+        Toolbar toolbar =findViewById(R.id.tbHome);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

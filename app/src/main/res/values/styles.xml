@@ -44,6 +44,16 @@
         <item name="colorControlActivated">@color/md_red_A400</item>
     </style>
 
+    <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <!-- Required for pre-Lollipop. -->
+        <item name="overlapAnchor">false</item>
+
+        <!-- Required for Lollipop. -->
+        <item name="android:overlapAnchor">false</item>
+
+        <item name="android:textColor">@color/md_blue_A700</item>
+    </style>
+
 
 
 </resources>

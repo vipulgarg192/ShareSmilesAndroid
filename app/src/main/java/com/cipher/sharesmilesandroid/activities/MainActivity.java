@@ -3,6 +3,8 @@ package com.cipher.sharesmilesandroid.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
@@ -11,20 +13,24 @@ import androidx.fragment.app.FragmentManager;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
 import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fbAddIcon;
 
     RelativeLayout mRlContainer;
+    Toolbar tbHome;
 //    LinearLayoutCompat llToolbar;
 
     Fragment active;
@@ -56,8 +63,13 @@ public class MainActivity extends AppCompatActivity {
         mRlContainer = findViewById(R.id.mRlContainer);
         container = findViewById(R.id.container);
         fbAddIcon = findViewById(R.id.fbAddIcon);
-//        llToolbar = findViewById(R.id.llToolbar);
+        tbHome = findViewById(R.id.tbHome);
 
+        setSupportActionBar(tbHome);
+
+            getSupportActionBar().setTitle("Main Page");
+
+        tbHome.inflateMenu(R.menu.logout);
 
 //        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomNavigationView.getLayoutParams();
 //        layoutParams.setBehavior(new BottomNavigationViewBehavior());
@@ -106,6 +118,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.logoutItem:
+                ShareSmilesPrefs.logout(this);
+                startActivity(new Intent(this,IntroActivity.class));
+                break;
+        }
+
+        return  true;
+    }
 
     public void switchToFragment1() {
         FragmentManager manager = getSupportFragmentManager();
