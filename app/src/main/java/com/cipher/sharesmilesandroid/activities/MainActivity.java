@@ -20,13 +20,14 @@ import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
 import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
 import com.cipher.sharesmilesandroid.ui.BottomNavigationViewBehavior;
+import com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    BottomNavigationView bottomNavigationView;
+    CustomBottomNavigationView bottomNavigationView;
     FrameLayout container;
 //    LinearLayoutCompat llToolbar;
 

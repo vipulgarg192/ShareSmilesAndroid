@@ -23,7 +23,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
+
+<com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView
    android:id="@+id/bottomNavigationView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -33,8 +34,17 @@
     >
 
 
-</com.google.android.material.bottomnavigation.BottomNavigationView>
-
+</com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/md_red_A700"
+        android:layout_gravity="center_horizontal|bottom"
+        app:layout_anchor="@id/bottomNavigationView"
+        app:layout_anchorGravity="center"
+        android:layout_marginBottom="@dimen/_20sdp"
+        app:layout_behavior="com.cipher.sharesmilesandroid.ui.FabBehaviour"
+        />
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -42,5 +52,8 @@
         android:animateLayoutChanges="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

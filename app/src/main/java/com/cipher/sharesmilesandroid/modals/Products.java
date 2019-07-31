@@ -1,6 +1,9 @@
 package com.cipher.sharesmilesandroid.modals;
 
-public class Products {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Products implements Parcelable {
 
     private String productId;
     private String productName;
@@ -11,6 +14,30 @@ public class Products {
     private long productAdded;
     private long productSold;
     private boolean isSold;
+
+    protected Products(Parcel in) {
+        productId = in.readString();
+        productName = in.readString();
+        productDescription = in.readString();
+        productImage = in.readString();
+        sellerID = in.readString();
+        buyerID = in.readString();
+        productAdded = in.readLong();
+        productSold = in.readLong();
+        isSold = in.readByte() != 0;
+    }
+
+    public static final Creator<Products> CREATOR = new Creator<Products>() {
+        @Override
+        public Products createFromParcel(Parcel in) {
+            return new Products(in);
+        }
+
+        @Override
+        public Products[] newArray(int size) {
+            return new Products[size];
+        }
+    };
 
     public String getProductId() {
         return productId;
@@ -85,6 +112,21 @@ public class Products {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(productId);
+        parcel.writeString(productName);
+        parcel.writeString(productDescription);
+        parcel.writeString(productImage);
+        parcel.writeString(sellerID);
+        parcel.writeString(buyerID);
+        parcel.writeLong(productAdded);
+        parcel.writeLong(productSold);
+        parcel.writeByte((byte) (isSold ? 1 : 0));
+    }
 }
