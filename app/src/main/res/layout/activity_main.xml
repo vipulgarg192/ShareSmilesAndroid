@@ -43,6 +43,8 @@
         app:layout_anchor="@id/bottomNavigationView"
         app:layout_anchorGravity="center"
         android:layout_marginBottom="@dimen/_20sdp"
+        android:elevation="0dp"
+
         app:layout_behavior="com.cipher.sharesmilesandroid.ui.FabBehaviour"
         />
     <FrameLayout
