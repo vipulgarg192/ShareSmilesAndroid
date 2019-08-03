@@ -40,6 +40,8 @@
     <string name="productName">Product Name</string>
     <string name="productDescription">Product Description</string>
     <string name="price">Price</string>
-
+    <string name="tags">Tags</string>
+    <string name="category">Category</string>
+    <string name="organisation">Organisation</string>
 
 </resources>

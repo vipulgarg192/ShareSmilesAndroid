@@ -53,6 +53,15 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.0.0-alpha1'
 
+
+    implementation 'com.nihaskalam.android:progress-button:1.0.1'
+
+    implementation 'com.marozzi.roundbutton:round-button:1.0.7'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}

@@ -181,11 +181,6 @@ public class RegisterActivity extends BaseActivity {
                         Log.e("TAG", e.toString());
                     }
                 });*/
-
-
-
-
-
     }
 
     private boolean validation() {

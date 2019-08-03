@@ -44,8 +44,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    AppCompatActivity activity = MainActivity.this;
     private static final String TAG = "MainActivity";
-    CustomBottomNavigationView bottomNavigationView;
+    BottomNavigationView bottomNavigationView;
     FrameLayout container;
     FloatingActionButton fbAddIcon;
 
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(tbHome);
 
-            getSupportActionBar().setTitle("Main Page");
+//            getSupportActionBar().setTitle("Main Page");
 
-        tbHome.inflateMenu(R.menu.logout);
+//        tbHome.inflateMenu(R.menu.logout);
 
 //        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) bottomNavigationView.getLayoutParams();
 //        layoutParams.setBehavior(new BottomNavigationViewBehavior());
@@ -95,13 +96,22 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.homeItem:
                         switchToFragment1();
+//                        tbHome.setVisibility(View.VISIBLE);
                         return true;
+
+                    case R.id.categoryItem:
+                        switchToFragment2();
+//                        tbHome.setVisibility(View.VISIBLE);
+                        break;
 
                     case R.id.activityItem:
                         switchToFragment2();
+//                        tbHome.setVisibility(View.VISIBLE);
                         return true;
 
                     case R.id.profileItem:
+
+//                        tbHome.setVisibility(View.GONE);
                         switchToFragment3();
                         return true;
                 }
@@ -112,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         fbAddIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(activity,AddProducts.class));
+//                finish();
 
             }
         });

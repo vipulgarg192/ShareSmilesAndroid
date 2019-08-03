@@ -7,30 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-   <!-- <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        &lt;!&ndash;<LinearLayout&ndash;&gt;
-            &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-            &lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;
-            &lt;!&ndash;android:background="@color/md_red_A700">&ndash;&gt;
-            &lt;!&ndash;&ndash;&gt;
-        &lt;!&ndash;</LinearLayout>&ndash;&gt;
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-    </com.google.android.material.appbar.AppBarLayout>-->
+<!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:elevation="@dimen/_10sdp"-->
+    <!--android:visibility="gone"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
 
     <include layout="@layout/toolbar"/>
 
+<!--</LinearLayout>-->
 
 <com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView
    android:id="@+id/bottomNavigationView"
@@ -48,11 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/md_red_A700"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="center_horizontal"
         app:layout_anchor="@id/bottomNavigationView"
         app:layout_anchorGravity="center"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:elevation="20dp"
+        android:elevation="@dimen/_15sdp"
         app:elevation="@dimen/_20sdp"
         app:layout_behavior="com.cipher.sharesmilesandroid.ui.FabBehaviour"
         />

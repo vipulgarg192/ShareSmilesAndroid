@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            >
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
+
+                <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                    android:id="@+id/imgItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp">
+
+                </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+                <com.cipher.sharesmilesandroid.ui.CustomDrawableEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:hint="@string/productName"
+                    android:typeface="serif"
+                    android:textSize="@dimen/_13sdp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:drawableRight="@drawable/ic_cancel_dark"
+                    />
+
+                <com.cipher.sharesmilesandroid.ui.CustomDrawableEditText
+                    android:id="@+id/etDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:hint="@string/productDescription"
+                    android:maxLines="5"
+                    android:drawableEnd="@drawable/ic_cancel_dark"
+                    android:textSize="@dimen/_13sdp"
+                    android:typeface="serif"
+                    android:singleLine="true"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:hint="@string/price"
+                    android:textSize="@dimen/_13sdp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:typeface="serif"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:drawableRight="@drawable/ic_cancel_dark"
+                    android:layout_marginBottom="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/_13sdp"
+                    android:hint="@string/category"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:typeface="serif"
+                    android:drawableRight="@drawable/ic_cancel_dark"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    android:hint="@string/tags"
+                    android:inputType="textMultiLine|textCapWords|textNoSuggestions"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:textSize="@dimen/_13sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:typeface="serif"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOrganisation"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:hint="@string/organisation"
+                    android:textSize="@dimen/_13sdp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:typeface="serif"
+                    android:drawableRight="@drawable/ic_cancel_dark"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    />
+
+
+                <com.marozzi.roundbutton.RoundButton
+                    android:id="@+id/rbAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="?attr/actionBarSize"
+                    app:rb_animation_alpha="true"
+                    android:background="@drawable/et_selector"
+                    app:rb_animation_progress_style="dots"
+                    app:rb_animation_duration="1000"
+                    app:rb_background_color="@color/md_blue_A700">
+                </com.marozzi.roundbutton.RoundButton>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+</LinearLayout>

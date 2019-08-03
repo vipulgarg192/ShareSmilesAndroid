@@ -11,8 +11,8 @@ public class Products implements Parcelable {
     private String productImage;
     private String sellerID;
     private String buyerID;
-    private long productAdded;
-    private long productSold;
+    private long productAddedTime;
+    private long productSoldTime;
     private boolean isSold;
 
     protected Products(Parcel in) {
@@ -22,8 +22,8 @@ public class Products implements Parcelable {
         productImage = in.readString();
         sellerID = in.readString();
         buyerID = in.readString();
-        productAdded = in.readLong();
-        productSold = in.readLong();
+        productAddedTime = in.readLong();
+        productSoldTime = in.readLong();
         isSold = in.readByte() != 0;
     }
 
@@ -88,19 +88,19 @@ public class Products implements Parcelable {
     }
 
     public long getProductAdded() {
-        return productAdded;
+        return productAddedTime;
     }
 
     public void setProductAdded(long productAdded) {
-        this.productAdded = productAdded;
+        this.productAddedTime = productAdded;
     }
 
     public long getProductSold() {
-        return productSold;
+        return productSoldTime;
     }
 
     public void setProductSold(long productSold) {
-        this.productSold = productSold;
+        this.productSoldTime = productSold;
     }
 
     public boolean isSold() {
@@ -125,8 +125,8 @@ public class Products implements Parcelable {
         parcel.writeString(productImage);
         parcel.writeString(sellerID);
         parcel.writeString(buyerID);
-        parcel.writeLong(productAdded);
-        parcel.writeLong(productSold);
+        parcel.writeLong(productAddedTime);
+        parcel.writeLong(productSoldTime);
         parcel.writeByte((byte) (isSold ? 1 : 0));
     }
 }
