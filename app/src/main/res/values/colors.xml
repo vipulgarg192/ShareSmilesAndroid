@@ -9,6 +9,8 @@
     <color name="colorPrimaryDark">#B71C1C</color>
     <color name="colorAccent">#E53935</color>
 
+    <color name="chip_background">#BDBDBD</color>
+    <color name="chip_background_selected">#9E9E9E</color>
 
     <!-- google's material design colours from
 http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->

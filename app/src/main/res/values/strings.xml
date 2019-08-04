@@ -55,4 +55,10 @@
     <string name="others">Others</string>
     <string name="miscellenous">Miscellenous</string>
 
+
+    <string name="pleaseEnterProductName">Please Enter Product Name</string>
+    <string name="pleaseEnterProductDesc">Please Enter Product Description</string>
+    <string name="pleaseEnterProductPrice">Please Enter Product Price</string>
+    <string name="pleaseSelectCategory">Please Select Category</string>
+    <string name="pleaseSelectOrganisation">Please Select Organisation</string>
 </resources>

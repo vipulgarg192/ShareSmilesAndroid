@@ -27,7 +27,7 @@
         android:title="@string/entertainment"/>
 
     <item
-        android:id="@+id/activityItem"
+        android:id="@+id/othersItem"
         android:iconTint="@color/md_red_600"
         android:icon="@drawable/ic_others"
         android:title="@string/others"/>

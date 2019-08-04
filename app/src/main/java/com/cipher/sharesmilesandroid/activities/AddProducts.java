@@ -3,7 +3,9 @@ package com.cipher.sharesmilesandroid.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +22,21 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.ShareSmiles;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
+import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
+import com.cipher.sharesmilesandroid.chipsSet.Chip;
+import com.cipher.sharesmilesandroid.chipsSet.ChipView;
+import com.cipher.sharesmilesandroid.chipsSet.ChipViewAdapter;
+import com.cipher.sharesmilesandroid.chipsSet.MainChipViewAdapter;
+import com.cipher.sharesmilesandroid.chipsSet.OnChipClickListener;
+import com.cipher.sharesmilesandroid.chipsSet.Tag;
 import com.cipher.sharesmilesandroid.interfaces.DrawableClickListener;
 import com.cipher.sharesmilesandroid.ui.CustomDrawableEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.circularreveal.cardview.CircularRevealCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,14 +46,16 @@ import com.marozzi.roundbutton.RoundButton;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 
-public class AddProducts extends BaseActivity {
+public class AddProducts extends BaseActivity  implements OnChipClickListener {
 
 
     private static final String TAG = "AddProducts";
@@ -64,21 +77,37 @@ public class AddProducts extends BaseActivity {
     CustomDrawableEditText etDesc;
     @BindView(R.id.etPrice)
     CustomDrawableEditText etPrice;
+
     @BindView(R.id.tvCategory)
     AppCompatTextView tvCategory;
+
     @BindView(R.id.tags)
-    AppCompatEditText tags;
+    CustomDrawableEditText tags;
+
     @BindView(R.id.tvOrganisation)
     AppCompatTextView tvOrganisation;
 
+    @BindView(R.id.tvAllTags)
+    AppCompatEditText tvAllTags;
+
+    @BindView(R.id.chipView)
+    ChipView chipView;
 
     @BindView(R.id.bt_round)
     RoundButton btRound;
 
+    int SpannedLength = 0,chipLength = 20;
+
+    boolean newchip = false;
 
     private FirebaseAuth auth;
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
+
+    int beforeSize =0 , afterSize =0;
+
+
+    ArrayList<Chip> tagList = new ArrayList<>();
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -91,6 +120,16 @@ public class AddProducts extends BaseActivity {
 
         tbSimple.setVisibility(View.VISIBLE);
         tbHome.setVisibility(View.GONE);
+
+        ChipViewAdapter adapterLayout = new MainChipViewAdapter(this);
+
+
+        chipView.setAdapter(adapterLayout);
+        chipView.setChipLayoutRes(R.layout.chip_close);
+        chipView.setChipBackgroundColor(getResources().getColor(R.color.md_white_1000));
+        chipView.setChipBackgroundColorSelected(getResources().getColor(R.color.md_blue_grey_500));
+
+        chipView.setOnChipClickListener(this);
 
         setSupportActionBar(tbSimple);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -204,13 +243,109 @@ public class AddProducts extends BaseActivity {
             }
         });
 
+        tags.setDrawableClickListener(new DrawableClickListener() {
+            @Override
+            public void onClick(DrawablePosition target) {
+
+                tagList.add(new Tag(tags.getText().toString()));
+                tags.setText("");
+                chipView.setChipList(tagList);
+            }
+        });
+
         btRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btRound.startAnimation();
-                addProducts();
+                if (valid()){
+                 addProducts();
+                }
             }
         });
+
+
+
+       /* tags.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                beforeSize = charSequence.length();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+afterSize = charSequence.length();
+if (charSequence.length()>0){
+    if (beforeSize<=afterSize){
+
+        if (charSequence.charAt(charSequence.length()) == ' '){
+                        SpannedLength = charSequence.length();
+                        newchip = true;
+                    }
+
+    }else {
+//        Log.e(TAG, "onTextChanged: "+charSequence.charAt(beforeSize-1) );
+    }
+}
+
+
+                Log.e(TAG, "onTextChanged: "+charSequence.charAt(i1) );
+//                if (charSequence.length()>0){
+//                    if (charSequence.charAt(i)-1 == ' '){
+//
+//                        SpannedLength = charSequence.length();
+//                        newchip = true;
+//                    }
+//                    else {
+//                        newchip = false;
+//                    }
+//                }else {
+//                    newchip = false;
+//                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.e(TAG, "afterTextChanged: "+newchip );
+                if (newchip){
+                    ChipDrawable chip = ChipDrawable.createFromResource(activity, R.xml.chip);
+                    chip.setText(editable.subSequence(SpannedLength,editable.length()));
+                    chip.setBounds(0, 0, chip.getIntrinsicWidth(), chip.getIntrinsicHeight());
+                    ImageSpan span = new ImageSpan(chip);
+                    editable.setSpan(span, SpannedLength, editable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannedLength = editable.length();
+                }
+//                if(editable.length() - SpannedLength == chipLength) {
+//                    ChipDrawable chip = ChipDrawable.createFromResource(activity, R.xml.chip);
+//                    chip.setText(editable.subSequence(SpannedLength,editable.length()));
+//                    chip.setBounds(0, 0, chip.getIntrinsicWidth(), chip.getIntrinsicHeight());
+//                    ImageSpan span = new ImageSpan(chip);
+//                    editable.setSpan(span, SpannedLength, editable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    SpannedLength = editable.length();
+//                }
+
+            }
+        });*/
+
+    }
+
+    private boolean valid() {
+        if (Objects.requireNonNull(etName.getText()).length()==0){
+            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterProductName));
+        return false;
+        }else if (Objects.requireNonNull(etDesc.getText()).length()==0){
+            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterProductDesc));
+            return false;
+        }else if (Objects.requireNonNull(etPrice.getText()).length()==0){
+            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterProductPrice));
+            return false;
+        }else if (0 == tvCategory.getText().length()){
+            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseSelectCategory));
+            return false;
+        }else if (tvOrganisation.getText().length()==0){
+            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseSelectOrganisation));
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -224,19 +359,20 @@ public class AddProducts extends BaseActivity {
 
         String userId = auth.getUid();
 
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("userId", userId);
-        userMap.put("productName", etName.getText().toString());
-        userMap.put("productDesc", etDesc.getText().toString());
-        userMap.put("price",etPrice.getText().toString());
-        userMap.put("sellerID", ShareSmilesPrefs.readString(this, ShareSmilesPrefs.userId, null));
-        userMap.put("buyerID", "");
-        userMap.put("isSold", false);
-        userMap.put("category", "All");
+        HashMap<String, Object> productMap = new HashMap<>();
+        productMap.put("userId", userId);
+        productMap.put("productName", etName.getText().toString());
+        productMap.put("productDesc", etDesc.getText().toString());
+        productMap.put("price",etPrice.getText().toString());
+        productMap.put("sellerID", ShareSmilesPrefs.readString(this, ShareSmilesPrefs.userId, null));
+        productMap.put("buyerID", "");
+        productMap.put("isSold", false);
+        productMap.put("category", tvCategory.getText().toString());
+        productMap.put("organisation",tvOrganisation.getText().toString());
 
         CollectionReference newCityRef = dRef.collection("products");
 
-        newCityRef.add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        newCityRef.add(productMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 btRound.setResultState(RoundButton.ResultState.SUCCESS);
@@ -249,6 +385,9 @@ public class AddProducts extends BaseActivity {
                 Log.e(TAG, "failure: " + e.getMessage());
             }
         });
+
+
+
 
 
     }
@@ -294,11 +433,28 @@ public class AddProducts extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.sportsItem:
+                        tvCategory.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(R.drawable.ic_sports), null, getDrawable(R.drawable.ic_down), null);
                         tvCategory.setText(getString(R.string.sports));
-                        Log.e(TAG, "onOptionsItemSelected: " );
                         break;
                     case R.id.footwareItem:
+                        tvCategory.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(R.drawable.ic_footware), null, getDrawable(R.drawable.ic_down), null);
+
                         tvCategory.setText(getString(R.string.footware));
+                        break;
+                    case R.id.clothsItem:
+                        tvCategory.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(R.drawable.ic_cloths), null, getDrawable(R.drawable.ic_down), null);
+
+                        tvCategory.setText(getString(R.string.cloths));
+                        break;
+                    case R.id.entertainmentItem:
+                        tvCategory.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(R.drawable.ic_entertainment), getDrawable(R.drawable.ic_down), null, null);
+
+                        tvCategory.setText(getString(R.string.entertainment));
+                        break;
+                    case R.id.othersItem:
+                        tvCategory.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(R.drawable.ic_others), null, getDrawable(R.drawable.ic_down), null);
+
+                        tvCategory.setText(getString(R.string.others));
                         break;
                 }
                 return true;
@@ -324,5 +480,11 @@ public class AddProducts extends BaseActivity {
 
         return true;
 
+    }
+
+    @Override
+    public void onChipClick(Chip chip) {
+      chipView.remove(chip);
+      tagList.remove(chip);
     }
 }

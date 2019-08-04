@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:chip="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -98,12 +99,13 @@
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     android:typeface="serif"
+                    android:drawablePadding="@dimen/_5sdp"
                     android:onClick="onClick"
                     android:drawableRight="@drawable/ic_down"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"/>
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.cipher.sharesmilesandroid.ui.CustomDrawableEditText
                     android:id="@+id/tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +117,40 @@
                     android:textSize="@dimen/_13sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     android:typeface="serif"
+                    android:drawableRight="@drawable/ic_cancel_dark"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp" />
+
+                <com.cipher.sharesmilesandroid.chipsSet.ChipView
+                    android:id="@+id/chipView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    chip:chip_background="@color/red"
+                    chip:chip_background_selected="@color/grey"
+                    chip:chip_corner_radius="5dp"
+                    chip:chip_line_spacing="20dp"
+                    chip:chip_padding="10dp"
+                    chip:chip_side_padding="10dp"
+                    chip:chip_spacing="16dp">
+
+
+                </com.cipher.sharesmilesandroid.chipsSet.ChipView>
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/tvAllTags"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:hint="@string/tags"
+                    android:textSize="@dimen/_13sdp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/et_selector"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:typeface="serif"
+                    android:onClick="onClick"
                     android:layout_marginBottom="@dimen/_5sdp"
                     />
 
