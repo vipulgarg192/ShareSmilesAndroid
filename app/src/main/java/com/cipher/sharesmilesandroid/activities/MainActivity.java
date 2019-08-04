@@ -38,6 +38,7 @@ import com.cipher.sharesmilesandroid.ui.BottomNavigationViewBehavior;
 import com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView;
 import com.cipher.sharesmilesandroid.ui.GUIUtils;
 import com.cipher.sharesmilesandroid.ui.OnRevealAnimationListener;
+import com.cipher.sharesmilesandroid.utilities.DialogBoxs;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -123,7 +124,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(activity,AddProducts.class));
+                DialogBoxs dialogBoxs = new DialogBoxs();
+                dialogBoxs.showDialog(activity,"as");
+
+//                startActivity(new Intent(activity,AddProducts.class));
 //                finish();
 
             }
