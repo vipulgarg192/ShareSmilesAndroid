@@ -1,7 +1,6 @@
 package com.cipher.sharesmilesandroid.activities;
 
 import android.annotation.SuppressLint;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -31,16 +31,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.marozzi.roundbutton.RoundButton;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+
 
 public class AddProducts extends BaseActivity {
 
 
     private static final String TAG = "AddProducts";
-   /* @BindView(R.id.imgToolbar)
+    AppCompatActivity activity = AddProducts.this;
+
+    @BindView(R.id.imgToolbar)
     AppCompatImageView imgToolbar;
     @BindView(R.id.tbHome)
     Toolbar tbHome;
@@ -55,23 +58,22 @@ public class AddProducts extends BaseActivity {
     @BindView(R.id.etDesc)
     CustomDrawableEditText etDesc;
     @BindView(R.id.etPrice)
-    AppCompatEditText etPrice;
+    CustomDrawableEditText etPrice;
     @BindView(R.id.tvCategory)
     AppCompatTextView tvCategory;
     @BindView(R.id.tags)
     AppCompatEditText tags;
     @BindView(R.id.tvOrganisation)
-    AppCompatTextView tvOrganisation;*/
+    AppCompatTextView tvOrganisation;
 
 
-    CustomDrawableEditText etName;
+    @BindView(R.id.bt_round)
+    RoundButton btRound;
 
 
     private FirebaseAuth auth;
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
-
-    RoundButton circularProgressButton;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -80,11 +82,35 @@ public class AddProducts extends BaseActivity {
 
         auth = FirebaseAuth.getInstance();
         setContentView(R.layout.addproduct_activity);
+        ButterKnife.bind(activity);
 
-        etName = findViewById(R.id.etName);
-        etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,null,null);
+        tbSimple.setVisibility(View.VISIBLE);
+        tbHome.setVisibility(View.GONE);
+
+        setSupportActionBar(tbSimple);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+        etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+        etDesc.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+        etPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+
+
+        btRound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final RoundButton bt = (RoundButton) view;
+                bt.startAnimation();
+                bt.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bt.revertAnimation();
+                    }
+                }, 3000);
+
+            }
+        });
         etName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -98,77 +124,95 @@ public class AddProducts extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.length()>0){
-                     etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null, getDrawable(R.drawable.ic_cancel_dark),null);
+                if (editable.length() > 0) {
+                    etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_cancel_dark), null);
 
-                }else {
-                    Log.e(TAG, "onTextChanged:size 0 " );
-                    etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,null,null);
+                } else {
+                    etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                }
+            }
+        });
+
+        etDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    etDesc.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_cancel_dark), null);
+
+                } else {
+                    etDesc.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                }
+            }
+        });
+        etPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    etPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_cancel_dark), null);
+
+                } else {
+                    etPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
                 }
             }
         });
 
 
+        etName.setDrawableClickListener(new DrawableClickListener() {
+            @Override
+            public void onClick(DrawablePosition target) {
+                etName.setText("");
+            }
+        });
 
-       /* circularProgressButton = findViewById(R.id.rbAdd);
-        Random random = new Random();
 
+        etDesc.setDrawableClickListener(new DrawableClickListener() {
+            @Override
+            public void onClick(DrawablePosition target) {
+                etDesc.setText("");
+            }
+        });
 
-        circularProgressButton.setOnClickListener(new View.OnClickListener() {
+        etPrice.setDrawableClickListener(new DrawableClickListener() {
+            @Override
+            public void onClick(DrawablePosition target) {
+                etPrice.setText("");
+            }
+        });
+
+        btRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                circularProgressButton.startAnimation();
+                btRound.startAnimation();
                 addProducts();
-//                circularProgressButton.setResultState(RoundButton.ResultState.FAILURE);
-//                circularProgressButton.revertAnimation();
             }
         });
-
-        circularProgressButton.setButtonAnimationListener(new RoundButton.RoundButtonAnimationListener() {
-            @Override
-            public void onRevertMorphingEnd() {
-
-            }
-
-            @Override
-            public void onApplyMorphingEnd() {
-
-            }
-
-            @Override
-            public void onShowProgress() {
-
-            }
-
-            @Override
-            public void onShowResultState() {
-
-            }
-        });
-*/
-
-
-
-//       etName.setOnTouchListener(new DrawableClickListener.RightDrawableClickListener(etName) {
-//           @Override
-//           public boolean onDrawableClick() {
-//
-//               Log.e(TAG, "onDrawableClick: " );
-//               return true;
-//           }
-//       });
-
-
-      etName.setDrawableClickListener(new DrawableClickListener() {
-          @Override
-          public void onClick(DrawablePosition target) {
-              Log.e(TAG, "onClick: " );
-          }
-      });
-
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
 
     private void addProducts() {
@@ -177,9 +221,9 @@ public class AddProducts extends BaseActivity {
 
         HashMap<String, Object> userMap = new HashMap<>();
         userMap.put("userId", userId);
-        userMap.put("productName",etName.getText().toString());
-//        userMap.put("productDesc", etDesc.getText().toString());
-//        userMap.put("price",etPrice.getText().toString());
+        userMap.put("productName", etName.getText().toString());
+        userMap.put("productDesc", etDesc.getText().toString());
+        userMap.put("price",etPrice.getText().toString());
         userMap.put("sellerID", ShareSmilesPrefs.readString(this, ShareSmilesPrefs.userId, null));
         userMap.put("buyerID", "");
         userMap.put("isSold", false);
@@ -190,24 +234,18 @@ public class AddProducts extends BaseActivity {
         newCityRef.add(userMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                circularProgressButton.setResultState(RoundButton.ResultState.SUCCESS);
+                btRound.setResultState(RoundButton.ResultState.SUCCESS);
 //                startActivity(new Intent(AddProducts.this, MainActivity.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                circularProgressButton.setResultState(RoundButton.ResultState.FAILURE);
+                btRound.setResultState(RoundButton.ResultState.FAILURE);
                 Log.e(TAG, "failure: " + e.getMessage());
             }
         });
 
 
-
     }
 
-
-
-//    @OnClick(R.id.bottom)
-//    public void onViewClicked() {
-//    }
 }
