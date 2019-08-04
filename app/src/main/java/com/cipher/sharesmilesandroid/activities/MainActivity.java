@@ -30,7 +30,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.ShareSmiles;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
+import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
 import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
@@ -124,8 +126,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DialogBoxs dialogBoxs = new DialogBoxs();
-                dialogBoxs.showDialog(activity,"as");
+//                ShareSmiles.getInstance().
+
+                ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
+
+
 
 //                startActivity(new Intent(activity,AddProducts.class));
 //                finish();

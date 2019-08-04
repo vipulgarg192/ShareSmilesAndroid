@@ -22,17 +22,18 @@
           >
           <LinearLayout
               android:layout_width="match_parent"
-              android:layout_height="@dimen/_100sdp"
+              android:layout_height="@dimen/_70sdp"
               android:background="@color/md_teal_A100"
-              android:gravity="center">
+              android:gravity="center|bottom">
 
 
               <com.cipher.sharesmilesandroid.ui.BeautifullTextView
                   android:id="@+id/tvTitle"
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:text="@string/app_name"
-                  android:layout_gravity="center"
+                  android:gravity="center|bottom"
+                  android:layout_gravity="bottom"
                   android:textSize="@dimen/_16sdp" />
           </LinearLayout>
 
@@ -40,7 +41,7 @@
 
           <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
               android:id="@+id/tvMsg"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:gravity="center"
@@ -64,7 +65,7 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
                   android:id="@+id/tvPositive"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="Ok"
+                  android:text="@string/Ok"
                   android:padding="@dimen/_10sdp"
                   android:textSize="@dimen/_13sdp"
                   android:textColor="@color/colorAccent"
@@ -74,7 +75,8 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
                   android:id="@+id/tvNegative"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="Cancel"
+                  android:text="@string/cancel"
+                  android:layout_centerInParent="true"
                   android:textColor="@color/colorAccent"
                   android:padding="@dimen/_13sdp"
                   android:layout_toLeftOf="@id/tvPositive"/>

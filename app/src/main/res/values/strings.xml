@@ -44,4 +44,8 @@
     <string name="category">Category</string>
     <string name="organisation">Organisation</string>
 
+    <string name="dismiss">Dismiss</string>
+    <string name="Ok">Ok</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

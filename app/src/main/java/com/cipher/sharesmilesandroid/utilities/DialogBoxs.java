@@ -2,12 +2,14 @@ package com.cipher.sharesmilesandroid.utilities;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.ui.BeautifullTextView;
 import com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView;
 import com.google.android.material.card.MaterialCardView;
 
@@ -29,16 +31,59 @@ public class DialogBoxs {
         ButterKnife.bind(activity);
 
 
-        HelveticaNeueTextView tvTitle = dialog.findViewById(R.id.tvTitle);
+        BeautifullTextView tvTitle = dialog.findViewById(R.id.tvTitle);
         HelveticaNeueTextView tvMsg = dialog.findViewById(R.id.tvMsg);
         HelveticaNeueTextView tvPositive = dialog.findViewById(R.id.tvPositive);
         HelveticaNeueTextView tvNegative = dialog.findViewById(R.id.tvNegative);
 
 
+        tvMsg.setText(msg);
 
         dialog.show();
 
         tvNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    public void showDismissBox(AppCompatActivity activity, String msg) {
+        dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.alert_dialogbox);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        ButterKnife.bind(activity);
+
+
+        BeautifullTextView tvTitle = dialog.findViewById(R.id.tvTitle);
+        HelveticaNeueTextView tvMsg = dialog.findViewById(R.id.tvMsg);
+        HelveticaNeueTextView tvPositive = dialog.findViewById(R.id.tvPositive);
+        HelveticaNeueTextView tvNegative = dialog.findViewById(R.id.tvNegative);
+
+
+        tvMsg.setText(msg);
+
+        tvPositive.setVisibility(View.GONE);
+
+        tvNegative.setGravity(Gravity.CENTER);
+
+        tvNegative.setText(R.string.dismiss);
+
+        dialog.show();
+
+        tvNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        tvPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
