@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +33,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.marozzi.roundbutton.RoundButton;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -248,4 +253,76 @@ public class AddProducts extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        if (v.getId() == R.id.tvCategory) {
+           selectCategories();
+        } else if (v.getId() == R.id.tvOrganisation) {
+
+        }
+    }
+
+    private void selectCategories() {
+        PopupMenu popup = new PopupMenu(getApplicationContext(), tvCategory);
+
+        /*  The below code in try catch is responsible to display icons*/
+        try {
+            Field[] fields = popup.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mPopup".equals(field.getName())) {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popup);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //inflate menu
+        popup.getMenuInflater().inflate(R.menu.categories, popup.getMenu());
+
+        popup.show();
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.sportsItem:
+                        tvCategory.setText(getString(R.string.sports));
+                        Log.e(TAG, "onOptionsItemSelected: " );
+                        break;
+                    case R.id.footwareItem:
+                        tvCategory.setText(getString(R.string.footware));
+                        break;
+                }
+                return true;
+            }
+        });
+
+    }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sportsItem:
+                tvCategory.setText(getString(R.string.sports));
+                Log.e(TAG, "onOptionsItemSelected: " );
+            break;
+            case R.id.footwareItem:
+                tvCategory.setText(getString(R.string.footware));
+                break;
+        }
+
+        return true;
+
+    }
 }

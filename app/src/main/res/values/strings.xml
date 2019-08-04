@@ -48,4 +48,11 @@
     <string name="Ok">Ok</string>
     <string name="cancel">Cancel</string>
 
+    <string name="sports">Sports</string>
+    <string name="cloths">Cloths</string>
+    <string name="footware">Footware</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="others">Others</string>
+    <string name="miscellenous">Miscellenous</string>
+
 </resources>

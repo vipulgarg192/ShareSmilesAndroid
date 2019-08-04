@@ -126,14 +126,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                ShareSmiles.getInstance().
 
-                ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
-
+//                ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
 
 
-//                startActivity(new Intent(activity,AddProducts.class));
-//                finish();
+
+                startActivity(new Intent(activity,AddProducts.class));
+                finish();
 
             }
         });

@@ -98,6 +98,7 @@
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     android:typeface="serif"
+                    android:onClick="onClick"
                     android:drawableRight="@drawable/ic_down"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"/>
@@ -130,6 +131,7 @@
                     android:paddingEnd="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:typeface="serif"
+                    android:onClick="onClick"
                     android:drawableRight="@drawable/ic_down"
                     android:layout_marginBottom="@dimen/_5sdp"
                     />

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/sportsItem"
+        android:icon="@drawable/ic_sports"
+        android:iconTint="@color/md_red_600"
+        android:title="@string/sports"/>
+
+    <item
+        android:id="@+id/footwareItem"
+        android:icon="@drawable/ic_footware"
+        android:iconTint="@color/md_red_600"
+        android:title="@string/footware"/>
+
+    <item
+        android:id="@+id/clothsItem"
+        android:icon="@drawable/ic_cloths"
+        android:iconTint="@color/md_red_600"
+        android:title="@string/cloths"/>
+
+    <item
+        android:id="@+id/entertainmentItem"
+        android:icon="@drawable/ic_entertainment"
+        android:iconTint="@color/md_red_600"
+        android:title="@string/entertainment"/>
+
+    <item
+        android:id="@+id/activityItem"
+        android:iconTint="@color/md_red_600"
+        android:icon="@drawable/ic_others"
+        android:title="@string/others"/>
+
+
+
+</menu>
