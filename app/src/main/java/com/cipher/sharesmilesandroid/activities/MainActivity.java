@@ -23,25 +23,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.cipher.sharesmilesandroid.R;
-import com.cipher.sharesmilesandroid.ShareSmiles;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
-import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
 import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
-import com.cipher.sharesmilesandroid.ui.BottomNavigationViewBehavior;
-import com.cipher.sharesmilesandroid.ui.CustomBottomNavigationView;
-import com.cipher.sharesmilesandroid.ui.GUIUtils;
-import com.cipher.sharesmilesandroid.ui.OnRevealAnimationListener;
-import com.cipher.sharesmilesandroid.utilities.DialogBoxs;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -125,15 +115,8 @@ public class MainActivity extends AppCompatActivity {
         fbAddIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-//                ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
-
-
-
+//               ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
                 startActivity(new Intent(activity,AddProducts.class));
-                finish();
-
             }
         });
 

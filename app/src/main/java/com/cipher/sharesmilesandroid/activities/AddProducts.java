@@ -31,11 +31,17 @@ import com.cipher.sharesmilesandroid.chipsSet.ChipViewAdapter;
 import com.cipher.sharesmilesandroid.chipsSet.MainChipViewAdapter;
 import com.cipher.sharesmilesandroid.chipsSet.OnChipClickListener;
 import com.cipher.sharesmilesandroid.chipsSet.Tag;
+import com.cipher.sharesmilesandroid.interfaces.BottomSheetInterface;
 import com.cipher.sharesmilesandroid.interfaces.DrawableClickListener;
+import com.cipher.sharesmilesandroid.modals.Organisations;
+import com.cipher.sharesmilesandroid.ui.BottomSheetFragment;
 import com.cipher.sharesmilesandroid.ui.CustomDrawableEditText;
+import com.cipher.sharesmilesandroid.ui.WheelView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.circularreveal.cardview.CircularRevealCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,7 +61,7 @@ import butterknife.ButterKnife;
 
 
 
-public class AddProducts extends BaseActivity  implements OnChipClickListener {
+public class AddProducts extends BaseActivity  implements OnChipClickListener  , BottomSheetInterface {
 
 
     private static final String TAG = "AddProducts";
@@ -109,6 +115,18 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener {
 
     ArrayList<Chip> tagList = new ArrayList<>();
 
+    ArrayList<Organisations> organisationsArrayList = new ArrayList<>();
+    ArrayList<String> organisatonList = new ArrayList<>();
+
+    WheelView wheelview;
+
+
+    BottomSheetInterface bottomSheetInterface;
+
+    BottomSheetFragment bottomSheetFragment;
+
+    private BottomSheetBehavior mBottomSheetBehavior;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +135,31 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener {
         auth = FirebaseAuth.getInstance();
         setContentView(R.layout.addproduct_activity);
         ButterKnife.bind(activity);
+
+        bottomSheetInterface = this;
+
+
+
+        organisationsArrayList.add(new Organisations(1,"World Vision Canada"));
+        organisationsArrayList.add(new Organisations(2,"The Canadian Red Cross Society"));
+        organisationsArrayList.add(new Organisations(3,"The Church Of Jesus Christ Of Latter-Day Saints In Canada"));
+        organisationsArrayList.add(new Organisations(4,"Jewish Community Foundation Of Montreal"));
+
+        organisationsArrayList.add(new Organisations(5,"CanadaHelps Canadon"));
+        organisationsArrayList.add(new Organisations(6,"Plan International Canada Inc."));
+        organisationsArrayList.add(new Organisations(7,"United Way Of Greater Toronto"));
+        organisationsArrayList.add(new Organisations(8,"Heart And Stroke Foundation Of Canada"));
+
+        organisationsArrayList.add(new Organisations(9,"Redemption Ministries Inc."));
+        organisationsArrayList.add(new Organisations(10,"Doctors Without Borders"));
+        organisationsArrayList.add(new Organisations(11,"Vancouver Foundation"));
+        organisationsArrayList.add(new Organisations(12,"Bc Cancer Foundation"));
+
+        for (int i=0;i<organisationsArrayList.size();i++){
+
+            organisatonList.add(organisationsArrayList.get(i).getOrganisationName());
+
+        }
 
         tbSimple.setVisibility(View.VISIBLE);
         tbHome.setVisibility(View.GONE);
@@ -253,78 +296,24 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener {
             }
         });
 
+        tvOrganisation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetFragment = new BottomSheetFragment(organisatonList , bottomSheetInterface);
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
+
         btRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btRound.startAnimation();
+
                 if (valid()){
+                    btRound.startAnimation();
                  addProducts();
                 }
             }
         });
-
-
-
-       /* tags.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                beforeSize = charSequence.length();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-afterSize = charSequence.length();
-if (charSequence.length()>0){
-    if (beforeSize<=afterSize){
-
-        if (charSequence.charAt(charSequence.length()) == ' '){
-                        SpannedLength = charSequence.length();
-                        newchip = true;
-                    }
-
-    }else {
-//        Log.e(TAG, "onTextChanged: "+charSequence.charAt(beforeSize-1) );
-    }
-}
-
-
-                Log.e(TAG, "onTextChanged: "+charSequence.charAt(i1) );
-//                if (charSequence.length()>0){
-//                    if (charSequence.charAt(i)-1 == ' '){
-//
-//                        SpannedLength = charSequence.length();
-//                        newchip = true;
-//                    }
-//                    else {
-//                        newchip = false;
-//                    }
-//                }else {
-//                    newchip = false;
-//                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.e(TAG, "afterTextChanged: "+newchip );
-                if (newchip){
-                    ChipDrawable chip = ChipDrawable.createFromResource(activity, R.xml.chip);
-                    chip.setText(editable.subSequence(SpannedLength,editable.length()));
-                    chip.setBounds(0, 0, chip.getIntrinsicWidth(), chip.getIntrinsicHeight());
-                    ImageSpan span = new ImageSpan(chip);
-                    editable.setSpan(span, SpannedLength, editable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    SpannedLength = editable.length();
-                }
-//                if(editable.length() - SpannedLength == chipLength) {
-//                    ChipDrawable chip = ChipDrawable.createFromResource(activity, R.xml.chip);
-//                    chip.setText(editable.subSequence(SpannedLength,editable.length()));
-//                    chip.setBounds(0, 0, chip.getIntrinsicWidth(), chip.getIntrinsicHeight());
-//                    ImageSpan span = new ImageSpan(chip);
-//                    editable.setSpan(span, SpannedLength, editable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    SpannedLength = editable.length();
-//                }
-
-            }
-        });*/
 
     }
 
@@ -359,16 +348,21 @@ if (charSequence.length()>0){
 
         String userId = auth.getUid();
 
+
+
         HashMap<String, Object> productMap = new HashMap<>();
         productMap.put("userId", userId);
         productMap.put("productName", etName.getText().toString());
         productMap.put("productDesc", etDesc.getText().toString());
         productMap.put("price",etPrice.getText().toString());
-        productMap.put("sellerID", ShareSmilesPrefs.readString(this, ShareSmilesPrefs.userId, null));
+        productMap.put("sellerID", ShareSmilesPrefs.readString(activity, ShareSmilesPrefs.userId, null));
         productMap.put("buyerID", "");
         productMap.put("isSold", false);
         productMap.put("category", tvCategory.getText().toString());
-        productMap.put("organisation",tvOrganisation.getText().toString());
+        productMap.put("organisationName",tvOrganisation.getText().toString());
+        productMap.put("organisationId",organisationsArrayList.indexOf(tvOrganisation.getText().toString()));
+        productMap.put("Tags",tagList);
+
 
         CollectionReference newCityRef = dRef.collection("products");
 
@@ -486,5 +480,15 @@ if (charSequence.length()>0){
     public void onChipClick(Chip chip) {
       chipView.remove(chip);
       tagList.remove(chip);
+    }
+
+    @Override
+    public void setResult(String result) {
+  tvOrganisation.setText(result);
+    }
+
+    @Override
+    public void setHideSheet() {
+        bottomSheetFragment.dismiss();
     }
 }
