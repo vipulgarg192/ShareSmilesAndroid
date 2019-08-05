@@ -58,6 +58,7 @@ dependencies {
 
     implementation 'com.marozzi.roundbutton:round-button:1.0.7'
 
+    implementation 'com.wang.avi:library:2.1.3'
 
 }
 

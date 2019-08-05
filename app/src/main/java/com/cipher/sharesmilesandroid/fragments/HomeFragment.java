@@ -26,6 +26,7 @@
     import com.google.firebase.firestore.FirebaseFirestore;
     import com.google.firebase.firestore.FirebaseFirestoreException;
     import com.google.firebase.firestore.QuerySnapshot;
+    import com.wang.avi.AVLoadingIndicatorView;
 
     import java.lang.reflect.Type;
     import java.util.ArrayList;
@@ -47,6 +48,7 @@
     ArrayList<Products> productsArrayList = new ArrayList<>();
 
 
+    private AVLoadingIndicatorView avlLoader;
 
     private static final String TAG = "HomeFragment";
     @Override
@@ -62,12 +64,14 @@
 
         auth = FirebaseAuth.getInstance();
         recyclerView = view.findViewById(R.id.recyclerView);
+        avlLoader = view.findViewById(R.id.avlLoader);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
+        avlLoader.setVisibility(View.VISIBLE);
         mAdapter = new HomeAdapter(getActivity(),productsArrayList);
         recyclerView.setAdapter(mAdapter);
 
@@ -125,17 +129,17 @@
                             for (int i=0 ;i<productTagsArrayList.size();i++) {
                                 Log.e(TAG, "onEvent: "+productTagsArrayList.get(i).getTagName() );
                             }
-
-
                             productsArrayList.add(products);
 
                         }catch (Exception exception){
                             exception.printStackTrace();
                         }
-                        if (productsArrayList.size()>0){
+                        if (productsArrayList.size()>0) {
                             mAdapter.notifyDataSetChanged();
+                            avlLoader.setVisibility(View.GONE);
+                        }else {
+                            avlLoader.setVisibility(View.VISIBLE);
                         }
-
 
                     }
 
