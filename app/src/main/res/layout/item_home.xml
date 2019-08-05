@@ -101,10 +101,12 @@
                 android:background="@color/md_green_500">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                   android:id="@+id/imgProduct"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgSold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -120,11 +122,13 @@
                 android:padding="@dimen/_10sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/productName"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/productDescription"/>

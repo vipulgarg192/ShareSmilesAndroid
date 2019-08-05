@@ -5,26 +5,28 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.modals.Products;
 import com.google.android.material.card.MaterialCardView;
+
+import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
 
     Context activity;
-    public HomeAdapter(Context activity ){
+    ArrayList<Products> productsArrayList;
+
+    public HomeAdapter(Context activity, ArrayList<Products> productsArrayList){
         this.activity = activity;
+        this.productsArrayList = productsArrayList;
     }
 
 
@@ -45,18 +47,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         holder.tvTitle.setTypeface(custom_font);
         holder.tvTitle.setText("Drake Champion");
 
-//        holder.imgBSave.setFocusable(true);
-//        holder.imgBSave.setClickable(true);
-//        holder.imgBSave.setEnabled(false);
-//
-//        holder.imgBSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(activity,"asd",Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         holder.imgBSave.setChecked(true);
+
+        holder.tvProductName.setText(productsArrayList.get(position).getProductName());
+        holder.tvDesc.setText(productsArrayList.get(position).getProductDescription());
+
         Typeface dollorFont = Typeface.createFromAsset(activity.getAssets(),  "fonts/DollarBill.ttf");
         holder.tvPrice.setTypeface(dollorFont);
         holder.tvPrice.setText("$ 2000");
@@ -64,18 +60,28 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
     @Override
     public int getItemCount() {
-        return 10;
+        return productsArrayList.size();
     }
 
     public class HomeView extends RecyclerView.ViewHolder{
 
         MaterialCardView cardView;
-        TextView tvTitle;
+        TextView tvTitle,tvProductName,tvDesc;
         AppCompatCheckBox imgBSave;
         TextView tvPrice;
+
+        AppCompatImageView imgProduct,imgSold;
+
         public HomeView(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
+
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvDesc = itemView.findViewById(R.id.tvDesc);
+
+            imgProduct = itemView.findViewById(R.id.imgProduct);
+            imgSold = itemView.findViewById(R.id.imgSold);
+
             tvTitle = itemView.findViewById(R.id.tvTitle);
             imgBSave = itemView.findViewById(R.id.imgBSave);
             tvPrice = itemView.findViewById(R.id.tvPrice);
