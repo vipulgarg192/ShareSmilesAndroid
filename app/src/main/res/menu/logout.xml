@@ -4,6 +4,10 @@
     <item
         android:id="@+id/logoutItem"
         android:icon="@drawable/ic_home"
-        android:title="Logout"/>
+        android:title="@string/logout"/>
 
+    <item
+        android:id="@+id/editProfileItem"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/editProfile"/>
 </menu>

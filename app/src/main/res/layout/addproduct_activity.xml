@@ -123,7 +123,7 @@
                     android:textSize="@dimen/_13sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     android:typeface="serif"
-                    android:drawableRight="@drawable/ic_cancel_dark"
+                    android:drawableRight="@drawable/ic_add"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp" />
 

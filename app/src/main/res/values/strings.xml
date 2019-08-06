@@ -34,6 +34,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile</string>
+    <string name="users">Users</string>
+
+    <string name="editProfile">Edit Profile</string>
+    <string name="logout">Logout</string>
+
+
 
     <string name="title">Title</string>
     <string name="description">Description</string>
