@@ -50,17 +50,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         txtDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String a =wheelView.getSeletedItem();
-                bottomSheetInterface.setResult(a);
+                String a = wheelView.getSeletedItem();
+                bottomSheetInterface.setResult(a , list.indexOf(a));
                 bottomSheetInterface.setHideSheet();
-
             }
         });
 
         txtCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomSheetInterface.setResult("");
+                bottomSheetInterface.setResult("",0);
                 bottomSheetInterface.setHideSheet();
             }
         });

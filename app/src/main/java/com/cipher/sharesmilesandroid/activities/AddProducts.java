@@ -3,11 +3,8 @@ package com.cipher.sharesmilesandroid.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -22,7 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
-import com.cipher.sharesmilesandroid.ShareSmiles;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.chipsSet.Chip;
@@ -36,13 +32,10 @@ import com.cipher.sharesmilesandroid.interfaces.DrawableClickListener;
 import com.cipher.sharesmilesandroid.modals.Organisations;
 import com.cipher.sharesmilesandroid.ui.BottomSheetFragment;
 import com.cipher.sharesmilesandroid.ui.CustomDrawableEditText;
-import com.cipher.sharesmilesandroid.ui.WheelView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.circularreveal.cardview.CircularRevealCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -116,14 +109,14 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
     ArrayList<Chip> tagList = new ArrayList<>();
 
     ArrayList<Organisations> organisationsArrayList = new ArrayList<>();
-    ArrayList<String> organisatonList = new ArrayList<>();
+    ArrayList<String> organisationList = new ArrayList<>();
 
-    WheelView wheelview;
 
 
     BottomSheetInterface bottomSheetInterface;
-
     BottomSheetFragment bottomSheetFragment;
+
+    private int organisationId;
 
     private BottomSheetBehavior mBottomSheetBehavior;
 
@@ -157,7 +150,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
 
         for (int i=0;i<organisationsArrayList.size();i++){
 
-            organisatonList.add(organisationsArrayList.get(i).getOrganisationName());
+            organisationList.add(organisationsArrayList.get(i).getOrganisationName());
 
         }
 
@@ -310,7 +303,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         tvOrganisation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomSheetFragment = new BottomSheetFragment(organisatonList , bottomSheetInterface);
+                bottomSheetFragment = new BottomSheetFragment(organisationList, bottomSheetInterface);
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
@@ -376,7 +369,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         productMap.put("isSold", false);
         productMap.put("category", tvCategory.getText().toString());
         productMap.put("organisationName",tvOrganisation.getText().toString());
-        productMap.put("organisationId",organisationsArrayList.indexOf(tvOrganisation.getText().toString()));
+        productMap.put("organisationId",organisationId);
         productMap.put("Tags",tagList);
 
 
@@ -386,6 +379,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 btRound.setResultState(RoundButton.ResultState.SUCCESS);
+                finish();
 //                startActivity(new Intent(AddProducts.this, MainActivity.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -499,8 +493,9 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
     }
 
     @Override
-    public void setResult(String result) {
-  tvOrganisation.setText(result);
+    public void setResult(String result , int position) {
+      tvOrganisation.setText(result);
+      organisationId = position;
     }
 
     @Override
