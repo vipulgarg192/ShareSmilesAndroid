@@ -252,8 +252,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="textNoSuggestions"
                         android:maxLines="1"
-                        android:onClick="onViewClicked"
-                        android:focusableInTouchMode="false"
                         android:drawableStart="@drawable/ic_city"
                         android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/colorAccent"

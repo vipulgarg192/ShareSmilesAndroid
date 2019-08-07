@@ -1,9 +1,11 @@
 package com.cipher.sharesmilesandroid.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,17 +26,19 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.marozzi.roundbutton.RoundButton;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.facebook.appevents.internal.InAppPurchaseActivityLifecycleTracker.update;
 
-public class EditProfile extends BaseActivity {
+public class EditProfile extends BaseActivity{
 
     BaseActivity activity = EditProfile.this;
     private static final String TAG = "EditProfile";
@@ -118,11 +122,26 @@ public class EditProfile extends BaseActivity {
                 ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"city");
                 break;
             case R.id.etDOB:
-                ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"dob");
+
+                Calendar date = Calendar.getInstance(TimeZone.getDefault());
+
+                DatePickerDialog datePickerDialog =
+                        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                                String dob = datePicker.getDayOfMonth()+"/"+datePicker.getMonth()+"/"+datePicker.getYear();
+                                etDOB.setText(dob);
+
+                            }
+                        }, date.get(Calendar.YEAR)-18, date.get(Calendar.DATE), date.get(Calendar.MONTH));
+//                datePickerDialog.getDatePicker().setMaxDate(1665199688);1665199688
+                datePickerDialog.show();
+
 
                 break;
             case R.id.btUpdate:
                 if(valid()){
+                    btUpdate.startAnimation();
                     updateUser();
                 }
                 break;
@@ -141,17 +160,24 @@ public class EditProfile extends BaseActivity {
         userMap.put("lastName",etLastName.getText().toString());
         userMap.put("description",etDesc.getText().toString());
         userMap.put("address",etAddress.getText().toString());
+        userMap.put("dob",etDOB.getText().toString());
+        userMap.put("phone",etPhone.getText().toString());
+        userMap.put("address",etAddress.getText().toString());
+        userMap.put("city",etCity.getText().toString());
+        userMap.put("zipcode",etZipcode.getText().toString());
 
-        DocumentReference newCityRef = dRef.collection("users").document(userId.toString());
-        newCityRef.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DocumentReference newCityRef = dRef.collection("users").document(userId);
+        newCityRef.set(userMap, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.e(TAG, "onSuccess: "+aVoid.toString() );
-                startActivity(new Intent(activity,MainActivity.class));
+                btUpdate.setResultState(RoundButton.ResultState.SUCCESS);
+                btUpdate.revertAnimation();
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                btUpdate.setResultState(RoundButton.ResultState.FAILURE);
                 Log.e(TAG, "failure: " +e.getMessage());
             }
         });
@@ -170,7 +196,7 @@ public class EditProfile extends BaseActivity {
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterAddress));
             return false;
         }
-        /*else if (etCity.getText().toString().trim().isEmpty()){
+        else if (etCity.getText().toString().trim().isEmpty()){
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseSelectCity));
             return false;
         }else if (etZipcode.getText().toString().trim().isEmpty()){
@@ -179,7 +205,8 @@ public class EditProfile extends BaseActivity {
         }else if (etDOB.getText().toString().trim().isEmpty()){
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseSelectDOB));
             return false;
-        }*/
+        }
         return true;
     }
+
 }

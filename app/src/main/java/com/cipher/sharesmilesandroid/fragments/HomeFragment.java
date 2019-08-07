@@ -87,18 +87,15 @@
 
                 if (e !=null)
                 {
-
+                    e.printStackTrace();
                 }
 
                 for (DocumentChange documentChange : documentSnapshots.getDocumentChanges())
                 {
                     if (documentChange.getDocument().getData().isEmpty()){
-
+                        avlLoader.setVisibility(View.GONE);
                     }else {
-
                         try {
-
-
                             ArrayList<ProductTags> productTagsArrayList = new ArrayList<>();
 
                             ArrayList<ProductTags>   stringArrayList = (ArrayList<ProductTags>) documentChange.getDocument().getData().get("Tags");
