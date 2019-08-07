@@ -178,6 +178,14 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        tbSimple.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               onBackPressed();
+            }
+        });
+
 
         etName.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
         etDesc.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
@@ -290,9 +298,12 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
             @Override
             public void onClick(DrawablePosition target) {
 
-                tagList.add(new Tag(tags.getText().toString()));
-                tags.setText("");
-                chipView.setChipList(tagList);
+                if (!tags.getText().toString().trim().isEmpty()){
+                    tagList.add(new Tag(tags.getText().toString()));
+                    tags.setText("");
+                    chipView.setChipList(tagList);
+                }
+
             }
         });
 
@@ -343,6 +354,11 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         return true;
     }
 
+    @Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return super.onNavigateUp();
+    }
 
     private void addProducts() {
 
@@ -491,4 +507,5 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
     public void setHideSheet() {
         bottomSheetFragment.dismiss();
     }
+
 }

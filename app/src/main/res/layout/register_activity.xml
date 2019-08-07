@@ -124,7 +124,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/MyEditText"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/required"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFirstName"
@@ -135,8 +137,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|text|textNoSuggestions"
                         android:maxLines="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:drawableStart="@drawable/ic_profile"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/md_red_400" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -146,7 +148,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/MyEditText"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/required"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etLastName"
@@ -157,8 +161,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|textNoSuggestions"
                         android:maxLines="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:drawableStart="@drawable/ic_profile"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/md_red_400" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -168,7 +172,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/MyEditText"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/required"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
@@ -179,8 +185,8 @@
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords|textEmailAddress|textNoSuggestions"
                         android:maxLines="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/md_red_400" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,6 +199,8 @@
                     android:theme="@style/MyEditText"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true"
+                    app:helperText="@string/required"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:passwordToggleTint="@color/md_grey_500">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -201,11 +209,11 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/password"
+                        android:drawableStart="@drawable/ic_password"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword|textNoSuggestions"
                         android:maxLines="1"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/md_red_400" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -217,6 +225,8 @@
                     android:theme="@style/MyEditText"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true"
+                    app:helperText="@string/required"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:passwordToggleTint="@color/md_grey_500">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -228,7 +238,9 @@
                         android:imeOptions="actionNext"
                         android:inputType="textPassword|textNoSuggestions"
                         android:maxLines="1"
+                        android:drawableStart="@drawable/ic_password"
                         android:paddingStart="5dp"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:paddingEnd="5dp"
                         android:textColor="@color/md_red_400" />
 
@@ -241,6 +253,7 @@
                     android:theme="@style/MyEditText"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:passwordToggleTint="@color/md_grey_500">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -255,6 +268,8 @@
                         android:maxLines="1"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawablePadding="@dimen/_5sdp"
                         android:textColor="@color/md_red_400" />
 
                 </com.google.android.material.textfield.TextInputLayout>

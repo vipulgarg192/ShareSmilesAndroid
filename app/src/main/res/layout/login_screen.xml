@@ -158,15 +158,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llOr"
                 android:theme="@style/MyEditText"
+                app:helperText="@string/required"
                 app:errorEnabled="true"
-
-                >
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
                 <!--app:errorTextAppearance="@style/error"-->
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/email"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="@dimen/_5sdp"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress|textNoSuggestions"
                     android:maxLines="1"
@@ -187,6 +189,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/tilEmail"
                 app:passwordToggleEnabled="true"
                 android:theme="@style/MyEditText"
+                app:helperText="@string/required"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 app:passwordToggleTint="@color/md_grey_500">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -197,6 +201,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPassword|textNoSuggestions"
                     android:maxLines="1"
+                    android:drawableStart="@drawable/ic_password"
+                    android:drawablePadding="@dimen/_5sdp"
                     android:textColor="@color/colorAccent"
                     app:passwordToggleEnabled="true"
                     />

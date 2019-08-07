@@ -12,6 +12,7 @@ public class ShareSmilesPrefs  {
     public static final String emailId = "EmailID";
     public static final String userRole = "userRole";
     public static final String userName = "userName";
+    public static final String userPic = "userPic";
 
     static  final String PrefName = "ShareSmile1";
     static  final int Mode = Context.MODE_PRIVATE;
@@ -50,6 +51,7 @@ public class ShareSmilesPrefs  {
 
     public static void logout(Context context){
         getPreference(context).edit().clear().commit();
+        getPreference(context).edit().apply();
     }
 
 }

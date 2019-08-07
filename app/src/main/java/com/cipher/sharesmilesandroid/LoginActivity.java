@@ -30,6 +30,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
@@ -42,12 +44,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-
+import java.util.HashMap;
 
 
 public class LoginActivity extends BaseActivity  {
@@ -61,18 +66,20 @@ public class LoginActivity extends BaseActivity  {
 
     private static final String TAG = "LoginActivity";
 
-        TextInputLayout tilEmail;
-        TextInputLayout tilPassword;
+    TextInputLayout tilEmail;
+    TextInputLayout tilPassword;
 
-        EditText etEmail;
-        EditText etPassword;
+    EditText etEmail;
+    EditText etPassword;
 
-        MaterialButton btnSignIn;
-        MaterialButton btnFB;
-        LoginButton login_button;
+    MaterialButton btnSignIn;
+    MaterialButton btnFB;
+    LoginButton login_button;
 
-        private FirebaseAuth auth;
-        LoginManager loginManager;
+    FirebaseAuth auth;
+    FirebaseFirestore dRef = FirebaseFirestore.getInstance();
+
+    LoginManager loginManager;
 
 
     @Override
@@ -92,9 +99,7 @@ public class LoginActivity extends BaseActivity  {
         btnFB = findViewById(R.id.btnFB);
         login_button = findViewById(R.id.login_button);
 
-
         LoginManager.getInstance().logOut();
-
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -143,22 +148,8 @@ public class LoginActivity extends BaseActivity  {
                             // Sign in success, update UI with the signed-in user's information
                             Log.e(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
-
-                            Log.e(TAG, "onComplete: "+user.getDisplayName() );
-                            Log.e(TAG, "onComplete: "+user.getEmail() );
-                            Log.e(TAG, "onComplete: "+user.getPhoneNumber() );
-                            Log.e(TAG, "onComplete: "+user.getUid() );
-                            Log.e(TAG, "onComplete: "+user.getPhotoUrl() );
-
-
-                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
-
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            Log.e(TAG, "onComplete:uuid "+user.getUid() );
+                            addDataToFireStone(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -168,6 +159,43 @@ public class LoginActivity extends BaseActivity  {
 
                     }
                 });
+    }
+
+    private void addDataToFireStone(FirebaseUser user) {
+
+        String userId = user.getUid();
+
+        String pic = String.valueOf(user.getPhotoUrl());
+        Log.e(TAG, "pic: "+pic );
+        Log.e(TAG, "getUid: "+userId );
+
+        HashMap<String,Object> userMap = new HashMap<>();
+        userMap.put("userId",user.getUid());
+        userMap.put("email",user.getEmail());
+        userMap.put("firstName", user.getDisplayName());
+        userMap.put("lastName",user.getDisplayName());
+        userMap.put("profilePic",pic);
+
+        FirebaseFirestore dRef = FirebaseFirestore.getInstance();
+        DocumentReference usersReference = dRef.collection("users").document(userId);
+        usersReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
+                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
+                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
+
+                Intent intent = new Intent(activity, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "failure: " +e.getMessage());
+            }
+        });
     }
 
 
@@ -330,15 +358,16 @@ public class LoginActivity extends BaseActivity  {
                         if (!task.isSuccessful()) {
                             // there was an error
                             Log.e(TAG, "onComplete: "+task.getException().getMessage() );
+                            ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"Wrong credentials Entered");
+                            etEmail.setText("");
+                            etPassword.setText("");
+
+                        } else {
                             ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                             ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
-//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
-//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,task.getResult().getUser().getDisplayName());
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,task.getResult().getUser().getUid());
 
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                             finish();

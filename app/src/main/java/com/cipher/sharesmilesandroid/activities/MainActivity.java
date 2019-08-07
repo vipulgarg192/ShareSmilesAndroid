@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         tsTitle.setCurrentText(getString(R.string.title_notifications));
                         switchToFragment4();
 //                        tbHome.setVisibility(View.VISIBLE);
-                        break;
+                        return true;
 
                     case R.id.activityItem:
                         tsTitle.setInAnimation(MainActivity.this, animH[0] );
@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(activity,IntroActivity.class));
                 break;
             case R.id.editProfileItem:
-                ShareSmilesPrefs.logout(activity);
-                startActivity(new Intent(activity,IntroActivity.class));
+                startActivity(new Intent(activity,EditProfile.class));
+
                 break;
 
         }

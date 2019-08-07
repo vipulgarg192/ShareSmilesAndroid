@@ -34,6 +34,15 @@
         <item name="android:colorBackground">@color/md_red_A700</item>
     </style>
 
+    <style name="editToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/md_white_1000</item>
+        <item name="android:titleTextColor">@color/md_white_1000</item>
+        <item name="android:theme">@style/MyAppTheme</item>
+        <item name="android:colorPrimary">@color/md_red_A700</item>
+        <item name="android:colorAccent">@color/md_red_A700</item>
+    </style>
+
     <style name="error" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorAccent</item> <!--apply the color you wat here -->
         <item name="android:textSize">12dp</item>

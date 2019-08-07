@@ -17,6 +17,7 @@
     <string name="register">Register</string>
     <string name="joinUs">Join Us</string>
     <string name="forgetPassword">Forget Password?</string>
+    <string name="required">* Required</string>
 
     <string name="loginWithFacebook">Login with Facebook</string>
     <string name="signupWithFacebook">SignUp with Facebook</string>
@@ -27,6 +28,12 @@
     <string name="lastName">Last Name</string>
     <string name="gender">Gender</string>
     <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="zipcode">ZipCode</string>
+    <string name="dob">Date of Birth</string>
+
+    <string name="update">Update</string>
 
 
     <string name="LoginIntoShareSmiles">Login In to ShareSmiles</string>
@@ -42,6 +49,7 @@
 
 
 
+    <string name="addItem">AddItem</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="productName">Product Name</string>
@@ -68,4 +76,13 @@
     <string name="pleaseEnterProductPrice">Please Enter Product Price</string>
     <string name="pleaseSelectCategory">Please Select Category</string>
     <string name="pleaseSelectOrganisation">Please Select Organisation</string>
+
+    <string name="pleaseEnterFirstName">Please Enter First Name</string>
+    <string name="pleaseEnterLastName">Please Enter Last Name</string>
+    <string name="pleaseEnterAddress">Please Enter Address</string>
+    <string name="pleaseSelectCity">Please Select City</string>
+    <string name="pleaseEnterZipCode">Please Enter ZipCode</string>
+    <string name="pleaseSelectDOB">Please Select DOB </string>
+
+
 </resources>

@@ -23,7 +23,7 @@
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="@dimen/_70sdp"
-              android:background="@color/md_teal_A100"
+              android:background="@color/md_red_600"
               android:gravity="center|bottom">
 
 
@@ -33,6 +33,7 @@
                   android:layout_height="wrap_content"
                   android:text="@string/app_name"
                   android:gravity="center|bottom"
+                  android:textColor="@color/md_white_1000"
                   android:layout_gravity="bottom"
                   android:textSize="@dimen/_16sdp" />
           </LinearLayout>
@@ -98,8 +99,8 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
         android:elevation="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_70sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:elevation="@dimen/_10sdp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/splash_logo_bg"/>

@@ -51,7 +51,11 @@
 
         <activity android:name=".activities.MainActivity"/>
 
-        <activity android:name=".activities.AddProducts"/>
+        <activity android:name=".activities.AddProducts"
+            android:parentActivityName=".activities.MainActivity"/>
+        <activity android:name=".activities.EditProfile"
+
+            android:parentActivityName=".activities.MainActivity"/>
 
     </application>
 

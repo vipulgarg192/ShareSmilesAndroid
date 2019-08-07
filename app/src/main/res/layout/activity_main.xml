@@ -39,6 +39,8 @@
         android:layout_marginBottom="@dimen/_20sdp"
         android:elevation="@dimen/_15sdp"
         app:elevation="@dimen/_20sdp"
+        android:src="@drawable/ic_add"
+        android:tint="@color/md_white_1000"
         app:layout_behavior="com.cipher.sharesmilesandroid.ui.FabBehaviour"
         />
     <FrameLayout
