@@ -305,7 +305,7 @@ public class RegisterActivity extends BaseActivity {
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
-                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,user.getUid());
+                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,String.valueOf(user.getPhotoUrl()));
 
 
                 Intent intent = new Intent(activity, MainActivity.class);

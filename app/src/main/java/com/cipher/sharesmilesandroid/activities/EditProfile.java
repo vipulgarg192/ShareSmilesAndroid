@@ -15,7 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmiles;
+import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
+import com.cipher.sharesmilesandroid.modals.ProductUser;
+import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.utilities.DialogBoxs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,7 +28,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 import com.marozzi.roundbutton.RoundButton;
 
@@ -101,7 +107,72 @@ public class EditProfile extends BaseActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+        getUserProfile();
     }
+
+    private void getUserProfile() {
+
+        Users users = new Users();
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userId,null));
+
+
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+
+                String  firstName =  documentSnapshot.getData().get("firstName").toString();
+                String  lastName =  documentSnapshot.getData().get("lastName").toString();
+
+                String profileImage ="";
+                if (documentSnapshot.getData().get("profilePic")!=null){
+                    profileImage =  documentSnapshot.getData().get("profilePic").toString();
+                }
+
+                users.setFirstName(firstName);
+                users.setLastName(lastName);
+                users.setUserImage(profileImage);
+
+                if (documentSnapshot.getData().get("description")!=null){
+                    users.setDescription( documentSnapshot.getData().get("description").toString());
+                }
+
+                if (documentSnapshot.getData().get("dob")!=null){
+                    users.setDob( documentSnapshot.getData().get("dob").toString());
+                }
+
+                if (documentSnapshot.getData().get("phone")!=null){
+                    users.setPhone( documentSnapshot.getData().get("phone").toString());
+                }
+
+                if (documentSnapshot.getData().get("address")!=null){
+                    users.setAddress( documentSnapshot.getData().get("address").toString());
+                }
+
+                if (documentSnapshot.getData().get("city")!=null){
+                    users.setCity( documentSnapshot.getData().get("city").toString());
+                }
+
+                if (documentSnapshot.getData().get("zipcode")!=null){
+                    users.setZipcode(documentSnapshot.getData().get("zipcode").toString());
+                }
+
+                etFirstName.setText(users.getFirstName());
+                etLastName.setText(users.getLastName());
+                etDesc.setText(users.getDescription());
+                etPhone.setText(users.getPhone());
+                etAddress.setText(users.getAddress());
+                etCity.setText(users.getCity());
+                etZipcode.setText(users.getZipcode());
+                etDOB.setText(users.getDob());
+                etFirstName.setSelection(users.getFirstName().length());
+
+
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -162,7 +233,6 @@ public class EditProfile extends BaseActivity{
         userMap.put("address",etAddress.getText().toString());
         userMap.put("dob",etDOB.getText().toString());
         userMap.put("phone",etPhone.getText().toString());
-        userMap.put("address",etAddress.getText().toString());
         userMap.put("city",etCity.getText().toString());
         userMap.put("zipcode",etZipcode.getText().toString());
 

@@ -8,18 +8,17 @@
 
 
     <item
-        android:id="@+id/activityItem"
-        android:icon="@drawable/ic_notification"
-        android:title="Activity"/>
-
+        android:id="@+id/usersItem"
+        android:icon="@drawable/ic_allusers"
+        android:title="users"/>
 
     <item
         android:title=""/>
 
     <item
-        android:id="@+id/profileItem1"
-        android:icon="@drawable/ic_allusers"
-        android:title="users"/>
+        android:id="@+id/activityItem"
+        android:icon="@drawable/ic_notification"
+        android:title="Activity"/>
 
     <item
         android:id="@+id/profileItem"

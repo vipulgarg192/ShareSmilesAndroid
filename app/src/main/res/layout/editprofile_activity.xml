@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/md_white_1000">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+
+        >
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,20 +65,14 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-     <androidx.core.widget.NestedScrollView
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:fillViewport="true"
-         android:layout_below="@id/cdProfile"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="@dimen/_5sdp"
-         >
 
 
       <androidx.appcompat.widget.LinearLayoutCompat
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-
+          android:layout_below="@id/cdProfile"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="@dimen/_5sdp"
           android:orientation="vertical">
 
 
@@ -368,7 +370,7 @@
 
       </androidx.appcompat.widget.LinearLayoutCompat>
 
-     </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
 
+    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

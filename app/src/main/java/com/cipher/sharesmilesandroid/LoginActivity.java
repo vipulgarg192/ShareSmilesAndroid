@@ -169,22 +169,31 @@ public class LoginActivity extends BaseActivity  {
         Log.e(TAG, "pic: "+pic );
         Log.e(TAG, "getUid: "+userId );
 
+
+        String[] names = user.getDisplayName().split(" ");
+        String firstName = names[0];
+        String lastName = "";
+        if (names.length>1){
+            lastName = names[1];
+        }
+
         HashMap<String,Object> userMap = new HashMap<>();
         userMap.put("userId",user.getUid());
         userMap.put("email",user.getEmail());
-        userMap.put("firstName", user.getDisplayName());
-        userMap.put("lastName",user.getDisplayName());
+        userMap.put("firstName", firstName);
+        userMap.put("lastName",lastName);
         userMap.put("profilePic",pic);
 
         FirebaseFirestore dRef = FirebaseFirestore.getInstance();
         DocumentReference usersReference = dRef.collection("users").document(userId);
-        usersReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+        usersReference.set(userMap,SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
+                ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,pic);
 
                 Intent intent = new Intent(activity, MainActivity.class);
                 startActivity(intent);

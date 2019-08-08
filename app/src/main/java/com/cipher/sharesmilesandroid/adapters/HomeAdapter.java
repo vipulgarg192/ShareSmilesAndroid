@@ -13,7 +13,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
+import com.cipher.sharesmilesandroid.modals.Users;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -22,11 +24,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
 
     Context activity;
-    ArrayList<Products> productsArrayList;
+    ArrayList<Products> productUserArrayList;
 
-    public HomeAdapter(Context activity, ArrayList<Products> productsArrayList){
+    public HomeAdapter(Context activity, ArrayList<Products> productUserArrayList){
         this.activity = activity;
-        this.productsArrayList = productsArrayList;
+        this.productUserArrayList = productUserArrayList;
     }
 
 
@@ -44,23 +46,27 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
         Typeface custom_font = Typeface.createFromAsset(activity.getAssets(),  "fonts/BeautifulPeoplePersonalUse-dE0g.ttf");
 
+        Products products = productUserArrayList.get(position);
+
+
         holder.tvTitle.setTypeface(custom_font);
-        holder.tvTitle.setText("Drake Champion");
+        holder.tvTitle.setText(products.getSellerID());
 
-
+        holder.tvDesc.setVisibility(View.INVISIBLE);
         holder.imgBSave.setChecked(true);
 
-        holder.tvProductName.setText(productsArrayList.get(position).getProductName());
-        holder.tvDesc.setText(productsArrayList.get(position).getProductDescription());
+        holder.tvProductName.setText(products.getProductName());
+        holder.tvDesc.setText(products.getProductDescription());
 
-        Typeface dollorFont = Typeface.createFromAsset(activity.getAssets(),  "fonts/DollarBill.ttf");
-        holder.tvPrice.setTypeface(dollorFont);
-        holder.tvPrice.setText("$ 2000");
+        Typeface dollarFont = Typeface.createFromAsset(activity.getAssets(),  "fonts/DollarBill.ttf");
+        holder.tvPrice.setTypeface(dollarFont);
+        String price = "$ "+products.getProductPrice();
+        holder.tvPrice.setText(price);
     }
 
     @Override
     public int getItemCount() {
-        return productsArrayList.size();
+        return productUserArrayList.size();
     }
 
     public class HomeView extends RecyclerView.ViewHolder{

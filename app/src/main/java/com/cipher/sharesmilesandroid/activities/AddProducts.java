@@ -45,7 +45,9 @@ import com.marozzi.roundbutton.RoundButton;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -175,7 +177,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
             @Override
             public void onClick(View v) {
 
-               onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -314,7 +316,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
 
                 if (valid()){
                     btRound.startAnimation();
-                 addProducts();
+                    addProducts();
                 }
             }
         });
@@ -324,7 +326,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
     private boolean valid() {
         if (Objects.requireNonNull(etName.getText()).length()==0){
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterProductName));
-        return false;
+            return false;
         }else if (Objects.requireNonNull(etDesc.getText()).length()==0){
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,getString(R.string.pleaseEnterProductDesc));
             return false;
@@ -370,12 +372,17 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         productMap.put("category", tvCategory.getText().toString());
         productMap.put("organisationName",tvOrganisation.getText().toString());
         productMap.put("organisationId",organisationId);
-        productMap.put("Tags",tagList);
+        productMap.put("Tags", tagList);
+        productMap.put("sellerName",ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userName,null));
+        productMap.put("buyerName","");
+        productMap.put("productAddedAt",String.valueOf(System.currentTimeMillis()));
+        productMap.put("productSoldTime",String.valueOf(00));
 
 
-        CollectionReference newCityRef = dRef.collection("products");
 
-        newCityRef.add(productMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//        CollectionReference userRef = dRef.collection("users").document(userId).collection("products");
+        CollectionReference productRef = dRef.collection("products");
+        productRef.add(productMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 btRound.setResultState(RoundButton.ResultState.SUCCESS);
@@ -401,7 +408,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
         super.onClick(v);
 
         if (v.getId() == R.id.tvCategory) {
-           selectCategories();
+            selectCategories();
         } else if (v.getId() == R.id.tvOrganisation) {
 
         }
@@ -476,7 +483,7 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
             case R.id.sportsItem:
                 tvCategory.setText(getString(R.string.sports));
                 Log.e(TAG, "onOptionsItemSelected: " );
-            break;
+                break;
             case R.id.footwareItem:
                 tvCategory.setText(getString(R.string.footware));
                 break;
@@ -488,14 +495,14 @@ public class AddProducts extends BaseActivity  implements OnChipClickListener  ,
 
     @Override
     public void onChipClick(Chip chip) {
-      chipView.remove(chip);
-      tagList.remove(chip);
+        chipView.remove(chip);
+        tagList.remove(chip);
     }
 
     @Override
     public void setResult(String result , int position) {
-      tvOrganisation.setText(result);
-      organisationId = position;
+        tvOrganisation.setText(result);
+        organisationId = position;
     }
 
     @Override

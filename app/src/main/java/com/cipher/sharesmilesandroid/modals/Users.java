@@ -5,12 +5,18 @@ public class Users  {
     private String userID;
     private String firstName;
     private String lastName;
+    private String description;
     private String email;
     private String password;
+    private String phone;
     private String dob;
     private String gender;
     private int userType;
     private String userImage;
+    private String address;
+    private String city;
+    private String zipcode;
+
 
 
     public String getUserID() {
@@ -51,6 +57,12 @@ public class Users  {
 
     public void setPassword(String password) {
         this.password = password;
+    } public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getDob() {
@@ -87,5 +99,37 @@ public class Users  {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 }

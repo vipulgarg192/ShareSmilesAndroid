@@ -24,6 +24,7 @@
     <string name="instagramLogin">InstagramLogin</string>
 
 
+    <string name="fullName">Full Name</string>
     <string name="firstName">First Name</string>
     <string name="lastName">Last Name</string>
     <string name="gender">Gender</string>
@@ -83,6 +84,8 @@
     <string name="pleaseSelectCity">Please Select City</string>
     <string name="pleaseEnterZipCode">Please Enter ZipCode</string>
     <string name="pleaseSelectDOB">Please Select DOB </string>
+
+    <string name="dataNotAvailable">Data not available</string>
 
 
 </resources>

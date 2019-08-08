@@ -14,8 +14,8 @@ public class Products implements Parcelable  {
     private String productImage;
     private String sellerID;
     private String buyerID;
-    private long productAddedTime;
-    private long productSoldTime;
+    private String productAddedTime;
+    private String productSoldTime;
     private boolean isSold;
     private String organisationName;
     private int organisationID;
@@ -25,7 +25,7 @@ public class Products implements Parcelable  {
 
 
     public Products(String productId, String productName, String productDescription, String price, String productImage,
-                    String sellerID, String buyerID, long productAddedTime, long productSoldTime, boolean isSold
+                    String sellerID, String buyerID, String productAddedTime, String productSoldTime, boolean isSold
             , String organisationName, int organisationID, String productCategory, ArrayList<ProductTags> productTagsArrayList){
         this.productId = productId;
         this.productName = productName;
@@ -52,8 +52,8 @@ public class Products implements Parcelable  {
         productImage = in.readString();
         sellerID = in.readString();
         buyerID = in.readString();
-        productAddedTime = in.readLong();
-        productSoldTime = in.readLong();
+        productAddedTime = in.readString();
+        productSoldTime = in.readString();
         isSold = in.readByte() != 0;
         organisationName = in.readString();
         organisationID = in.readInt();
@@ -120,19 +120,19 @@ public class Products implements Parcelable  {
         this.buyerID = buyerID;
     }
 
-    public long getProductAdded() {
+    public String getProductAdded() {
         return productAddedTime;
     }
 
-    public void setProductAdded(long productAdded) {
+    public void setProductAdded(String productAdded) {
         this.productAddedTime = productAdded;
     }
 
-    public long getProductSold() {
+    public String getProductSold() {
         return productSoldTime;
     }
 
-    public void setProductSold(long productSold) {
+    public void setProductSold(String productSold) {
         this.productSoldTime = productSold;
     }
 
@@ -145,19 +145,19 @@ public class Products implements Parcelable  {
     }
 
 
-    public long getProductAddedTime() {
+    public String getProductAddedTime() {
         return productAddedTime;
     }
 
-    public void setProductAddedTime(long productAddedTime) {
+    public void setProductAddedTime(String productAddedTime) {
         this.productAddedTime = productAddedTime;
     }
 
-    public long getProductSoldTime() {
+    public String getProductSoldTime() {
         return productSoldTime;
     }
 
-    public void setProductSoldTime(long productSoldTime) {
+    public void setProductSoldTime(String productSoldTime) {
         this.productSoldTime = productSoldTime;
     }
 
@@ -218,8 +218,8 @@ public class Products implements Parcelable  {
         parcel.writeString(productImage);
         parcel.writeString(sellerID);
         parcel.writeString(buyerID);
-        parcel.writeLong(productAddedTime);
-        parcel.writeLong(productSoldTime);
+        parcel.writeString(productAddedTime);
+        parcel.writeString(productSoldTime);
         parcel.writeByte((byte) (isSold ? 1 : 0));
         parcel.writeString(organisationName);
         parcel.writeInt(organisationID);

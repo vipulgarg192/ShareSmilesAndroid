@@ -10,12 +10,12 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -24,11 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/_200sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             app:contentScrim="?attr/colorPrimary">
 
 
+
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgProfile"
+                android:id="@+id/imgTimeline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/_150sdp"
@@ -44,28 +46,42 @@
                 android:background="@drawable/profilebg">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                   android:id="@+id/imgProfile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
             </com.google.android.material.card.MaterialCardView>
 
 
-            <TextView
+            <ImageButton
+                android:id="@+id/ibSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings"
+                android:background="@color/md_white_1000"
+                android:layout_below="@id/imgTimeline"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_margin="@dimen/_10sdp"
+                />
+
+            <com.cipher.sharesmilesandroid.ui.BeautifullTextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sdp"
-                android:hint="@string/firstName"
+                android:hint="@string/fullName"
                 android:layout_below="@id/cdProfile"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"/>
 
-            <TextView
+            <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                 android:id="@+id/tvDesc"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_10sdp"
                 android:hint="@string/description"
+                android:gravity="center"
                 android:layout_below="@id/tvName"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -75,22 +91,31 @@
         </RelativeLayout>
 
 
+
+
        <androidx.core.widget.NestedScrollView
+           android:id="@+id/nestedScroll"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:background="@color/md_yellow_500"
            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
            <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/recyclerView"
+               android:id="@+id/rvUserItems"
                android:layout_width="match_parent"
                android:layout_height="wrap_content">
 
-
            </androidx.recyclerview.widget.RecyclerView>
 
-
        </androidx.core.widget.NestedScrollView>
+
+            <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                android:id="@+id/tvNotAvailable"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:textColor="@color/md_black_1000"
+                android:text="@string/dataNotAvailable"
+                android:gravity="center"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

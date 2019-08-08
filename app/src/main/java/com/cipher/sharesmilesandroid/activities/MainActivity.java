@@ -3,11 +3,13 @@ package com.cipher.sharesmilesandroid.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     RelativeLayout mRlContainer;
     Toolbar tbHome;
+    AppCompatImageView imgToolbar;
 
     TextSwitcher tsTitle;
     private long titleAnimDuration;
@@ -67,26 +71,32 @@ public class MainActivity extends AppCompatActivity {
         container = findViewById(R.id.container);
         fbAddIcon = findViewById(R.id.fbAddIcon);
         tbHome = findViewById(R.id.tbHome);
+        imgToolbar = findViewById(R.id.imgToolbar);
+
         tsTitle = findViewById(R.id.tsTitle);
         tsTitle.setForegroundGravity(Gravity.CENTER);
 
 
         setSupportActionBar(tbHome);
+        switchToHomeFragment();
 
-        switchToFragment1();
-
-
-
-
-            animH[0] = R.anim.skide_in_left;
-            animH[1] = R.anim.slide_out_right;
-
-
+        animH[0] = R.anim.skide_in_left;
+        animH[1] = R.anim.slide_out_right;
 
 
         titleAnimDuration = 700;
         tsTitle.setFactory(new TextViewFactory(R.style.title, true));
         tsTitle.setCurrentText(getString(R.string.app_name));
+
+        tsTitle.setInAnimation(activity, animH[0] );
+        tsTitle.setOutAnimation(activity, animH[1]);
+
+        String userPic = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userPic,null);
+        if (userPic!=null){
+            Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgToolbar);
+        }
+
+
 
         /*final Fragment fragment1 = new HomeFragment();
         final Fragment fragment2 = new ActivityFragment();
@@ -104,35 +114,23 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.homeItem:
-                        tsTitle.setInAnimation(MainActivity.this, animH[0] );
-                        tsTitle.setOutAnimation(MainActivity.this, animH[1]);
-                        tsTitle.setCurrentText(getString(R.string.app_name));
-                        switchToFragment1();
-//                        tbHome.setVisibility(View.VISIBLE);
+                        tsTitle.setText(getString(R.string.app_name));
+                        switchToHomeFragment();
                         return true;
 
-                    case R.id.profileItem1:
-                        tsTitle.setInAnimation(MainActivity.this, animH[0] );
-                        tsTitle.setOutAnimation(MainActivity.this, animH[1]);
-                        tsTitle.setCurrentText(getString(R.string.title_notifications));
-                        switchToFragment4();
-//                        tbHome.setVisibility(View.VISIBLE);
+                    case R.id.usersItem:
+                        tsTitle.setText(getString(R.string.users));
+                        switchToUsersAndSearchFragment();
                         return true;
 
                     case R.id.activityItem:
-                        tsTitle.setInAnimation(MainActivity.this, animH[0] );
-                        tsTitle.setOutAnimation(MainActivity.this, animH[1]);
-                        tsTitle.setCurrentText(getString(R.string.tags));
-                        switchToFragment2();
-//                        tbHome.setVisibility(View.VISIBLE);
+                        tsTitle.setText(getString(R.string.title_notifications));
+                        switchToActivityFragment();
                         return true;
 
                     case R.id.profileItem:
-                        tsTitle.setInAnimation(MainActivity.this, animH[0] );
-                        tsTitle.setOutAnimation(MainActivity.this, animH[1]);
-                        tsTitle.setCurrentText(getString(R.string.profile));
-//                        tbHome.setVisibility(View.GONE);
-                        switchToFragment3();
+                        tsTitle.setText(getString(R.string.profile));
+                        switchToProfileFragment();
                         return true;
                 }
                 return false;
@@ -162,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logoutItem:
                 ShareSmilesPrefs.logout(activity);
                 startActivity(new Intent(activity,IntroActivity.class));
+                finish();
                 break;
             case R.id.editProfileItem:
                 startActivity(new Intent(activity,EditProfile.class));
@@ -173,20 +172,20 @@ public class MainActivity extends AppCompatActivity {
         return  true;
     }
 
-    public void switchToFragment1() {
+    public void switchToHomeFragment() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new HomeFragment()).commit();
     }
-    public void switchToFragment2() {
+    public void switchToActivityFragment() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new ActivityFragment()).commit();
     }
-    public void switchToFragment3() {
+    public void switchToProfileFragment() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
     }
 
-    public void switchToFragment4() {
+    public void switchToUsersAndSearchFragment() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new UsersAndSearchFragment()).commit();
     }
@@ -211,9 +210,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 textView.setGravity(Gravity.CENTER);
+                textView.setForegroundGravity(Gravity.CENTER);
                 textView.setHeight(100);
-
-
+//                textView.setWidth(1200);
                 textView.setTextAppearance(MainActivity.this, styleId);
 
 
