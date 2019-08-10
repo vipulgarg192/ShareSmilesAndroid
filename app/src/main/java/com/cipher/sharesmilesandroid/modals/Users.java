@@ -1,20 +1,69 @@
 package com.cipher.sharesmilesandroid.modals;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Dao;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import com.google.firebase.database.annotations.NotNull;
+
+@Entity(tableName = "UsersTable")
 public class Users  {
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = "userID")
     private String userID;
+
+    @NotNull
+    @ColumnInfo(name = "firstName")
     private String firstName;
+
+    @ColumnInfo(name = "lastName")
     private String lastName;
+
+    @ColumnInfo(name = "description")
     private String description;
+
+    @NotNull
+    @ColumnInfo(name = "email")
     private String email;
+
+    @ColumnInfo(name = "password")
     private String password;
+
+    @ColumnInfo(name = "phone")
     private String phone;
+
+    @ColumnInfo(name = "dob")
     private String dob;
+
+    @ColumnInfo(name = "gender")
     private String gender;
+
+    @ColumnInfo(name = "userType")
     private int userType;
+
+    @ColumnInfo(name = "userImage")
     private String userImage;
+
+    @ColumnInfo(name = "address")
     private String address;
+
+    @ColumnInfo(name = "city")
     private String city;
+
+    @ColumnInfo(name = "zipcode")
     private String zipcode;
 
 
@@ -131,5 +180,47 @@ public class Users  {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+
+    public Users(int id, String userID, String firstName, String lastName, String description, String email, String password, String phone, String dob, String gender, int userType, String userImage, String address, String city, String zipcode) {
+        this.id = id;
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.dob = dob;
+        this.gender = gender;
+        this.userType = userType;
+        this.userImage = userImage;
+        this.address = address;
+        this.city = city;
+        this.zipcode = zipcode;
+    }
+
+    @Ignore
+    public Users(String userID, String firstName, String lastName, String description, String email, String password, String phone, String dob, String gender, int userType, String userImage, String address, String city, String zipcode) {
+
+        this.userID = userID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.dob = dob;
+        this.gender = gender;
+        this.userType = userType;
+        this.userImage = userImage;
+        this.address = address;
+        this.city = city;
+        this.zipcode = zipcode;
+    }
+
+    public Users(){
+
     }
 }

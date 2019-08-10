@@ -27,19 +27,24 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
+import com.cipher.sharesmilesandroid.databases.Respo;
+import com.cipher.sharesmilesandroid.databases.RoomDBCallBacks;
+import com.cipher.sharesmilesandroid.databases.UserRoomDatabase;
 import com.cipher.sharesmilesandroid.fragments.ActivityFragment;
 import com.cipher.sharesmilesandroid.fragments.HomeFragment;
 import com.cipher.sharesmilesandroid.fragments.ProfileFragment;
 import com.cipher.sharesmilesandroid.fragments.UsersAndSearchFragment;
 import com.cipher.sharesmilesandroid.modals.Products;
+import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.ui.BeautifullTextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.widget.RelativeLayout.LayoutParams;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
     AppCompatActivity activity = MainActivity.this;
     private static final String TAG = "MainActivity";
@@ -52,15 +57,13 @@ public class MainActivity extends AppCompatActivity {
     AppCompatImageView imgToolbar;
 
     TextSwitcher tsTitle;
-    private long titleAnimDuration;
-    private int countryOffset1;
-    private int countryOffset2;
 
-
+    public UserRoomDatabase userDb ;
 
     private final String[] titles = {"Home", "Activity", "All Users", "Profile"};
     int animH[]=new int[] {R.anim.skide_in_left, R.anim.slide_out_right};;
 
+    RoomDBCallBacks roomDBCallBacks;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         tsTitle = findViewById(R.id.tsTitle);
         tsTitle.setForegroundGravity(Gravity.CENTER);
 
+        roomDBCallBacks = MainActivity.this;
+        userDb = UserRoomDatabase.getDatabase(activity);
+        Respo.retrieveTask(userDb,roomDBCallBacks);
 
         setSupportActionBar(tbHome);
         switchToHomeFragment();
@@ -84,12 +90,15 @@ public class MainActivity extends AppCompatActivity {
         animH[1] = R.anim.slide_out_right;
 
 
-        titleAnimDuration = 700;
         tsTitle.setFactory(new TextViewFactory(R.style.title, true));
         tsTitle.setCurrentText(getString(R.string.app_name));
 
         tsTitle.setInAnimation(activity, animH[0] );
         tsTitle.setOutAnimation(activity, animH[1]);
+
+
+
+
 
         String userPic = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userPic,null);
         if (userPic!=null){
@@ -190,6 +199,19 @@ public class MainActivity extends AppCompatActivity {
         manager.beginTransaction().replace(R.id.container, new UsersAndSearchFragment()).commit();
     }
 
+    @Override
+    public void getUsersListSize(int size) {
+        Log.e(TAG, "getUsersListSize: "+size );
+        if (size>0){
+            Respo.deleteUsersTask(userDb,roomDBCallBacks);
+            Respo.retrieveTask(userDb,roomDBCallBacks);
+        }
+    }
+
+    @Override
+    public List<Users> getUsersList(List<Users> usersList) {
+        return null;
+    }
 
 
     private class TextViewFactory implements  ViewSwitcher.ViewFactory {
