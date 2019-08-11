@@ -83,8 +83,6 @@
 
             roomDBCallBacks = (RoomDBCallBacks) getContext();
 
-
-            Log.e(TAG, "onCreateView: "+ ShareSmilesSingleton.usersArrayList.size());
             getListItems();
 
             return view;

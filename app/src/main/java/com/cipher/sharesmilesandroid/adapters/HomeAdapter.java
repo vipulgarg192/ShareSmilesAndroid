@@ -2,6 +2,7 @@ package com.cipher.sharesmilesandroid.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
 
+    private static final String TAG = "HomeAdapter";
     Context activity;
     ArrayList<ProductUser> productUserArrayList;
 
@@ -53,13 +55,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         holder.tvTitle.setTypeface(custom_font);
         if (users!=null){
             holder.tvTitle.setText(users.getFullName());
+            Log.e(TAG, "onBindViewHolder: "+users.getDescription() );
             holder.tvDesc.setText(users.getDescription());
         }
 
         holder.imgBSave.setChecked(true);
 
         holder.tvProductName.setText(products.getProductName());
-        holder.tvDesc.setText(products.getProductDescription());
+        holder.tvProductDesc.setText(products.getProductDescription());
 
         Typeface dollarFont = Typeface.createFromAsset(activity.getAssets(),  "fonts/DollarBill.ttf");
         holder.tvPrice.setTypeface(dollarFont);
@@ -72,16 +75,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         return productUserArrayList.size();
     }
 
-    public class HomeView extends RecyclerView.ViewHolder{
+     class HomeView extends RecyclerView.ViewHolder{
 
         MaterialCardView cardView;
-        TextView tvTitle,tvProductName,tvDesc;
+        TextView tvTitle,tvProductName,tvDesc,tvProductDesc;
         AppCompatCheckBox imgBSave;
         TextView tvPrice;
 
         AppCompatImageView imgProduct,imgSold;
 
-        public HomeView(@NonNull View itemView) {
+         HomeView(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
 
@@ -94,6 +97,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             tvTitle = itemView.findViewById(R.id.tvTitle);
             imgBSave = itemView.findViewById(R.id.imgBSave);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvProductDesc = itemView.findViewById(R.id.tvProductDesc);
         }
     }
 }

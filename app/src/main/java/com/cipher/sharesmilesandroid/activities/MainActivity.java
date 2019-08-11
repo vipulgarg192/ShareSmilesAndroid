@@ -268,10 +268,11 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
                                         users.setUserImage(document.getData().get("profilePic").toString());
                                     }
                                     if (document.getData().get("description") != null) {
+                                        Log.e(TAG, "description: "+ document.getData().get("description"));
                                         users.setDescription(document.getData().get("description").toString());
                                     }
 
-                                    String dob = "";
+
                                     if (document.getData().get("dob") != null) {
                                         users.setDob( document.getData().get("dob").toString());
                                     }
