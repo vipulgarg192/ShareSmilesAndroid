@@ -1,9 +1,6 @@
 package com.cipher.sharesmilesandroid.databases;
 
-import android.util.Log;
-
 import com.cipher.sharesmilesandroid.modals.Users;
-
 import java.util.List;
 
 public class Respo {
@@ -13,7 +10,6 @@ public class Respo {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                Log.e(TAG, "run: "+users.getUserID() );
                 userDb.userDao().insertUsers(users);
             }
         });

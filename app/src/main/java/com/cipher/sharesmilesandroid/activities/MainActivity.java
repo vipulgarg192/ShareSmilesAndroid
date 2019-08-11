@@ -27,6 +27,7 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
+import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.databases.Respo;
 import com.cipher.sharesmilesandroid.databases.RoomDBCallBacks;
 import com.cipher.sharesmilesandroid.databases.UserRoomDatabase;
@@ -37,8 +38,14 @@ import com.cipher.sharesmilesandroid.fragments.UsersAndSearchFragment;
 import com.cipher.sharesmilesandroid.modals.Products;
 import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.ui.BeautifullTextView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import android.widget.RelativeLayout.LayoutParams;
 
 import java.util.ArrayList;
@@ -61,9 +68,11 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
     public UserRoomDatabase userDb ;
 
     private final String[] titles = {"Home", "Activity", "All Users", "Profile"};
-    int animH[]=new int[] {R.anim.skide_in_left, R.anim.slide_out_right};;
+    private int animH[]=new int[] {R.anim.skide_in_left, R.anim.slide_out_right};
+    private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
     RoomDBCallBacks roomDBCallBacks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +89,10 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         tsTitle.setForegroundGravity(Gravity.CENTER);
 
         roomDBCallBacks = MainActivity.this;
-        userDb = UserRoomDatabase.getDatabase(activity);
-        Respo.retrieveTask(userDb,roomDBCallBacks);
+
+        Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
+        getUserInfo();
+        Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
 
         setSupportActionBar(tbHome);
         switchToHomeFragment();
@@ -97,25 +108,10 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         tsTitle.setOutAnimation(activity, animH[1]);
 
 
-
-
-
         String userPic = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userPic,null);
         if (userPic!=null){
             Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgToolbar);
         }
-
-
-
-        /*final Fragment fragment1 = new HomeFragment();
-        final Fragment fragment2 = new ActivityFragment();
-        final Fragment fragment3 = new ProfileFragment();
-        final FragmentManager fm = getSupportFragmentManager();
-        active = fragment1;
-
-        fm.beginTransaction().add(R.id.container, fragment3, "3").hide(fragment3).commit();
-        fm.beginTransaction().add(R.id.container, fragment2, "2").hide(fragment2).commit();
-        fm.beginTransaction().add(R.id.container,fragment1, "1").commit();*/
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -203,15 +199,19 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
     public void getUsersListSize(int size) {
         Log.e(TAG, "getUsersListSize: "+size );
         if (size>0){
-            Respo.deleteUsersTask(userDb,roomDBCallBacks);
-            Respo.retrieveTask(userDb,roomDBCallBacks);
+//            Respo.deleteUsersTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
+//            Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
         }
     }
 
     @Override
     public List<Users> getUsersList(List<Users> usersList) {
+        ShareSmilesSingleton.usersArrayList = usersList;
         return null;
     }
+
+
+
 
 
     private class TextViewFactory implements  ViewSwitcher.ViewFactory {
@@ -243,16 +243,59 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
     }
 
-    private class ImageViewFactory implements ViewSwitcher.ViewFactory {
-        @Override
-        public View makeView() {
-            final ImageView imageView = new ImageView(MainActivity.this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+    private void getUserInfo() {
+        Users users = new Users();
+        dRef.collection("users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getData().isEmpty()) {
+                                } else {
+                                    String userID = document.getData().get("userId").toString();
+                                    String firstName = document.getData().get("firstName").toString();
+                                    String lastName = document.getData().get("lastName").toString();
+                                    String email = document.getData().get("email").toString();
 
-            final FrameLayout.LayoutParams lp = new ImageSwitcher.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-            imageView.setLayoutParams(lp);
+                                    users.setUserID(userID);
+                                    users.setFirstName(firstName);
+                                    users.setLastName(lastName);
+                                    users.setEmail(email);
 
-            return imageView;
-        }
+                                    if (document.getData().containsKey("profilePic")) {
+                                        users.setUserImage(document.getData().get("profilePic").toString());
+                                    }
+                                    if (document.getData().get("description") != null) {
+                                        users.setDescription(document.getData().get("description").toString());
+                                    }
+
+                                    String dob = "";
+                                    if (document.getData().get("dob") != null) {
+                                        users.setDob( document.getData().get("dob").toString());
+                                    }
+
+                                    if (document.getData().get("address") != null) {
+                                        users.setAddress(document.getData().get("address").toString());
+                                    }
+
+                                    if (document.getData().get("city") != null) {
+                                        users.setCity(document.getData().get("city").toString());
+                                    }
+
+                                    if (document.getData().get("zipcode") != null) {
+                                        users.setZipcode(document.getData().get("zipcode").toString());
+
+                                    }
+                                    Respo.updateTask(UserRoomDatabase.getDatabase(activity), users);
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
+
 }

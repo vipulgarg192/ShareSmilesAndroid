@@ -22,7 +22,8 @@ public abstract class UserRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     // Create database here
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            UserRoomDatabase.class, "user_databse")
+                            UserRoomDatabase.class, "user_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

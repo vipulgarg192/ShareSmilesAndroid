@@ -24,9 +24,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
 
     Context activity;
-    ArrayList<Products> productUserArrayList;
+    ArrayList<ProductUser> productUserArrayList;
 
-    public HomeAdapter(Context activity, ArrayList<Products> productUserArrayList){
+    public HomeAdapter(Context activity, ArrayList<ProductUser> productUserArrayList){
         this.activity = activity;
         this.productUserArrayList = productUserArrayList;
     }
@@ -46,13 +46,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
         Typeface custom_font = Typeface.createFromAsset(activity.getAssets(),  "fonts/BeautifulPeoplePersonalUse-dE0g.ttf");
 
-        Products products = productUserArrayList.get(position);
+        Products products = productUserArrayList.get(position).getProducts();
+        Users users = productUserArrayList.get(position).getUsers();
 
 
         holder.tvTitle.setTypeface(custom_font);
-        holder.tvTitle.setText(products.getSellerID());
+        if (users!=null){
+            holder.tvTitle.setText(users.getFullName());
+            holder.tvDesc.setText(users.getDescription());
+        }
 
-        holder.tvDesc.setVisibility(View.INVISIBLE);
         holder.imgBSave.setChecked(true);
 
         holder.tvProductName.setText(products.getProductName());

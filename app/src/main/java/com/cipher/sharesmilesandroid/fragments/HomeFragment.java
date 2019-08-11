@@ -9,33 +9,32 @@
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
     import androidx.fragment.app.Fragment;
-    import androidx.lifecycle.LiveData;
+
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
     import com.cipher.sharesmilesandroid.R;
-    import com.cipher.sharesmilesandroid.activities.MainActivity;
+
+    import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
     import com.cipher.sharesmilesandroid.adapters.HomeAdapter;
     import com.cipher.sharesmilesandroid.databases.AppExecutors;
+
     import com.cipher.sharesmilesandroid.databases.Respo;
     import com.cipher.sharesmilesandroid.databases.RoomDBCallBacks;
     import com.cipher.sharesmilesandroid.databases.UserRoomDatabase;
     import com.cipher.sharesmilesandroid.interfaces.UserDao;
     import com.cipher.sharesmilesandroid.modals.ProductTags;
+
     import com.cipher.sharesmilesandroid.modals.ProductUser;
     import com.cipher.sharesmilesandroid.modals.Products;
     import com.cipher.sharesmilesandroid.modals.Users;
-    import com.google.android.gms.tasks.OnCompleteListener;
-    import com.google.android.gms.tasks.OnSuccessListener;
-    import com.google.android.gms.tasks.Task;
-    import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.firestore.DocumentChange;
-    import com.google.firebase.firestore.DocumentReference;
-    import com.google.firebase.firestore.DocumentSnapshot;
+
+
     import com.google.firebase.firestore.EventListener;
     import com.google.firebase.firestore.FirebaseFirestore;
     import com.google.firebase.firestore.FirebaseFirestoreException;
-    import com.google.firebase.firestore.QueryDocumentSnapshot;
+
     import com.google.firebase.firestore.QuerySnapshot;
     import com.wang.avi.AVLoadingIndicatorView;
 
@@ -44,20 +43,19 @@
 
     public class HomeFragment extends Fragment implements RoomDBCallBacks {
 
-        RecyclerView recyclerView;
+        private RecyclerView recyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager layoutManager;
 
-        private FirebaseAuth auth;
         private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
-        ArrayList<Products> productsArrayList = new ArrayList<>();
-        List<Users> usersArrayList = new ArrayList<>();
+        private ArrayList<ProductUser> productUserArrayList = new ArrayList<>();
+        private List<Users> usersArrayList = new ArrayList<>();
 
         private AVLoadingIndicatorView avlLoader;
         private static final String TAG = "HomeFragment";
 
-        RoomDBCallBacks roomDBCallBacks;
+        private RoomDBCallBacks roomDBCallBacks;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +68,7 @@
             View view = inflater.inflate(R.layout.home_fragment,
                     container, false);
 
-            auth = FirebaseAuth.getInstance();
+
             recyclerView = view.findViewById(R.id.recyclerView);
             avlLoader = view.findViewById(R.id.avlLoader);
 
@@ -80,17 +78,15 @@
 
             // specify an adapter (see also next example)
             avlLoader.setVisibility(View.VISIBLE);
-            mAdapter = new HomeAdapter(getActivity(), productsArrayList);
+            mAdapter = new HomeAdapter(getActivity(), productUserArrayList);
             recyclerView.setAdapter(mAdapter);
 
             roomDBCallBacks = (RoomDBCallBacks) getContext();
 
-//            getUserInfo();
-//            Respo.retrieveTask(UserRoomDatabase.getDatabase(getContext()), roomDBCallBacks);
-              getListItems();
 
+            Log.e(TAG, "onCreateView: "+ ShareSmilesSingleton.usersArrayList.size());
+            getListItems();
 
-//            Log.e(TAG, "onCreateView: "+ UserRoomDatabase.getDatabase(getContext()).userDao().getAllUsers().size());
             return view;
 
         }
@@ -143,14 +139,18 @@
                                 for (int i = 0; i < productTagsArrayList.size(); i++) {
                                     Log.e(TAG, "onEvent: " + productTagsArrayList.get(i).getTagName());
                                 }
-                                 productsArrayList.add(products);
+                                Users users = getProductOwner(userID);
+                                ProductUser productUser = new ProductUser();
+                                productUser.setUsers(users);
+                                productUser.setProducts(products);
+                                productUserArrayList.add(productUser);
 
                             } catch (Exception exception) {
                                 Log.e(TAG, "onEvent: " + exception.getMessage());
                                 exception.printStackTrace();
                             }
 
-                            if (productsArrayList.size() > 0) {
+                            if (productUserArrayList.size() > 0) {
                                 mAdapter.notifyDataSetChanged();
                                 avlLoader.setVisibility(View.GONE);
                             } else {
@@ -161,78 +161,17 @@
                     }
                 }
             });
-
-//        for (int i =0 ; i<productUserArrayList.size() ; i++){
-//            getUserInfo(productUserArrayList.get(i).getProducts().getSellerID(), productUserArrayList.get(i) ,i);
-//        }
         }
 
         private Users getProductOwner(String userID) {
-            for (Users users1 : usersArrayList) {
-                Log.e(TAG, "getProductOwner: " + users1.getUserID());
-                if (users1.getUserID().equalsIgnoreCase(userID)) {
-                    return users1;
-                }
-            }
+           for (int i =0 ; i < ShareSmilesSingleton.usersArrayList.size() ; i++){
+               if (ShareSmilesSingleton.usersArrayList.get(i).getUserID().equalsIgnoreCase(userID)){
+                   return ShareSmilesSingleton.usersArrayList.get(i);
+               }
+           }
             return null;
         }
 
-        private void getUserInfo() {
-
-
-            Users users = new Users();
-            dRef.collection("users")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    if (document.getData().isEmpty()) {
-                                    } else {
-                                        String userID = document.getData().get("userId").toString();
-                                        String firstName = document.getData().get("firstName").toString();
-                                        String lastName = document.getData().get("lastName").toString();
-                                        String email = document.getData().get("email").toString();
-
-                                        users.setUserID(userID);
-                                        users.setFirstName(firstName);
-                                        users.setLastName(lastName);
-                                        users.setEmail(email);
-                                        if (document.getData().containsKey("profilePic")) {
-                                            users.setUserImage(document.getData().get("profilePic").toString());
-                                        }
-                                        String description = "";
-                                        if (document.getData().get("description") != null) {
-                                            users.setDescription(document.getData().get("description").toString());
-                                        }
-
-                                        String dob = "";
-                                        if (document.getData().get("dob") != null) {
-                                            users.setDescription(document.getData().get("dob").toString());
-                                        }
-
-                                        if (document.getData().get("address") != null) {
-                                            users.setAddress(document.getData().get("address").toString());
-                                        }
-
-                                        if (document.getData().get("city") != null) {
-                                            users.setCity(document.getData().get("city").toString());
-                                        }
-
-                                        if (document.getData().get("zipcode") != null) {
-                                            users.setZipcode(document.getData().get("zipcode").toString());
-
-                                        }
-                                        updateTask(UserRoomDatabase.getDatabase(getContext()), users);
-                                    }
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-        }
 
         @Override
         public void getUsersListSize(int size) {
