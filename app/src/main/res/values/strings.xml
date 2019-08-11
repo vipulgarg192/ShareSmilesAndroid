@@ -8,6 +8,7 @@
     <string name="facebook_app_id">536307603859156</string>
     <string name="fb_login_protocol_scheme">fb536307603859156</string>
 
+
     // login
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -90,6 +91,13 @@
     <string name="buy">Buy</string>
     <string name="sold">Sold</string>
     <string name="share">Share</string>
+    <string name="activityTitle">Activity Title</string>
+    <string name="activityDesc">Activity Description</string>
+    <string name="timeAgo">1 day ago</string>
+
+    <!--<style name="activityTitle">Activity Title</style>-->
+    <!--<style name="activityDesc">Activity Description</style>-->
+    <!--<style name="timeAgo">1 week ago</style>-->
 
 
 </resources>
