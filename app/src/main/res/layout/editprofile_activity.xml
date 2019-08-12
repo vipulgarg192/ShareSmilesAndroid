@@ -44,11 +44,13 @@
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgProfile"
+            android:id="@+id/imgTimelineProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/_150sdp"
             android:background="@drawable/profilebg"/>
+
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cdProfile"
@@ -60,13 +62,32 @@
             android:background="@drawable/profilebg">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgAddprofile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:onClick="onViewClicked"/>
+
+
 
         </com.google.android.material.card.MaterialCardView>
 
 
-
+        <RelativeLayout
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:layout_centerHorizontal="true"
+            android:elevation="@dimen/_30sdp"
+            >
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                app:srcCompat="@drawable/ic_profile_imgadd"
+                android:layout_gravity="bottom|end"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:elevation="@dimen/_40sdp"/>
+        </RelativeLayout>
       <androidx.appcompat.widget.LinearLayoutCompat
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

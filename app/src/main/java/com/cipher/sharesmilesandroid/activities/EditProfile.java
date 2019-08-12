@@ -1,17 +1,27 @@
 package com.cipher.sharesmilesandroid.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmiles;
@@ -33,10 +43,22 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.marozzi.roundbutton.RoundButton;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -53,8 +75,8 @@ public class EditProfile extends BaseActivity{
     Toolbar toolbar;
     @BindView(R.id.appBar)
     AppBarLayout appBar;
-    @BindView(R.id.imgProfile)
-    AppCompatImageView imgProfile;
+    @BindView(R.id.imgAddprofile)
+    AppCompatImageView imgAddprofile;
     @BindView(R.id.cdProfile)
     MaterialCardView cdProfile;
     @BindView(R.id.etFirstName)
@@ -96,6 +118,12 @@ public class EditProfile extends BaseActivity{
 
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
+    String strImg;
+    public static final int REQUEST_IMAGE = 100;
+
+    FirebaseStorage storage ;
+    StorageReference storageRef ;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +135,8 @@ public class EditProfile extends BaseActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        storage = FirebaseStorage.getInstance("gs://sharesmilesandroid.appspot.com/");
+        storageRef = storage.getReference();
 
         getUserProfile();
     }
@@ -186,7 +216,7 @@ public class EditProfile extends BaseActivity{
         return super.onNavigateUp();
     }
 
-    @OnClick({R.id.etCity, R.id.etDOB, R.id.btUpdate })
+    @OnClick({R.id.etCity, R.id.etDOB, R.id.btUpdate , R.id.imgAddprofile})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.etCity:
@@ -213,8 +243,73 @@ public class EditProfile extends BaseActivity{
             case R.id.btUpdate:
                 if(valid()){
                     btUpdate.startAnimation();
-                    updateUser();
+                    if (!strImg.isEmpty()){
+                        try {
+                            Uri file = Uri.fromFile(new File(strImg));
+
+                            StorageReference mountainsRef = storageRef.child(file.getLastPathSegment());
+
+                            Bitmap bitmap = ((BitmapDrawable) imgAddprofile.getDrawable()).getBitmap();
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] data = baos.toByteArray();
+
+                            UploadTask uploadTask = mountainsRef.putBytes(data);
+
+                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    exception.printStackTrace();
+                                    // Handle unsuccessful uploads
+                                }
+                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                    mountainsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            // getting image uri and converting into string
+                                            Uri downloadUrl = uri;
+                                            strImg = downloadUrl.toString();
+                                            Log.e(TAG, "onSuccess: "+strImg );
+                                            updateUser();
+
+                                        }
+                                    });
+                                }
+                            });
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }else {
+                        updateUser();
+                    }
+
                 }
+                break;
+
+            case R.id.imgAddprofile:
+                Dexter.withActivity(this)
+                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .withListener(new MultiplePermissionsListener() {
+                            @Override
+                            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                if (report.areAllPermissionsGranted()) {
+                                    showImagePickerOptions();
+                                }
+
+                                if (report.isAnyPermissionPermanentlyDenied()) {
+                                    showSettingsDialog();
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
                 break;
         }
     }
@@ -235,6 +330,7 @@ public class EditProfile extends BaseActivity{
         userMap.put("phone",etPhone.getText().toString());
         userMap.put("city",etCity.getText().toString());
         userMap.put("zipcode",etZipcode.getText().toString());
+        userMap.put("profilePic",strImg);
 
         DocumentReference newCityRef = dRef.collection("users").document(userId);
         newCityRef.set(userMap, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -277,6 +373,101 @@ public class EditProfile extends BaseActivity{
             return false;
         }
         return true;
+    }
+
+
+    private void showImagePickerOptions() {
+        ImagePickerActivity.showImagePickerOptions(this, new ImagePickerActivity.PickerOptionListener() {
+            @Override
+            public void onTakeCameraSelected() {
+                launchCameraIntent();
+            }
+
+            @Override
+            public void onChooseGallerySelected() {
+                launchGalleryIntent();
+            }
+        });
+    }
+
+    private void launchCameraIntent() {
+        Intent intent = new Intent(activity, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_IMAGE_CAPTURE);
+
+        // setting aspect ratio
+        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+
+        // setting maximum bitmap width and height
+        intent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
+        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
+        intent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
+
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    private void launchGalleryIntent() {
+        Intent intent = new Intent(activity, ImagePickerActivity.class);
+        intent.putExtra(ImagePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImagePickerActivity.REQUEST_GALLERY_IMAGE);
+
+        // setting aspect ratio
+        intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+        intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getParcelableExtra("path");
+                try {
+                    // You can update this bitmap to your server
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+
+                    // loading profile image from local cache
+                    loadProfile(uri.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Showing Alert Dialog with Settings option
+     * Navigates user to app settings
+     * NOTE: Keep proper title and message depending on your app
+     */
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(getString(R.string.dialog_permission_title));
+        builder.setMessage(getString(R.string.dialog_permission_message));
+        builder.setPositiveButton(getString(R.string.go_to_settings), (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
+        });
+        builder.setNegativeButton(getString(android.R.string.cancel), (dialog, which) -> dialog.cancel());
+        builder.show();
+
+    }
+
+    // navigating user to app settings
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+
+    private void loadProfile(String url) {
+        strImg = url;
+        Glide.with(this).load(url)
+                .into(imgAddprofile);
+        imgAddprofile.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
     }
 
 }

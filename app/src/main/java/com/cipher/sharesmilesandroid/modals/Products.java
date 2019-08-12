@@ -2,10 +2,15 @@ package com.cipher.sharesmilesandroid.modals;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.library.baseAdapters.BR;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -103,6 +108,7 @@ public class Products extends BaseObservable implements Serializable {
 
     public void setProductImage(String productImage) {
         this.productImage = productImage;
+        notifyPropertyChanged(BR.productImage);
     }
 
     public String getSellerID() {
@@ -208,5 +214,14 @@ public class Products extends BaseObservable implements Serializable {
     }
 
 
+    @BindingAdapter({"itemImage"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        Glide.with(view.getContext())
+                .load(imageUrl)
+                .into(view);
+
+        // If you consider Picasso, follow the below
+        // Picasso.with(view.getContext()).load(imageUrl).placeholder(R.drawable.placeholder).into(view);
+    }
 
 }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.activities.DetailActivity;
+import com.cipher.sharesmilesandroid.interfaces.Clicklisteners;
 import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
 import com.cipher.sharesmilesandroid.modals.Users;
@@ -32,9 +33,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
     Context activity;
     ArrayList<ProductUser> productUserArrayList;
 
-    public HomeAdapter(Context activity, ArrayList<ProductUser> productUserArrayList){
+    Clicklisteners clicklisteners;
+
+    public HomeAdapter(Context activity, ArrayList<ProductUser> productUserArrayList, Clicklisteners clicklisteners){
         this.activity = activity;
         this.productUserArrayList = productUserArrayList;
+        this.clicklisteners = clicklisteners;
     }
 
 
@@ -83,10 +87,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity , DetailActivity.class);
-                intent.putExtra("data",productUserArrayList.get(position));
-//                intent.putExtra("data", productUserArrayList.get(position));
-                activity.startActivity(intent);
+                clicklisteners.onClickListeners(position);
             }
         });
     }

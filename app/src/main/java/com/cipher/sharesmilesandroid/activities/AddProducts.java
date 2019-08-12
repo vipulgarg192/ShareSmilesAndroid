@@ -427,9 +427,7 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
     }
 
     private boolean valid() {
-        if (etName.getText().toString().isEmpty()){
-            return true;
-        }
+
         if (Objects.requireNonNull(etName.getText()).length() == 0) {
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity, getString(R.string.pleaseEnterProductName));
             return false;

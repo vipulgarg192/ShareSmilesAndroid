@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:bind="http://schemas.android.com/apk/res/android">
+<layout xmlns:bind="http://schemas.android.com/apk/res/android"
+    xmlns:bind.itemImage="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -25,16 +26,22 @@
     <include
         layout="@layout/toolbar"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/_30sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgProduct"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_200sdp"
-            android:src="@drawable/placeholer"/>
+            android:src="@drawable/placeholer"
+            bind:itemImage="@{productsusers.products.productImage}"/>
 
         <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
             android:id="@+id/tvProductName"
@@ -100,15 +107,17 @@
             android:layout_margin="@dimen/_10sdp">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_70sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
                 app:cardBackgroundColor="@color/md_green_900"
-                app:cardCornerRadius="@dimen/_35sdp">
+                app:cardCornerRadius="@dimen/_25sdp"
+                android:layout_gravity="center">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    bind:profileImage="@{productsusers.users.userImage}" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -210,6 +219,9 @@
 
 
     </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>
 

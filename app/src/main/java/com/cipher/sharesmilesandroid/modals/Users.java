@@ -1,8 +1,11 @@
 package com.cipher.sharesmilesandroid.modals;
 
+import android.widget.ImageView;
+
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import androidx.databinding.BindingAdapter;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Entity;
@@ -10,10 +13,17 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import androidx.databinding.library.baseAdapters.BR;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.database.annotations.NotNull;
 
+import java.io.Serializable;
+
+
+
 @Entity(tableName = "UsersTable")
-public class Users extends BaseObservable {
+public class Users extends BaseObservable implements Serializable {
 
     public int getId() {
         return id;
@@ -165,12 +175,27 @@ public class Users extends BaseObservable {
         return getFirstName()+" "+getLastName();
     }
 
+
+    @Bindable
     public String getUserImage() {
         return userImage;
     }
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+        notifyPropertyChanged(BR.userImage);
+    }
+
+
+    @BindingAdapter({"profileImage"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        Glide.with(view.getContext())
+                .load(imageUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(view);
+
+        // If you consider Picasso, follow the below
+        // Picasso.with(view.getContext()).load(imageUrl).placeholder(R.drawable.placeholder).into(view);
     }
 
     @Bindable

@@ -1,6 +1,8 @@
 package com.cipher.sharesmilesandroid.modals;
 
-public class ProductTags  {
+import java.io.Serializable;
+
+public class ProductTags implements Serializable {
 
     public String getTagName() {
         return tagName;

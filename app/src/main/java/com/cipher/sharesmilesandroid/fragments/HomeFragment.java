@@ -1,5 +1,6 @@
     package com.cipher.sharesmilesandroid.fragments;
 
+    import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.LayoutInflater;
@@ -16,12 +17,14 @@
     import com.cipher.sharesmilesandroid.R;
 
     import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
+    import com.cipher.sharesmilesandroid.activities.DetailActivity;
     import com.cipher.sharesmilesandroid.adapters.HomeAdapter;
     import com.cipher.sharesmilesandroid.databases.AppExecutors;
 
     import com.cipher.sharesmilesandroid.databases.Respo;
     import com.cipher.sharesmilesandroid.databases.RoomDBCallBacks;
     import com.cipher.sharesmilesandroid.databases.UserRoomDatabase;
+    import com.cipher.sharesmilesandroid.interfaces.Clicklisteners;
     import com.cipher.sharesmilesandroid.interfaces.UserDao;
     import com.cipher.sharesmilesandroid.modals.ProductTags;
 
@@ -41,7 +44,7 @@
     import java.util.ArrayList;
     import java.util.List;
 
-    public class HomeFragment extends Fragment implements RoomDBCallBacks {
+    public class HomeFragment extends Fragment implements RoomDBCallBacks , Clicklisteners {
 
         private RecyclerView recyclerView;
         private RecyclerView.Adapter mAdapter;
@@ -56,6 +59,8 @@
         private static final String TAG = "HomeFragment";
 
         private RoomDBCallBacks roomDBCallBacks;
+
+        Clicklisteners clicklisteners;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,16 +77,19 @@
             recyclerView = view.findViewById(R.id.recyclerView);
             avlLoader = view.findViewById(R.id.avlLoader);
 
+            clicklisteners = this;
+
             // use a linear layout manager
             layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
 
             // specify an adapter (see also next example)
             avlLoader.setVisibility(View.VISIBLE);
-            mAdapter = new HomeAdapter(getActivity(), productUserArrayList);
+            mAdapter = new HomeAdapter(getActivity(), productUserArrayList , clicklisteners);
             recyclerView.setAdapter(mAdapter);
 
             roomDBCallBacks = (RoomDBCallBacks) getContext();
+
 
             getListItems();
 
@@ -208,5 +216,13 @@
                 Users users1 =    userDb.userDao().loadPersonById(users.getUserID());
                 }
             });
+        }
+
+        @Override
+        public void onClickListeners(int position) {
+            Intent intent = new Intent(getActivity() , DetailActivity.class);
+            intent.putExtra("data",productUserArrayList.get(position));
+//                intent.putExtra("data", productUserArrayList.get(position));
+            startActivity(intent);
         }
     }

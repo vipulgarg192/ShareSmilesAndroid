@@ -154,6 +154,7 @@ public class ImagePickerActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
+
                     cropImage(getCacheImagePath(fileName));
                 } else {
                     setResultCancelled();
@@ -162,7 +163,9 @@ public class ImagePickerActivity extends AppCompatActivity {
             case REQUEST_GALLERY_IMAGE:
                 if (resultCode == RESULT_OK) {
                     Uri imageUri = data.getData();
-                    cropImage(imageUri);
+                    setResultOk(imageUri);
+
+//                    cropImage(imageUri);
                 } else {
                     setResultCancelled();
                 }
