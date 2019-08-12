@@ -3,9 +3,14 @@ package com.cipher.sharesmilesandroid.modals;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Products implements Parcelable  {
+public class Products extends BaseObservable implements Serializable {
 
     private String productId;
     private String productName;
@@ -60,42 +65,38 @@ public class Products implements Parcelable  {
         productCategory = in.readString();
     }
 
-    public static final Creator<Products> CREATOR = new Creator<Products>() {
-        @Override
-        public Products createFromParcel(Parcel in) {
-            return new Products(in);
-        }
 
-        @Override
-        public Products[] newArray(int size) {
-            return new Products[size];
-        }
-    };
-
+    @Bindable
     public String getProductId() {
         return productId;
     }
 
     public void setProductId(String productId) {
         this.productId = productId;
+        notifyPropertyChanged(BR.productId);
     }
 
+    @Bindable
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
         this.productName = productName;
+        notifyPropertyChanged(BR.productName);
     }
 
+    @Bindable
     public String getProductDescription() {
         return productDescription;
     }
 
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
+        notifyPropertyChanged(BR.productDescription);
     }
 
+    @Bindable
     public String getProductImage() {
         return productImage;
     }
@@ -110,6 +111,7 @@ public class Products implements Parcelable  {
 
     public void setSellerID(String sellerID) {
         this.sellerID = sellerID;
+
     }
 
     public String getBuyerID() {
@@ -177,22 +179,24 @@ public class Products implements Parcelable  {
         this.organisationID = organisationID;
     }
 
-
+    @Bindable
     public String getProductPrice() {
         return productPrice;
     }
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+        notifyPropertyChanged(BR.productPrice);
     }
 
-
+    @Bindable
     public String getProductCategory() {
         return productCategory;
     }
 
     public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
+        notifyPropertyChanged(BR.productCategory);
     }
 
     public ArrayList<ProductTags> getProductTagsArrayList() {
@@ -204,25 +208,5 @@ public class Products implements Parcelable  {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(productId);
-        parcel.writeString(productName);
-        parcel.writeString(productDescription);
-        parcel.writeString(productPrice);
-        parcel.writeString(productImage);
-        parcel.writeString(sellerID);
-        parcel.writeString(buyerID);
-        parcel.writeString(productAddedTime);
-        parcel.writeString(productSoldTime);
-        parcel.writeByte((byte) (isSold ? 1 : 0));
-        parcel.writeString(organisationName);
-        parcel.writeInt(organisationID);
-        parcel.writeString(productCategory);
-    }
 }

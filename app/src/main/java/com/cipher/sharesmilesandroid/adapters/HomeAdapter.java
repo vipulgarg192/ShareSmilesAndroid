@@ -1,6 +1,7 @@
 package com.cipher.sharesmilesandroid.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +15,13 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.activities.DetailActivity;
 import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
 import com.cipher.sharesmilesandroid.modals.Users;
 import com.google.android.material.card.MaterialCardView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
@@ -43,11 +46,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeView holder, int position) {
+    public void onBindViewHolder(@NonNull HomeView holder,final int position) {
 
 
         Typeface custom_font = Typeface.createFromAsset(activity.getAssets(),  "fonts/BeautifulPeoplePersonalUse-dE0g.ttf");
 
+        ProductUser productUser = productUserArrayList.get(position);
         Products products = productUserArrayList.get(position).getProducts();
         Users users = productUserArrayList.get(position).getUsers();
 
@@ -68,6 +72,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         holder.tvPrice.setTypeface(dollarFont);
         String price = "$ "+products.getProductPrice();
         holder.tvPrice.setText(price);
+
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity , DetailActivity.class);
+                intent.putExtra("data",productUserArrayList.get(position));
+//                intent.putExtra("data", productUserArrayList.get(position));
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override

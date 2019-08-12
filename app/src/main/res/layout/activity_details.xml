@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:bind="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="users"
+            type="com.cipher.sharesmilesandroid.modals.Users" />
+
+        <variable
+            name="products"
+            type="com.cipher.sharesmilesandroid.modals.Products" />
+
+        <variable
+            name="productsusers"
+            type="com.cipher.sharesmilesandroid.modals.ProductUser" />
+    </data>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -25,6 +42,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/productName"
             android:textSize="@dimen/_15sdp"
+            android:text="@{productsusers.products.productName}"
            android:layout_margin="@dimen/_10sdp"/>
 
         <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
@@ -34,6 +52,7 @@
             android:hint="@string/price"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@{productsusers.products.productPrice}"
             android:textSize="@dimen/_15sdp"/>
 
 
@@ -102,6 +121,7 @@
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
                 android:hint="@string/fullName"
+                android:text="@{productsusers.users.fullName}"
                 android:textSize="@dimen/_15sdp"/>
 
         </LinearLayout>
@@ -133,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:hint="@string/description"/>
+                android:hint="@string/description"
+                android:text="@{productsusers.products.productDescription}"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -157,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:text="@{productsusers.products.productCategory}"
                 android:hint="@string/category"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -190,3 +212,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</layout>

@@ -33,14 +33,15 @@
                 android:padding="@dimen/_5sdp">
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                    android:id="@+id/imgItem"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgItem"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
+                        android:onClick="onViewClicked"
                         app:srcCompat="@drawable/placeholer" />
 
                 </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
