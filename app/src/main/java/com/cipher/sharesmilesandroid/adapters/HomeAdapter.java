@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.activities.DetailActivity;
 import com.cipher.sharesmilesandroid.modals.ProductUser;
@@ -72,6 +73,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         holder.tvPrice.setTypeface(dollarFont);
         String price = "$ "+products.getProductPrice();
         holder.tvPrice.setText(price);
+
+        if (!products.getProductImage().isEmpty()){
+
+            Glide.with(activity).load(products.getProductImage()).into(holder.imgProduct);
+        }
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

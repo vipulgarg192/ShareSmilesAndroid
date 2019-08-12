@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -44,8 +45,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         WheelView wheelView = view.findViewById(R.id.wheelview);
         wheelView.setItems(list);
 
-        HelveticaNeueTextView txtCancel = view.findViewById(R.id.txtCancel);
-        HelveticaNeueTextView txtDone = view.findViewById(R.id.txtDone);
+        Button txtCancel = view.findViewById(R.id.btnCancel);
+        Button txtDone = view.findViewById(R.id.btnDone);
 
         txtDone.setOnClickListener(new View.OnClickListener() {
             @Override

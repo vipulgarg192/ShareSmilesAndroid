@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,6 +51,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -57,7 +61,11 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.marozzi.roundbutton.RoundButton;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -141,12 +149,17 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
     public static final int REQUEST_IMAGE = 100;
 
 
+    private String itemImg = "";
 
     public interface PickerOptionListener {
         void onTakeCameraSelected();
 
         void onChooseGallerySelected();
     }
+    FirebaseStorage storage ;
+    StorageReference storageRef ;
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -156,6 +169,12 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
         auth = FirebaseAuth.getInstance();
         setContentView(R.layout.addproduct_activity);
         ButterKnife.bind(activity);
+
+        storage = FirebaseStorage.getInstance("gs://sharesmilesandroid.appspot.com/");
+        storageRef = storage.getReference();
+
+        imgItem.setDrawingCacheEnabled(true);
+        imgItem.buildDrawingCache();
 
         bottomSheetInterface = this;
 
@@ -341,7 +360,66 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
 
                 if (valid()) {
                     btRound.startAnimation();
-                    addProducts();
+                    if (!itemImg.isEmpty()){
+                        try {
+                        Uri file = Uri.fromFile(new File(itemImg));
+//                        InputStream stream = null;
+//
+//                             stream = new FileInputStream(new File(itemImg));
+//
+//
+//
+                        StorageReference mountainsRef = storageRef.child(file.getLastPathSegment());
+//
+//                        UploadTask uploadTask = mountainsRef.putStream(stream);
+
+
+                            Bitmap bitmap = ((BitmapDrawable) imgItem.getDrawable()).getBitmap();
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] data = baos.toByteArray();
+
+                            UploadTask uploadTask = mountainsRef.putBytes(data);
+
+// Register observers to listen for when the download is done or if it fails
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                exception.printStackTrace();
+                                // Handle unsuccessful uploads
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                mountainsRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        // getting image uri and converting into string
+                                        Uri downloadUrl = uri;
+                                        itemImg = downloadUrl.toString();
+                                        Log.e(TAG, "onSuccess: "+itemImg );
+                                        addProducts(itemImg);
+
+                                    }
+                                });
+
+
+
+
+//
+                                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                                // ...
+                            }
+                        });
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    }else {
+                        addProducts("");
+                    }
+
                 }
             }
         });
@@ -349,6 +427,9 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
     }
 
     private boolean valid() {
+        if (etName.getText().toString().isEmpty()){
+            return true;
+        }
         if (Objects.requireNonNull(etName.getText()).length() == 0) {
             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity, getString(R.string.pleaseEnterProductName));
             return false;
@@ -380,7 +461,7 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
         return super.onNavigateUp();
     }
 
-    private void addProducts() {
+    private void addProducts(String path) {
 
         String userId = auth.getUid();
 
@@ -401,6 +482,7 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
         productMap.put("buyerName", "");
         productMap.put("productAddedAt", String.valueOf(System.currentTimeMillis()));
         productMap.put("productSoldTime", String.valueOf(00));
+        productMap.put("itemImage", path);
 
 
 //        CollectionReference userRef = dRef.collection("users").document(userId).collection("products");
@@ -643,8 +725,7 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
 
 
     private void loadProfile(String url) {
-        Log.d(TAG, "Image cache path: " + url);
-
+        itemImg = url;
         Glide.with(this).load(url)
                 .into(imgItem);
         imgItem.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));

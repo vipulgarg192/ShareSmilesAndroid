@@ -126,12 +126,17 @@
                                 String sellerName = String.valueOf(documentChange.getDocument().getData().get("sellerName"));
                                 String buyerName = String.valueOf(documentChange.getDocument().getData().get("buyerName"));
 
+                                String itemImage= "";
+                                if (documentChange.getDocument().getData().containsKey("itemImage")) {
+                                    itemImage = String.valueOf(documentChange.getDocument().getData().get("itemImage"));
+                                }
+
 
                                 String productAddedTime = String.valueOf(documentChange.getDocument().getData().get("productAddedAt"));
                                 String productSoldTime = String.valueOf(documentChange.getDocument().getData().get("productSoldTime"));
 
                                 Products products = new Products(documentChange.getDocument().getId(), productName, productDesc, productPrice,
-                                        "", sellerName, buyerName, productAddedTime, productSoldTime, false, productOrganisation
+                                        itemImage, sellerName, buyerName, productAddedTime, productSoldTime, false, productOrganisation
                                         , organisationId, productCategory, productTagsArrayList);
 
                                 for (int i = 0; i < productTagsArrayList.size(); i++) {
