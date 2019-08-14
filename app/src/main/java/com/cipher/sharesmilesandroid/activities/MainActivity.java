@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
         Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
         getUserInfo();
-        Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
 
         setSupportActionBar(tbHome);
         switchToHomeFragment();
@@ -266,10 +265,14 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
                                     if (document.getData().containsKey("profilePic")) {
                                         users.setUserImage(document.getData().get("profilePic").toString());
+                                    }else {
+                                        users.setUserImage("");
                                     }
                                     if (document.getData().get("description") != null) {
                                         Log.e(TAG, "description: "+ document.getData().get("description"));
                                         users.setDescription(document.getData().get("description").toString());
+                                    }else {
+                                        users.setDescription("");
                                     }
 
 

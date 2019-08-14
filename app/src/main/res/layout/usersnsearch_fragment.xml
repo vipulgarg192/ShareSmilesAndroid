@@ -1,26 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="3"
+    android:paddingBottom="@dimen/_65sdp"
+    android:background="@color/md_red_100">
 
 
-    <FrameLayout
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_weight="1"
+       android:orientation="horizontal"
+       android:weightSum="2"
+       android:paddingStart="@dimen/_5sdp"
+       android:paddingEnd="@dimen/_5sdp"
+       android:paddingTop="@dimen/_5sdp">
+
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:layout_marginEnd="@dimen/_3sdp">
+
+           <com.google.android.material.card.MaterialCardView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               app:cardBackgroundColor="@color/md_white_1000"
+               android:elevation="@dimen/_10sdp"
+               app:cardElevation="@dimen/_10sdp"
+               android:outlineSpotShadowColor="@color/md_grey_900"
+               app:strokeColor="@color/md_green_900">
+
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:gravity="center">
+
+                   <androidx.appcompat.widget.AppCompatImageView
+                       android:id="@+id/imgSports"
+                       android:layout_width="@dimen/_50sdp"
+                       android:layout_height="@dimen/_50sdp"
+                       android:background="@drawable/ic_sports"
+                       android:layout_centerHorizontal="true"
+                      android:backgroundTint="@color/md_red_600"/>
+                   <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="@string/sports"
+                       android:textStyle="bold"
+                       android:layout_below="@id/imgSports"
+                       android:layout_centerInParent="true"
+                       android:textSize="@dimen/_16sdp"/>
+
+               </RelativeLayout>
+
+           </com.google.android.material.card.MaterialCardView>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:layout_marginStart="@dimen/_3sdp">
+
+           <com.google.android.material.card.MaterialCardView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:elevation="@dimen/_10sdp"
+               app:cardElevation="@dimen/_10sdp"
+               android:outlineSpotShadowColor="@color/md_grey_900"
+               app:strokeColor="@color/md_green_900"
+               app:cardBackgroundColor="@color/md_white_1000">
+
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:gravity="center">
+
+                   <androidx.appcompat.widget.AppCompatImageView
+                       android:id="@+id/imgEntertainment"
+                       android:layout_width="@dimen/_50sdp"
+                       android:layout_height="@dimen/_50sdp"
+                       android:background="@drawable/ic_entertainment"
+                       android:layout_centerHorizontal="true"
+                       android:backgroundTint="@color/md_red_600"/>
+                   <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="@string/entertainment"
+                       android:textStyle="bold"
+                       android:layout_below="@id/imgEntertainment"
+                       android:layout_centerInParent="true"
+                       android:textSize="@dimen/_16sdp"/>
+
+               </RelativeLayout>
+
+           </com.google.android.material.card.MaterialCardView>
+
+
+       </LinearLayout>
+
+
+   </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_2sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_white_1000"
+                android:elevation="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                android:outlineSpotShadowColor="@color/md_grey_900"
+                app:strokeColor="@color/md_green_900">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgFootware"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@drawable/ic_footware"
+                        android:layout_centerHorizontal="true"
+                        android:backgroundTint="@color/md_red_600"/>
+                    <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/footware"
+                        android:textStyle="bold"
+                        android:layout_below="@id/imgFootware"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/_16sdp"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_3sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_white_1000"
+                android:elevation="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                android:outlineSpotShadowColor="@color/md_grey_900"
+                app:strokeColor="@color/md_green_900">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
-            android:clipChildren="false"
-            android:overScrollMode="never"
-            app:layoutManager="com.cipher.sharesmilesandroid.cardslider.CardSliderLayoutManager"
-            app:viewUpdater="com.cipher.sharesmilesandroid.cardslider.CardsUpdater"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgCloths"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@drawable/ic_cloths"
+                        android:layout_centerHorizontal="true"
+                        android:backgroundTint="@color/md_red_600"/>
+                    <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cloths"
+                        android:textStyle="bold"
+                        android:layout_below="@id/imgCloths"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/_16sdp"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
-    </FrameLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/_3sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                android:outlineSpotShadowColor="@color/md_grey_900"
+                app:strokeColor="@color/md_green_900"
+                app:cardBackgroundColor="@color/md_white_1000">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgOthers"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:background="@drawable/ic_others"
+                        android:layout_centerHorizontal="true"
+                        android:backgroundTint="@color/md_red_600"/>
+                    <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/others"
+                        android:textStyle="bold"
+                        android:layout_below="@id/imgOthers"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/_16sdp"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/_3sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/md_white_1000"
+                android:elevation="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                android:outlineSpotShadowColor="@color/md_grey_900"
+                app:strokeColor="@color/md_green_900">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+
+                    <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="All Users"
+                        android:textStyle="bold"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/_16sdp"/>
+
+                </RelativeLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -34,9 +34,10 @@
                     app:cardCornerRadius="@dimen/_25sdp">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgProfile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/md_black_1000"/>
+                        />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -98,13 +99,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
-                android:background="@color/md_green_500">
+                android:layout_height="@dimen/_150sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                    android:id="@+id/imgProduct"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/placeholer"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgSold"

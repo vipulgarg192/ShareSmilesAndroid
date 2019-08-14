@@ -66,6 +66,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             holder.tvTitle.setText(users.getFullName());
             Log.e(TAG, "onBindViewHolder: "+users.getDescription() );
             holder.tvDesc.setText(users.getDescription());
+
+            String image = users.getUserImage();
+            Log.e(TAG, "onBindViewHolder: "+image );
+            if (!image.equalsIgnoreCase("")){
+
+                Glide.with(activity).load(users.getUserImage()).into(holder.imgProfile);
+            }
         }
 
         holder.imgBSave.setChecked(true);
@@ -82,6 +89,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
             Glide.with(activity).load(products.getProductImage()).into(holder.imgProduct);
         }
+
+
 
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +113,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         AppCompatCheckBox imgBSave;
         TextView tvPrice;
 
-        AppCompatImageView imgProduct,imgSold;
+        AppCompatImageView imgProduct,imgSold ,imgProfile;
 
          HomeView(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             imgBSave = itemView.findViewById(R.id.imgBSave);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvProductDesc = itemView.findViewById(R.id.tvProductDesc);
+             imgProfile = itemView.findViewById(R.id.imgProfile);
         }
     }
 }
