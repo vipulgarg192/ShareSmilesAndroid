@@ -75,8 +75,10 @@ public class IntroActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId()== R.id.btnSignIn){
+            videoView.stopPlayback();
             startActivity(new Intent(activity , LoginActivity.class));
         }else if (v.getId() == R.id.btnLogin){
+            videoView.stopPlayback();
             startActivity(new Intent(activity, RegisterActivity.class));
         }else {
 //           printToast(activity,"Something went wrong");

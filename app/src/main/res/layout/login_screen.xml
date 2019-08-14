@@ -12,8 +12,6 @@
     android:orientation="vertical">
 
 
-
-
     <LinearLayout
         android:id="@+id/llTop"
         android:layout_width="0dp"
@@ -30,19 +28,23 @@
 
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/_65sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTop"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        android:outlineAmbientShadowColor="@color/md_red_600"
+        android:outlineSpotShadowColor="@color/md_red_600"
+        app:strokeColor="@color/md_red_600"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -243,7 +245,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
     <FrameLayout
@@ -263,21 +265,19 @@
 
 
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_110sdp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_5sdp"
-            android:elevation="10dp"
             android:outlineAmbientShadowColor="@color/md_red_600"
             android:outlineSpotShadowColor="@color/md_red_600"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp">
+            app:cardElevation="@dimen/_5sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/md_blue_A700"
+                app:srcCompat="@drawable/ic_applogo"
                 android:outlineAmbientShadowColor="@color/md_red_600"
                 android:outlineSpotShadowColor="@color/md_red_600" />
         </androidx.cardview.widget.CardView>

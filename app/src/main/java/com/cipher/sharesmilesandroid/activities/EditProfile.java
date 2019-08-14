@@ -118,7 +118,7 @@ public class EditProfile extends BaseActivity{
 
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
-    String strImg;
+    String strImg="";
     public static final int REQUEST_IMAGE = 100;
 
     FirebaseStorage storage ;

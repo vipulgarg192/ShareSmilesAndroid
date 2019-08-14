@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,6 +73,8 @@ public class RegisterActivity extends BaseActivity {
     CallbackManager callbackManager;
     LoginButton login_button;
 
+    ImageButton imgBtnClose;
+
     private final String PUBLICPROFILE = "public_profile";
     private final String EMAIL = "email";
 
@@ -127,6 +130,8 @@ public class RegisterActivity extends BaseActivity {
          etCPassword = findViewById(R.id.etCPassword);
          etPhone = findViewById(R.id.etPhone);
 
+        imgBtnClose = findViewById(R.id.imgBtnClose);
+
         loginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
@@ -151,6 +156,9 @@ public class RegisterActivity extends BaseActivity {
         }else if (v.getId() == R.id.btnFB){
             LoginManager.getInstance().logOut();
             login_button.performClick();
+        }
+        else if (v.getId() == R.id.imgBtnClose){
+            onBackPressed();
         }
     }
 

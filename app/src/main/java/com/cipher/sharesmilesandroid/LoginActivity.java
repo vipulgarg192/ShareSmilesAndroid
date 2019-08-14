@@ -105,9 +105,13 @@ public class LoginActivity extends BaseActivity  {
 
         loginManager = LoginManager.getInstance();
 
-        Toolbar toolbar =findViewById(R.id.tbHome);
-        toolbar.setTitle("");
+        Toolbar toolbarHome =findViewById(R.id.tbHome);
+        toolbarHome.setVisibility(View.GONE);
+
+        Toolbar toolbar =findViewById(R.id.tbSimple);
+        toolbar.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.app_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LoginButton login_button = findViewById(R.id.login_button);
