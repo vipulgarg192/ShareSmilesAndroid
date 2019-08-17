@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,11 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
+import com.cipher.sharesmilesandroid.modals.Users;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -22,9 +26,9 @@ import java.util.ArrayList;
 public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdapter.MyViewHolder>{
 
     private FragmentActivity activity;
-    private ArrayList<Products> productsArrayList;
+    private ArrayList<ProductUser> productsArrayList;
 
-    public UserAddedProdAdapter(FragmentActivity activity, ArrayList<Products> productsArrayList) {
+    public UserAddedProdAdapter(FragmentActivity activity, ArrayList<ProductUser> productsArrayList) {
         this.activity = activity;
         this.productsArrayList = productsArrayList;
     }
@@ -42,11 +46,17 @@ public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdap
 
         Typeface custom_font = Typeface.createFromAsset(activity.getAssets(),  "fonts/BeautifulPeoplePersonalUse-dE0g.ttf");
 
-        Products products = productsArrayList.get(position);
+        Products products = productsArrayList.get(position).getProducts();
+
+        Users users = productsArrayList.get(position).getUsers();
 
         holder.tvDesc.setVisibility(View.INVISIBLE);
         holder.tvTitle.setTypeface(custom_font);
-        holder.tvTitle.setText(products.getSellerID());
+        holder.tvTitle.setText(users.getFirstName());
+
+        if (users.getUserImage()!=null&& !users.getUserImage().equalsIgnoreCase("")){
+            Glide.with(activity).load(users.getUserImage()).into(holder.imgProfile);
+        }
         holder.imgBSave.setChecked(true);
         holder.tvProductName.setText(products.getProductName());
         holder.tvDesc.setText(products.getProductDescription());
@@ -66,7 +76,8 @@ public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdap
     public  class MyViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardView;
         TextView tvTitle,tvProductName,tvDesc;
-        AppCompatCheckBox imgBSave;
+        AppCompatCheckBox imgBSave ;
+        ImageView imgProfile;
         TextView tvPrice;
 
         AppCompatImageView imgProduct,imgSold;
@@ -83,6 +94,8 @@ public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdap
             tvTitle = itemView.findViewById(R.id.tvTitle);
             imgBSave = itemView.findViewById(R.id.imgBSave);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+
+            imgProfile = itemView.findViewById(R.id.imgProfile);
         }
     }
 

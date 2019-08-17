@@ -163,9 +163,9 @@ public class ImagePickerActivity extends AppCompatActivity {
             case REQUEST_GALLERY_IMAGE:
                 if (resultCode == RESULT_OK) {
                     Uri imageUri = data.getData();
-                    setResultOk(imageUri);
+//                    setResultOk(imageUri);
 
-//                    cropImage(imageUri);
+                    cropImage(imageUri);
                 } else {
                     setResultCancelled();
                 }

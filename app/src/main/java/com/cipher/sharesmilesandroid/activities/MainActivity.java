@@ -5,6 +5,7 @@ import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
@@ -26,6 +27,7 @@ import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
+import com.cipher.sharesmilesandroid.ShareSmiles;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.databases.Respo;
@@ -73,6 +75,15 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
     RoomDBCallBacks roomDBCallBacks;
 
+
+    final Fragment homeFragment = new HomeFragment();
+    final Fragment usersAndSearchFragment = new UsersAndSearchFragment();
+    final Fragment profileFragment = new ProfileFragment();
+    final Fragment activityFragment = new ActivityFragment();
+    final FragmentManager fm = getSupportFragmentManager();
+
+    Fragment active = homeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +102,20 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         roomDBCallBacks = MainActivity.this;
 
         Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
-        getUserInfo();
+        getUserAllInfo();
 
         setSupportActionBar(tbHome);
         switchToHomeFragment();
 
         animH[0] = R.anim.skide_in_left;
         animH[1] = R.anim.slide_out_right;
+
+        Fragment active = homeFragment;
+
+        fm.beginTransaction().add(R.id.container, profileFragment, "4").hide(profileFragment).commit();
+        fm.beginTransaction().add(R.id.container, activityFragment, "3").hide(activityFragment).commit();
+        fm.beginTransaction().add(R.id.container, usersAndSearchFragment, "2").hide(usersAndSearchFragment).commit();
+        fm.beginTransaction().add(R.id.container,homeFragment, "1").commit();
 
 
         tsTitle.setFactory(new TextViewFactory(R.style.title, true));
@@ -106,11 +124,6 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         tsTitle.setInAnimation(activity, animH[0] );
         tsTitle.setOutAnimation(activity, animH[1]);
 
-
-        String userPic = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userPic,null);
-        if (userPic!=null){
-            Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgToolbar);
-        }
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -144,11 +157,21 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         fbAddIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//               ShareSmilesSingleton.getInstance().getDialogBoxs().showDialog(activity,"asd");
                 startActivity(new Intent(activity,AddProducts.class));
             }
         });
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String userPic = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userPic,null);
+        Log.e(TAG, "onResume: "+userPic );
+        if (userPic!=null){
+            Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgToolbar);
+        }
     }
 
     @Override
@@ -177,30 +200,35 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
     }
 
     public void switchToHomeFragment() {
+//        fm.beginTransaction().hide(active).show(homeFragment).commit();
+//        active = homeFragment;
+
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new HomeFragment()).commit();
     }
     public void switchToActivityFragment() {
+//        fm.beginTransaction().hide(active).show(activityFragment).commit();
+//        active = activityFragment;
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new ActivityFragment()).commit();
     }
     public void switchToProfileFragment() {
+//        fm.beginTransaction().hide(active).show(profileFragment).commit();
+//        active = profileFragment;
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
     }
 
     public void switchToUsersAndSearchFragment() {
+//        fm.beginTransaction().hide(active).show(usersAndSearchFragment).commit();
+//        active = usersAndSearchFragment;
+
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.container, new UsersAndSearchFragment()).commit();
     }
 
     @Override
     public void getUsersListSize(int size) {
-        Log.e(TAG, "getUsersListSize: "+size );
-        if (size>0){
-//            Respo.deleteUsersTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
-//            Respo.retrieveTask(UserRoomDatabase.getDatabase(activity),roomDBCallBacks);
-        }
     }
 
     @Override
@@ -208,10 +236,6 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
         ShareSmilesSingleton.usersArrayList = usersList;
         return null;
     }
-
-
-
-
 
     private class TextViewFactory implements  ViewSwitcher.ViewFactory {
 
@@ -242,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
 
     }
 
-    private void getUserInfo() {
+    private void getUserAllInfo() {
         Users users = new Users();
         dRef.collection("users")
                 .get()
@@ -269,13 +293,10 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
                                         users.setUserImage("");
                                     }
                                     if (document.getData().get("description") != null) {
-                                        Log.e(TAG, "description: "+ document.getData().get("description"));
                                         users.setDescription(document.getData().get("description").toString());
                                     }else {
                                         users.setDescription("");
                                     }
-
-
                                     if (document.getData().get("dob") != null) {
                                         users.setDob( document.getData().get("dob").toString());
                                     }
@@ -292,7 +313,11 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
                                         users.setZipcode(document.getData().get("zipcode").toString());
 
                                     }
-                                    Respo.updateTask(UserRoomDatabase.getDatabase(activity), users);
+                                    if(ShareSmilesSingleton.usersArrayList.size()>0){
+                                        Respo.updateDataTask(UserRoomDatabase.getDatabase(activity), users);
+                                    }else {
+                                        Respo.updateTask(UserRoomDatabase.getDatabase(activity), users);
+                                    }
                                 }
                             }
                         } else {

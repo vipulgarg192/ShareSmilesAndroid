@@ -69,6 +69,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
             String image = users.getUserImage();
             Log.e(TAG, "onBindViewHolder: "+image );
+            if (image!=null)
             if (!image.equalsIgnoreCase("")){
 
                 Glide.with(activity).load(users.getUserImage()).into(holder.imgProfile);

@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/imgBtnClose"
         android:layout_width="@dimen/_20sdp"
@@ -319,6 +321,20 @@
             android:background="@drawable/ic_applogo"/>
 
     </androidx.cardview.widget.CardView>
+
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avlLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="visible"
+        android:layout_centerInParent="true"
+        app:indicatorName="BallPulseIndicator"
+        app:indicatorColor="@color/md_red_600"
+        android:elevation="@dimen/_30sdp"
+        android:layout_gravity="center"
+        />
 
 
 </RelativeLayout>

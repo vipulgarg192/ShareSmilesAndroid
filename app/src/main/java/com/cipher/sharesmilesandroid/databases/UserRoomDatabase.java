@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.cipher.sharesmilesandroid.interfaces.UserDao;
 import com.cipher.sharesmilesandroid.modals.Users;
 
-@Database(entities = {Users.class}, version = 1)
+@Database(entities = {Users.class}, version = 2)
 public abstract class UserRoomDatabase extends RoomDatabase {
     private static volatile UserRoomDatabase INSTANCE;
 

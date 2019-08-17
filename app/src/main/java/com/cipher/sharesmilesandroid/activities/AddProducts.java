@@ -70,6 +70,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -463,6 +464,11 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
 
         String userId = auth.getUid();
 
+        HashSet<String> tagSet = new HashSet<>();
+
+        for (int i =0 ; i<tagList.size() ; i++){
+            tagSet.add(tagList.get(i).getText());
+        }
 
         HashMap<String, Object> productMap = new HashMap<>();
         productMap.put("userId", userId);
@@ -475,7 +481,7 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
         productMap.put("category", tvCategory.getText().toString());
         productMap.put("organisationName", tvOrganisation.getText().toString());
         productMap.put("organisationId", organisationId);
-        productMap.put("Tags", tagList);
+        productMap.put("Tags", tagSet);
         productMap.put("sellerName", ShareSmilesPrefs.readString(getApplicationContext(), ShareSmilesPrefs.userName, null));
         productMap.put("buyerName", "");
         productMap.put("productAddedAt", String.valueOf(System.currentTimeMillis()));

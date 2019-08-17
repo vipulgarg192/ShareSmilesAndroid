@@ -15,6 +15,15 @@ public class Respo {
         });
     }
 
+    public static  void updateDataTask(UserRoomDatabase userDb, Users users) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDb.userDao().updateUsers(users);
+            }
+        });
+    }
+
     public static void retrieveTask(UserRoomDatabase userDb , RoomDBCallBacks callBacks) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override

@@ -43,6 +43,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_110sdp"
                 app:cardCornerRadius="@dimen/_45sdp"
+                app:strokeColor="@color/md_red_600"
                 android:background="@drawable/profilebg">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -87,9 +88,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"/>
 
-
         </RelativeLayout>
-
 
 
 
@@ -97,6 +96,7 @@
            android:id="@+id/nestedScroll"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           android:visibility="visible"
            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -113,6 +113,7 @@
                 android:id="@+id/tvNotAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
+                android:visibility="visible"
                 android:textColor="@color/md_black_1000"
                 android:text="@string/dataNotAvailable"
                 android:gravity="center"/>

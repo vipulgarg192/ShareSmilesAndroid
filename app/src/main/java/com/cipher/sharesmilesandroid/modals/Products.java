@@ -2,6 +2,7 @@ package com.cipher.sharesmilesandroid.modals;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.databinding.BaseObservable;
@@ -11,6 +12,7 @@ import androidx.databinding.library.baseAdapters.BR;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -205,12 +207,14 @@ public class Products extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR.productCategory);
     }
 
+    @Bindable
     public ArrayList<ProductTags> getProductTagsArrayList() {
         return productTagsArrayList;
     }
 
     public void setProductTagsArrayList(ArrayList<ProductTags> productTagsArrayList) {
         this.productTagsArrayList = productTagsArrayList;
+        notifyPropertyChanged(BR.productTagsArrayList);
     }
 
 
@@ -223,5 +227,12 @@ public class Products extends BaseObservable implements Serializable {
         // If you consider Picasso, follow the below
         // Picasso.with(view.getContext()).load(imageUrl).placeholder(R.drawable.placeholder).into(view);
     }
+
+    @BindingAdapter({"isSameUser"})
+    public static void isSameUser(Button btn , String msg){
+        btn.setText(msg);
+    }
+
+
 
 }

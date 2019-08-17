@@ -3,6 +3,7 @@ package com.cipher.sharesmilesandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -45,8 +46,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,10 +80,15 @@ public class LoginActivity extends BaseActivity  {
     LoginButton login_button;
 
     FirebaseAuth auth;
-    FirebaseFirestore dRef = FirebaseFirestore.getInstance();
+
 
     LoginManager loginManager;
 
+    private FirebaseFirestore firebaseFirestore ;
+    private FirebaseFirestore dRef ;
+
+    String profileImage ="" , description="" , dob="",address="",city="",zipcode="";
+    private AVLoadingIndicatorView avlLoader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,12 +106,15 @@ public class LoginActivity extends BaseActivity  {
         btnSignIn = findViewById(R.id.btnSignIn);
         btnFB = findViewById(R.id.btnFB);
         login_button = findViewById(R.id.login_button);
+        avlLoader = findViewById(R.id.avlLoader);
+        avlLoader.setVisibility(View.GONE);
 
         LoginManager.getInstance().logOut();
 
         callbackManager = CallbackManager.Factory.create();
 
         loginManager = LoginManager.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         Toolbar toolbarHome =findViewById(R.id.tbHome);
         toolbarHome.setVisibility(View.GONE);
@@ -130,11 +141,14 @@ public class LoginActivity extends BaseActivity  {
 
             @Override
             public void onCancel() {
+                avlLoader.setVisibility(View.GONE);
                 // App code
             }
 
             @Override
             public void onError(FacebookException exception) {
+                avlLoader.setVisibility(View.GONE);
+
                 // App code
             }
         });
@@ -150,14 +164,13 @@ public class LoginActivity extends BaseActivity  {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.e(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            Log.e(TAG, "onComplete:uuid "+user.getUid() );
                             addDataToFireStone(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
+                            avlLoader.setVisibility(View.GONE);
 
                         }
 
@@ -168,25 +181,22 @@ public class LoginActivity extends BaseActivity  {
     private void addDataToFireStone(FirebaseUser user) {
 
         String userId = user.getUid();
-
         String pic = String.valueOf(user.getPhotoUrl());
         Log.e(TAG, "pic: "+pic );
         Log.e(TAG, "getUid: "+userId );
-
-
         String[] names = user.getDisplayName().split(" ");
         String firstName = names[0];
         String lastName = "";
         if (names.length>1){
             lastName = names[1];
         }
-
         HashMap<String,Object> userMap = new HashMap<>();
         userMap.put("userId",user.getUid());
         userMap.put("email",user.getEmail());
         userMap.put("firstName", firstName);
         userMap.put("lastName",lastName);
         userMap.put("profilePic",pic);
+        userMap.put("socialMedia",true);
 
         FirebaseFirestore dRef = FirebaseFirestore.getInstance();
         DocumentReference usersReference = dRef.collection("users").document(userId);
@@ -199,6 +209,7 @@ public class LoginActivity extends BaseActivity  {
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,pic);
 
+                avlLoader.setVisibility(View.GONE);
                 Intent intent = new Intent(activity, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -207,6 +218,7 @@ public class LoginActivity extends BaseActivity  {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
+                avlLoader.setVisibility(View.GONE);
             }
         });
     }
@@ -286,6 +298,7 @@ public class LoginActivity extends BaseActivity  {
             case R.id.btnSignIn:
                 tilEmail.setError(null);
                 tilPassword.setError(null);
+                avlLoader.setVisibility(View.VISIBLE);
                 login();
                 break;
 
@@ -293,6 +306,7 @@ public class LoginActivity extends BaseActivity  {
                 break;
 
             case R.id.btnFB:
+                avlLoader.setVisibility(View.VISIBLE);
                 login_button.performClick();
                 break;
             default:
@@ -304,6 +318,8 @@ public class LoginActivity extends BaseActivity  {
 
         if (isValid()){
           logIn(etEmail.getText().toString(), etPassword.getText().toString());
+        }else {
+            avlLoader.setVisibility(View.GONE);
         }
     }
 
@@ -374,18 +390,81 @@ public class LoginActivity extends BaseActivity  {
                             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"Wrong credentials Entered");
                             etEmail.setText("");
                             etPassword.setText("");
+                            avlLoader.setVisibility(View.GONE);
 
                         } else {
-                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,task.getResult().getUser().getDisplayName());
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,task.getResult().getUser().getUid());
+                            getProfileData(auth.getUid(),email);
 
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            startActivity(intent);
-                            finish();
                         }
                     }
                 });
     }
+
+
+    private void getProfileData(String uid, String email) {
+
+        DocumentReference docRef = firebaseFirestore.collection("users").document(uid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (!document.getData().isEmpty()){
+
+                            String  firstName =  document.getData().get("firstName").toString();
+                            String  lastName =  document.getData().get("lastName").toString();
+
+                            if (document.getData().get("profilePic")!=null){
+                                profileImage =  document.getData().get("profilePic").toString();
+                            }
+
+                            if (document.getData().get("description")!=null){
+                                description =  document.getData().get("description").toString();
+                            }
+
+                            if (document.getData().get("dob")!=null){
+                                dob =  document.getData().get("dob").toString();
+                            }
+
+                            if (document.getData().get("address")!=null){
+                                address =  document.getData().get("address").toString();
+                            }
+
+                            if (document.getData().get("city")!=null){
+                                city =  document.getData().get("city").toString();
+                            }
+
+                            if (document.getData().get("zipcode")!=null){
+                                zipcode =  document.getData().get("zipcode").toString();
+                            }
+
+                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,firstName+" "+lastName);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,uid);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,profileImage);
+
+                            Log.e(TAG, "onComplete:profileImage "+profileImage );
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+
+
+
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                        avlLoader.setVisibility(View.GONE);
+                    }
+                } else {
+                    avlLoader.setVisibility(View.GONE);
+                    ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
+                }
+            }
+        });
+
+
+    }
+
 }

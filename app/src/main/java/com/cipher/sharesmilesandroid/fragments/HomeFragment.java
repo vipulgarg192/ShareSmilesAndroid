@@ -21,11 +21,9 @@
     import com.cipher.sharesmilesandroid.adapters.HomeAdapter;
     import com.cipher.sharesmilesandroid.databases.AppExecutors;
 
-    import com.cipher.sharesmilesandroid.databases.Respo;
     import com.cipher.sharesmilesandroid.databases.RoomDBCallBacks;
     import com.cipher.sharesmilesandroid.databases.UserRoomDatabase;
     import com.cipher.sharesmilesandroid.interfaces.Clicklisteners;
-    import com.cipher.sharesmilesandroid.interfaces.UserDao;
     import com.cipher.sharesmilesandroid.modals.ProductTags;
 
     import com.cipher.sharesmilesandroid.modals.ProductUser;
@@ -40,6 +38,10 @@
 
     import com.google.firebase.firestore.QuerySnapshot;
     import com.wang.avi.AVLoadingIndicatorView;
+
+
+    import org.json.JSONArray;
+    import org.json.JSONObject;
 
     import java.util.ArrayList;
     import java.util.List;
@@ -114,11 +116,26 @@
                             try {
                                 ArrayList<ProductTags> productTagsArrayList = new ArrayList<>();
 
-                                ArrayList<ProductTags> stringArrayList = (ArrayList<ProductTags>) documentChange.getDocument().getData().get("Tags");
 
-//                            for(ProductTags item : stringArrayList) {
-//                                productTagsArrayList.add(item);
-//                               }
+
+//                                ArrayList<ProductTags> stringArrayList = (ArrayList<ProductTags>) documentChange.getDocument().getData().get("Tags");
+
+
+                                Log.e(TAG, "onEvent: "+documentChange.getDocument().getData().get("Tags"));
+
+                                String data = String.valueOf(documentChange.getDocument().getData().get("Tags"));
+                                if (!data.equalsIgnoreCase("[]")){
+                                    JSONArray dataArray = new JSONArray(data);
+                                    for (int i = 0 ; i<dataArray.length() ; i++){
+                                        JSONObject dataObject = dataArray.getJSONObject(i);
+
+                                        ProductTags productTags = new ProductTags();
+                                        productTags.setTagName(dataObject.getString("text"));
+                                        productTagsArrayList.add(productTags);
+                                    }
+                                }
+                                Log.e(TAG, "onEvent: "+productTagsArrayList.size() );
+
                                 String userID = documentChange.getDocument().getData().get("userId").toString();
 
                                 String productName = documentChange.getDocument().getData().get("productName").toString();
@@ -139,17 +156,13 @@
                                     itemImage = String.valueOf(documentChange.getDocument().getData().get("itemImage"));
                                 }
 
-
                                 String productAddedTime = String.valueOf(documentChange.getDocument().getData().get("productAddedAt"));
                                 String productSoldTime = String.valueOf(documentChange.getDocument().getData().get("productSoldTime"));
 
                                 Products products = new Products(documentChange.getDocument().getId(), productName, productDesc, productPrice,
-                                        itemImage, sellerName, buyerName, productAddedTime, productSoldTime, false, productOrganisation
+                                        itemImage, sellerId, buyerId, productAddedTime, productSoldTime, false, productOrganisation
                                         , organisationId, productCategory, productTagsArrayList);
 
-                                for (int i = 0; i < productTagsArrayList.size(); i++) {
-                                    Log.e(TAG, "onEvent: " + productTagsArrayList.get(i).getTagName());
-                                }
                                 Users users = getProductOwner(userID);
                                 ProductUser productUser = new ProductUser();
                                 productUser.setUsers(users);
@@ -175,7 +188,7 @@
         }
 
         private Users getProductOwner(String userID) {
-           for (int i =0 ; i < ShareSmilesSingleton.usersArrayList.size() ; i++){
+           for (int i =ShareSmilesSingleton.usersArrayList.size()-1 ; i >=0 ; i--){
                if (ShareSmilesSingleton.usersArrayList.get(i).getUserID().equalsIgnoreCase(userID)){
                    return ShareSmilesSingleton.usersArrayList.get(i);
                }

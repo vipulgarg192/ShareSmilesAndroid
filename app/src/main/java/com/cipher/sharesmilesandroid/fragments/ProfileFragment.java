@@ -15,6 +15,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.cipher.sharesmilesandroid.R;
@@ -22,6 +23,7 @@ import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
 import com.cipher.sharesmilesandroid.adapters.UserAddedProdAdapter;
 import com.cipher.sharesmilesandroid.modals.ProductTags;
+import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
 import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.ui.BeautifullTextView;
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +73,8 @@ public class ProfileFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
 
+
+
     private FirebaseFirestore firebaseFirestore ;
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
     private String userID;
@@ -85,7 +90,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
 
-    private ArrayList<Products> productsArrayList = new ArrayList<>();
+    private ArrayList<ProductUser> productsArrayList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -105,24 +110,30 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String userPic = ShareSmilesPrefs.readString(getActivity(),ShareSmilesPrefs.userPic,null);
         if (userPic!=null){
+            Log.e(TAG, "onViewCreated: "+userPic );
             Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgProfile);
         }
         userData = new ArrayList<>();
         getProfileData();
-
         mAdapter = new UserAddedProdAdapter(getActivity(),productsArrayList);
         rvUserItems.setAdapter(mAdapter);
-
         getListItems();
 
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        String userPic = ShareSmilesPrefs.readString(getActivity(),ShareSmilesPrefs.userPic,null);
+        if (userPic!=null){
+            Log.e(TAG, "onViewCreated: "+userPic );
+            Glide.with(this).load(userPic).placeholder(R.drawable.ic_profile).into(imgProfile);
+        }
+    }
+
     private void getProfileData() {
         userID = ShareSmilesPrefs.readString(getActivity(),ShareSmilesPrefs.userId,null);
-
         DocumentReference docRef = firebaseFirestore.collection("users").document(userID);
-
-
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -136,8 +147,8 @@ public class ProfileFragment extends Fragment {
 
                             if (document.getData().get("profilePic")!=null){
                                 profileImage =  document.getData().get("profilePic").toString();
+                                Log.e(TAG, "profileImage: "+ profileImage);
                             }
-
 
                             if (document.getData().get("description")!=null){
                                 description =  document.getData().get("description").toString();
@@ -219,17 +230,24 @@ public class ProfileFragment extends Fragment {
                             String   productAddedTime = documentChange.getDocument().getData().get("productAddedAt").toString();
                             String   productSoldTime =documentChange.getDocument().getData().get("productSoldTime").toString();
 
+                            String itemImage= "";
+                            if (documentChange.getDocument().getData().containsKey("itemImage")) {
+                                itemImage = String.valueOf(documentChange.getDocument().getData().get("itemImage"));
+                            }
+
                             Products products = new Products( documentChange.getDocument().getId(),productName, productDesc,productPrice,
-                                    "",sellerName,buyerName,productAddedTime,productSoldTime,false,productOrganisation
+                                    itemImage,sellerId,buyerId,productAddedTime,productSoldTime,false,productOrganisation
                                     ,organisationId,productCategory, productTagsArrayList);
 
                             for (int i=0 ;i<productTagsArrayList.size();i++) {
                                 Log.e(TAG, "onEvent: "+productTagsArrayList.get(i).getTagName() );
                             }
 
-
-
-                            productsArrayList.add(products);
+                            Users users = getProductOwner(userID);
+                            ProductUser productUser = new ProductUser();
+                            productUser.setUsers(users);
+                            productUser.setProducts(products);
+                            productsArrayList.add(productUser);
 
                             if (productsArrayList.size()>0) {
                                 mAdapter.notifyDataSetChanged();
@@ -243,13 +261,20 @@ public class ProfileFragment extends Fragment {
                             exception.printStackTrace();
                         }
 
-
                     }
 
                 }
             }
         });
 
+    }
+    private Users getProductOwner(String userID) {
+        for (int i =ShareSmilesSingleton.usersArrayList.size()-1 ; i >=0 ; i--){
+            if (ShareSmilesSingleton.usersArrayList.get(i).getUserID().equalsIgnoreCase(userID)){
+                return ShareSmilesSingleton.usersArrayList.get(i);
+            }
+        }
+        return null;
     }
 
 }

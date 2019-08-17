@@ -99,19 +99,23 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp">
+                android:layout_height="wrap_content"
+                >
 
                 <androidx.appcompat.widget.AppCompatImageView
                    android:id="@+id/imgProduct"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/placeholer"/>
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/placeholer"
+                    android:minHeight="@dimen/_150sdp"
+                    android:scaleType="fitXY"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imgSold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@drawable/soldout"
+                    android:layout_alignParentLeft="true"
                     />
 
 

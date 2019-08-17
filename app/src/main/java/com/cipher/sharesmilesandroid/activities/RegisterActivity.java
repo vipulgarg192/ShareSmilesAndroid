@@ -40,7 +40,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -80,11 +82,17 @@ public class RegisterActivity extends BaseActivity {
 
     FirebaseAuth auth;
     FirebaseFirestore dRef = FirebaseFirestore.getInstance();
+
+    private AVLoadingIndicatorView avlLoader;
+    String profileImage ="" , description="" , dob="",address="",city="",zipcode="";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
 
+        avlLoader = findViewById(R.id.avlLoader);
+        avlLoader.setVisibility(View.GONE);
         login_button = findViewById(R.id.login_button);
         login_button.setPermissions(Arrays.asList(EMAIL,PUBLICPROFILE));
         // If you are using in a fragment, call loginButton.setFragment(this);
@@ -98,12 +106,14 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onCancel() {
                 // App code
+                avlLoader.setVisibility(View.GONE);
                 Log.e(TAG, "FacebookException onCancel: " );
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                avlLoader.setVisibility(View.GONE);
                 Log.e(TAG, "FacebookException onError: "+exception );
             }
         });
@@ -135,9 +145,6 @@ public class RegisterActivity extends BaseActivity {
         loginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
-
-
-
     }
 
     @Override
@@ -151,10 +158,12 @@ public class RegisterActivity extends BaseActivity {
             tilCPassword.setError(null);
             tilPhone.setError(null);
             if (validation()) {
+                avlLoader.setVisibility(View.VISIBLE);
                 createUser();
             }
         }else if (v.getId() == R.id.btnFB){
             LoginManager.getInstance().logOut();
+            avlLoader.setVisibility(View.VISIBLE);
             login_button.performClick();
         }
         else if (v.getId() == R.id.imgBtnClose){
@@ -174,7 +183,7 @@ public class RegisterActivity extends BaseActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             printToast(activity,"Authentication failed." + task.getException());
-
+                            avlLoader.setVisibility(View.GONE);
                         } else {
                             addDataToFireStone();
                         }
@@ -197,6 +206,7 @@ public class RegisterActivity extends BaseActivity {
         newCityRef.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                avlLoader.setVisibility(View.GONE);
                 ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,etEmail.getText().toString());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,etFirstName.getText().toString()+" "+etLastName.getText().toString());
@@ -209,6 +219,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
+                avlLoader.setVisibility(View.GONE);
             }
         });
        /* dRef.collection("users")
@@ -284,6 +295,7 @@ public class RegisterActivity extends BaseActivity {
                             addFBDataToFireStone(user);
 
                         } else {
+                            avlLoader.setVisibility(View.GONE);
                             // If sign in fails, display a message to the user.
                             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"User already registered");
 
@@ -309,6 +321,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSuccess(Void aVoid) {
 
+                avlLoader.setVisibility(View.GONE);
                 ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
@@ -324,9 +337,76 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
+                avlLoader.setVisibility(View.GONE);
             }
         });
     }
+
+
+
+    private void getProfileData(String uid, String email) {
+
+        DocumentReference docRef = dRef.collection("users").document(uid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if (!document.getData().isEmpty()){
+
+                            String  firstName =  document.getData().get("firstName").toString();
+                            String  lastName =  document.getData().get("lastName").toString();
+
+                            if (document.getData().get("profilePic")!=null){
+                                profileImage =  document.getData().get("profilePic").toString();
+                            }
+
+                            if (document.getData().get("description")!=null){
+                                description =  document.getData().get("description").toString();
+                            }
+
+                            if (document.getData().get("dob")!=null){
+                                dob =  document.getData().get("dob").toString();
+                            }
+
+                            if (document.getData().get("address")!=null){
+                                address =  document.getData().get("address").toString();
+                            }
+
+                            if (document.getData().get("city")!=null){
+                                city =  document.getData().get("city").toString();
+                            }
+
+                            if (document.getData().get("zipcode")!=null){
+                                zipcode =  document.getData().get("zipcode").toString();
+                            }
+
+                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,firstName+" "+lastName);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,uid);
+                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,profileImage);
+
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                        avlLoader.setVisibility(View.GONE);
+                    }
+                } else {
+                    avlLoader.setVisibility(View.GONE);
+                    ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
+                }
+            }
+        });
+
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

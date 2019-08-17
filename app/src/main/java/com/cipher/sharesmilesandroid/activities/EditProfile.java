@@ -157,6 +157,7 @@ public class EditProfile extends BaseActivity{
                 String profileImage ="";
                 if (documentSnapshot.getData().get("profilePic")!=null){
                     profileImage =  documentSnapshot.getData().get("profilePic").toString();
+                    ShareSmilesPrefs.writeString(getApplication(),ShareSmilesPrefs.userPic,profileImage);
                 }
 
                 users.setFirstName(firstName);
@@ -198,6 +199,9 @@ public class EditProfile extends BaseActivity{
                 etFirstName.setSelection(users.getFirstName().length());
 
 
+                if (!profileImage.equalsIgnoreCase("")){
+                    Glide.with(activity).load(profileImage).into(imgAddprofile);
+                }
             }
         });
     }
@@ -273,6 +277,7 @@ public class EditProfile extends BaseActivity{
                                             Uri downloadUrl = uri;
                                             strImg = downloadUrl.toString();
                                             Log.e(TAG, "onSuccess: "+strImg );
+                                            ShareSmilesPrefs.writeString(getApplication(),ShareSmilesPrefs.userPic,strImg);
                                             updateUser();
 
                                         }
