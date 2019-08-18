@@ -1,2 +1,2 @@
 # ShareSmilesAndroid
-# ![Logo](Lhttps://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/app/src/main/res/drawable/ic_applogo.png) Share Smiles
+# ![Logo](https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/app/src/main/res/drawable/ic_applogo.png) Share Smiles
