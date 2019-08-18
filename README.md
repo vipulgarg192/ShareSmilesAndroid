@@ -43,9 +43,9 @@ align="left"/>
 ```
 
 ### Profile Screen
-<img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/ProfileScreen.png height="400" align ="left"/>
+<img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/categories.png height="400" align ="left"/>
 <img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/ProfileScreen.png height="400" align="left"/>
-<img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/ProfileScreen.png height="400" />
+<img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/activity.png height="400" />
 
 
 ## AddItem | EditProfile | AllUsers | DetailScreen
