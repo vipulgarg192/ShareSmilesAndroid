@@ -18,10 +18,9 @@
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/md_red_600"
             android:theme="@style/OverflowMenu"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-           >
+            style="@style/ToolbarTheme"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
            <RelativeLayout
                android:layout_width="match_parent"
@@ -66,9 +65,9 @@
         app:layout_scrollFlags="scroll|enterAlways"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/md_red_600"
         app:titleTextColor="@color/md_white_1000"
         app:title="@string/addItem"
+        style="@style/ToolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:visibility="gone">
 

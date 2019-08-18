@@ -86,14 +86,14 @@ public class UsersAndSearchFragment extends Fragment {
                 sendIntent("Others");
                 break;
             case R.id.cardUsers:
-                sendIntent("Sports");
+                sendIntent("Users");
                 break;
         }
     }
 
     private void sendIntent(String data) {
         Intent intent = new Intent(getActivity(), CategoriesActivity.class);
-        intent.putExtra("Data",data);
+        intent.putExtra("data",data);
         getActivity().startActivity(intent);
     }
 }

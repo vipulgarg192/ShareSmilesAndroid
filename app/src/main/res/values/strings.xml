@@ -112,5 +112,6 @@
 
 
     <string name="detailScreen">Detail Screen</string>
+    <string name="noDocumentFound">No Document Found</string>
 
 </resources>
