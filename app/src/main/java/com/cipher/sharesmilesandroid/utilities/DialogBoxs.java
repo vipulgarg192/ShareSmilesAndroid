@@ -1,11 +1,13 @@
 package com.cipher.sharesmilesandroid.utilities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,8 +36,8 @@ public class DialogBoxs {
 
         BeautifullTextView tvTitle = dialog.findViewById(R.id.tvTitle);
         HelveticaNeueTextView tvMsg = dialog.findViewById(R.id.tvMsg);
-        HelveticaNeueTextView tvPositive = dialog.findViewById(R.id.tvPositive);
-        HelveticaNeueTextView tvNegative = dialog.findViewById(R.id.tvNegative);
+        Button tvPositive = dialog.findViewById(R.id.tvPositive);
+        Button tvNegative = dialog.findViewById(R.id.tvNegative);
 
 
         tvMsg.setText(msg);
@@ -63,8 +65,8 @@ public class DialogBoxs {
 
         BeautifullTextView tvTitle = dialog.findViewById(R.id.tvTitle);
         HelveticaNeueTextView tvMsg = dialog.findViewById(R.id.tvMsg);
-        HelveticaNeueTextView tvPositive = dialog.findViewById(R.id.tvPositive);
-        HelveticaNeueTextView tvNegative = dialog.findViewById(R.id.tvNegative);
+        Button tvPositive = dialog.findViewById(R.id.tvPositive);
+        Button tvNegative = dialog.findViewById(R.id.tvNegative);
 
 
         tvMsg.setText(msg);
@@ -105,8 +107,8 @@ public class DialogBoxs {
 
         BeautifullTextView tvTitle = dialog.findViewById(R.id.tvTitle);
         HelveticaNeueTextView tvMsg = dialog.findViewById(R.id.tvMsg);
-        HelveticaNeueTextView tvPositive = dialog.findViewById(R.id.tvPositive);
-        HelveticaNeueTextView tvNegative = dialog.findViewById(R.id.tvNegative);
+        Button tvPositive = dialog.findViewById(R.id.tvPositive);
+        Button tvNegative = dialog.findViewById(R.id.tvNegative);
 
 
         tvMsg.setText(msg);

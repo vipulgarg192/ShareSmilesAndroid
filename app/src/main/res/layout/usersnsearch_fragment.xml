@@ -27,6 +27,7 @@
            android:layout_marginEnd="@dimen/_3sdp">
 
            <com.google.android.material.card.MaterialCardView
+               android:id="@+id/cardSports"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                app:cardBackgroundColor="@color/md_white_1000"
@@ -70,6 +71,7 @@
            android:layout_marginStart="@dimen/_3sdp">
 
            <com.google.android.material.card.MaterialCardView
+               android:id="@+id/cardEntertainment"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:elevation="@dimen/_10sdp"
@@ -128,6 +130,7 @@
             android:layout_marginEnd="@dimen/_2sdp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFootware"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="@color/md_white_1000"
@@ -170,6 +173,7 @@
             android:layout_marginStart="@dimen/_3sdp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCloths"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="@color/md_white_1000"
@@ -227,6 +231,7 @@
             android:layout_marginEnd="@dimen/_3sdp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOthers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="@dimen/_10sdp"
@@ -269,6 +274,7 @@
             android:layout_marginStart="@dimen/_3sdp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUsers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="@color/md_white_1000"

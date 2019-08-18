@@ -2,6 +2,7 @@ package com.cipher.sharesmilesandroid;
 
 import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.utilities.DialogBoxs;
+import com.cipher.sharesmilesandroid.utilities.ProgressDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class ShareSmilesSingleton {
 
     static DialogBoxs dialogBoxs;
+    static ProgressDialog progressDialog;
 
     private static final ShareSmilesSingleton ourInstance = new ShareSmilesSingleton();
 
@@ -16,6 +18,7 @@ public class ShareSmilesSingleton {
 
     public static ShareSmilesSingleton getInstance() {
         dialogBoxs = new DialogBoxs();
+
         usersArrayList = new ArrayList<>();
         return ourInstance;
     }

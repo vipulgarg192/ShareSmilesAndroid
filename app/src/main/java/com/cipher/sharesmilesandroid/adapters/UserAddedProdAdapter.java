@@ -50,7 +50,7 @@ public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdap
 
         Users users = productsArrayList.get(position).getUsers();
 
-        holder.tvDesc.setVisibility(View.INVISIBLE);
+        holder.tvDesc.setText(users.getDescription());
         holder.tvTitle.setTypeface(custom_font);
         holder.tvTitle.setText(users.getFirstName());
 
@@ -59,13 +59,20 @@ public class UserAddedProdAdapter extends RecyclerView.Adapter<UserAddedProdAdap
         }
         holder.imgBSave.setChecked(true);
         holder.tvProductName.setText(products.getProductName());
-        holder.tvDesc.setText(products.getProductDescription());
 
         Typeface dollarFont = Typeface.createFromAsset(activity.getAssets(),  "fonts/DollarBill.ttf");
         holder.tvPrice.setTypeface(dollarFont);
         String price = "$ "+products.getProductPrice();
         holder.tvPrice.setText(price);
 
+        if (!products.isSold()){
+            holder.imgSold.setVisibility(View.GONE);
+        }
+
+        if(products.getProductImage()!=null && !products.getProductImage().equalsIgnoreCase("")){
+            Glide.with(activity).load(products.getProductImage()).placeholder(R.drawable.placeholer).into(holder.imgProduct);
+        }
+        holder.imgBSave.setVisibility(View.GONE);
     }
 
     @Override

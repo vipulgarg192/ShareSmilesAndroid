@@ -206,7 +206,6 @@ public class AddProducts extends BaseActivity implements OnChipClickListener, Bo
 
         ChipViewAdapter adapterLayout = new MainChipViewAdapter(this);
 
-
         chipView.setAdapter(adapterLayout);
         chipView.setChipLayoutRes(R.layout.chip_close);
         chipView.setChipBackgroundColor(getResources().getColor(R.color.md_white_1000));

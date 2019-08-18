@@ -86,6 +86,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme" />
 
+        <activity android:name=".activities.CategoriesActivity"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.cipher.sharesmilesandroid.provider"

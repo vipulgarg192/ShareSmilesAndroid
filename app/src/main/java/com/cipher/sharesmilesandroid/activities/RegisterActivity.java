@@ -14,6 +14,7 @@ import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
 import com.cipher.sharesmilesandroid.ShareSmilesSingleton;
+import com.cipher.sharesmilesandroid.utilities.ProgressDialog;
 import com.cipher.sharesmilesandroid.utilities.Validations;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -86,6 +87,8 @@ public class RegisterActivity extends BaseActivity {
     private AVLoadingIndicatorView avlLoader;
     String profileImage ="" , description="" , dob="",address="",city="",zipcode="";
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,7 @@ public class RegisterActivity extends BaseActivity {
 
         avlLoader = findViewById(R.id.avlLoader);
         avlLoader.setVisibility(View.GONE);
+        progressDialog = new ProgressDialog(activity);
         login_button = findViewById(R.id.login_button);
         login_button.setPermissions(Arrays.asList(EMAIL,PUBLICPROFILE));
         // If you are using in a fragment, call loginButton.setFragment(this);
@@ -106,14 +110,14 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onCancel() {
                 // App code
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 Log.e(TAG, "FacebookException onCancel: " );
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 Log.e(TAG, "FacebookException onError: "+exception );
             }
         });
@@ -158,12 +162,12 @@ public class RegisterActivity extends BaseActivity {
             tilCPassword.setError(null);
             tilPhone.setError(null);
             if (validation()) {
-                avlLoader.setVisibility(View.VISIBLE);
+                progressDialog.show();
                 createUser();
             }
         }else if (v.getId() == R.id.btnFB){
             LoginManager.getInstance().logOut();
-            avlLoader.setVisibility(View.VISIBLE);
+            progressDialog.show();
             login_button.performClick();
         }
         else if (v.getId() == R.id.imgBtnClose){
@@ -183,7 +187,7 @@ public class RegisterActivity extends BaseActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             printToast(activity,"Authentication failed." + task.getException());
-                            avlLoader.setVisibility(View.GONE);
+                            progressDialog.dismiss();
                         } else {
                             addDataToFireStone();
                         }
@@ -206,7 +210,7 @@ public class RegisterActivity extends BaseActivity {
         newCityRef.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,etEmail.getText().toString());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,etFirstName.getText().toString()+" "+etLastName.getText().toString());
@@ -219,7 +223,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         });
        /* dRef.collection("users")
@@ -295,7 +299,7 @@ public class RegisterActivity extends BaseActivity {
                             addFBDataToFireStone(user);
 
                         } else {
-                            avlLoader.setVisibility(View.GONE);
+                            progressDialog.dismiss();
                             // If sign in fails, display a message to the user.
                             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"User already registered");
 
@@ -321,7 +325,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSuccess(Void aVoid) {
 
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,user.getEmail());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,user.getDisplayName());
@@ -337,7 +341,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         });
     }
@@ -345,7 +349,7 @@ public class RegisterActivity extends BaseActivity {
 
 
     private void getProfileData(String uid, String email) {
-
+        progressDialog.dismiss();
         DocumentReference docRef = dRef.collection("users").document(uid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -395,10 +399,10 @@ public class RegisterActivity extends BaseActivity {
                         }
                     } else {
                         Log.d(TAG, "No such document");
-                        avlLoader.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                     }
                 } else {
-                    avlLoader.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
                 }
             }

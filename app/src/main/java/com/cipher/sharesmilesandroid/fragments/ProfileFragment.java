@@ -223,9 +223,12 @@ public class ProfileFragment extends Fragment {
 
                             String   sellerId =  documentChange.getDocument().getData().get("sellerID").toString();
                             String   buyerId =  documentChange.getDocument().getData().get("buyerID").toString();
-                            String   sellerName = documentChange.getDocument().getData().get("sellerName").toString();
-                            String   buyerName = documentChange.getDocument().getData().get("buyerName").toString();
+                            String isSoldString =String.valueOf(documentChange.getDocument().getData().get("isSold"));
 
+                            boolean isSold = false;
+                            if (isSoldString.equalsIgnoreCase("true")){
+                                isSold = true;
+                            }
 
                             String   productAddedTime = documentChange.getDocument().getData().get("productAddedAt").toString();
                             String   productSoldTime =documentChange.getDocument().getData().get("productSoldTime").toString();
@@ -236,12 +239,8 @@ public class ProfileFragment extends Fragment {
                             }
 
                             Products products = new Products( documentChange.getDocument().getId(),productName, productDesc,productPrice,
-                                    itemImage,sellerId,buyerId,productAddedTime,productSoldTime,false,productOrganisation
+                                    itemImage,sellerId,buyerId,productAddedTime,productSoldTime,isSold,productOrganisation
                                     ,organisationId,productCategory, productTagsArrayList);
-
-                            for (int i=0 ;i<productTagsArrayList.size();i++) {
-                                Log.e(TAG, "onEvent: "+productTagsArrayList.get(i).getTagName() );
-                            }
 
                             Users users = getProductOwner(userID);
                             ProductUser productUser = new ProductUser();

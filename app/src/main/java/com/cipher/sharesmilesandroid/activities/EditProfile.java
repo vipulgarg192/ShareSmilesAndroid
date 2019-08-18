@@ -118,7 +118,7 @@ public class EditProfile extends BaseActivity{
 
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
-    String strImg="";
+    String profileImage="";
     public static final int REQUEST_IMAGE = 100;
 
     FirebaseStorage storage ;
@@ -154,7 +154,7 @@ public class EditProfile extends BaseActivity{
                 String  firstName =  documentSnapshot.getData().get("firstName").toString();
                 String  lastName =  documentSnapshot.getData().get("lastName").toString();
 
-                String profileImage ="";
+
                 if (documentSnapshot.getData().get("profilePic")!=null){
                     profileImage =  documentSnapshot.getData().get("profilePic").toString();
                     ShareSmilesPrefs.writeString(getApplication(),ShareSmilesPrefs.userPic,profileImage);
@@ -247,9 +247,9 @@ public class EditProfile extends BaseActivity{
             case R.id.btUpdate:
                 if(valid()){
                     btUpdate.startAnimation();
-                    if (!strImg.isEmpty()){
+                    if (!profileImage.isEmpty()){
                         try {
-                            Uri file = Uri.fromFile(new File(strImg));
+                            Uri file = Uri.fromFile(new File(profileImage));
 
                             StorageReference mountainsRef = storageRef.child(file.getLastPathSegment());
 
@@ -275,9 +275,8 @@ public class EditProfile extends BaseActivity{
                                         public void onSuccess(Uri uri) {
                                             // getting image uri and converting into string
                                             Uri downloadUrl = uri;
-                                            strImg = downloadUrl.toString();
-                                            Log.e(TAG, "onSuccess: "+strImg );
-                                            ShareSmilesPrefs.writeString(getApplication(),ShareSmilesPrefs.userPic,strImg);
+                                            profileImage = downloadUrl.toString();
+                                            ShareSmilesPrefs.writeString(getApplication(),ShareSmilesPrefs.userPic,profileImage);
                                             updateUser();
 
                                         }
@@ -335,7 +334,7 @@ public class EditProfile extends BaseActivity{
         userMap.put("phone",etPhone.getText().toString());
         userMap.put("city",etCity.getText().toString());
         userMap.put("zipcode",etZipcode.getText().toString());
-        userMap.put("profilePic",strImg);
+        userMap.put("profilePic",profileImage);
 
         DocumentReference newCityRef = dRef.collection("users").document(userId);
         newCityRef.set(userMap, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -469,7 +468,7 @@ public class EditProfile extends BaseActivity{
 
 
     private void loadProfile(String url) {
-        strImg = url;
+        profileImage = url;
         Glide.with(this).load(url)
                 .into(imgAddprofile);
         imgAddprofile.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));

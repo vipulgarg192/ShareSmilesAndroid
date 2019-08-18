@@ -115,14 +115,6 @@
 
                             try {
                                 ArrayList<ProductTags> productTagsArrayList = new ArrayList<>();
-
-
-
-//                                ArrayList<ProductTags> stringArrayList = (ArrayList<ProductTags>) documentChange.getDocument().getData().get("Tags");
-
-
-                                Log.e(TAG, "onEvent: "+documentChange.getDocument().getData().get("Tags"));
-
                                 String data = String.valueOf(documentChange.getDocument().getData().get("Tags"));
                                 if (!data.equalsIgnoreCase("[]")){
                                     JSONArray dataArray = new JSONArray(data);
@@ -134,7 +126,7 @@
                                         productTagsArrayList.add(productTags);
                                     }
                                 }
-                                Log.e(TAG, "onEvent: "+productTagsArrayList.size() );
+
 
                                 String userID = documentChange.getDocument().getData().get("userId").toString();
 
@@ -148,9 +140,13 @@
 
                                 String sellerId = String.valueOf(documentChange.getDocument().getData().get("sellerID"));
                                 String buyerId = String.valueOf(documentChange.getDocument().getData().get("buyerID"));
-                                String sellerName = String.valueOf(documentChange.getDocument().getData().get("sellerName"));
-                                String buyerName = String.valueOf(documentChange.getDocument().getData().get("buyerName"));
 
+                                String isSoldString =String.valueOf(documentChange.getDocument().getData().get("isSold"));
+
+                                boolean isSold = false;
+                                if (isSoldString.equalsIgnoreCase("true")){
+                                    isSold = true;
+                                }
                                 String itemImage= "";
                                 if (documentChange.getDocument().getData().containsKey("itemImage")) {
                                     itemImage = String.valueOf(documentChange.getDocument().getData().get("itemImage"));
@@ -160,7 +156,7 @@
                                 String productSoldTime = String.valueOf(documentChange.getDocument().getData().get("productSoldTime"));
 
                                 Products products = new Products(documentChange.getDocument().getId(), productName, productDesc, productPrice,
-                                        itemImage, sellerId, buyerId, productAddedTime, productSoldTime, false, productOrganisation
+                                        itemImage, sellerId, buyerId, productAddedTime, productSoldTime, isSold, productOrganisation
                                         , organisationId, productCategory, productTagsArrayList);
 
                                 Users users = getProductOwner(userID);

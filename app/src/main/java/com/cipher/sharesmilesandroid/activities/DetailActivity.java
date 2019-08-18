@@ -7,11 +7,17 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.cipher.sharesmilesandroid.BaseActivity;
 import com.cipher.sharesmilesandroid.R;
 import com.cipher.sharesmilesandroid.ShareSmilesPrefs;
+import com.cipher.sharesmilesandroid.chipsSet.Chip;
+import com.cipher.sharesmilesandroid.chipsSet.ChipViewAdapter;
+import com.cipher.sharesmilesandroid.chipsSet.MainChipViewAdapter;
+import com.cipher.sharesmilesandroid.chipsSet.OnChipClickListener;
+import com.cipher.sharesmilesandroid.chipsSet.Tag;
 import com.cipher.sharesmilesandroid.databinding.ActivityDetailsBinding;
 import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
@@ -24,11 +30,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.marozzi.roundbutton.RoundButton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity  implements OnChipClickListener {
 
+    AppCompatActivity activity = DetailActivity.this;
     ProductUser productUser;
     private ActivityDetailsBinding binding;
     private static final String TAG = "DetailActivity";
@@ -36,13 +44,19 @@ public class DetailActivity extends BaseActivity {
 
     private FirebaseFirestore dRef = FirebaseFirestore.getInstance();
 
-
+    ArrayList<Chip> chipArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          binding = DataBindingUtil.setContentView(this,R.layout.activity_details);
 
+        ChipViewAdapter adapterLayout = new MainChipViewAdapter(this);
+
+        binding.chipView.setAdapter(adapterLayout);
+        binding.chipView.setChipLayoutRes(R.layout.chip_tag);
+        binding.chipView.setChipBackgroundColor(getResources().getColor(R.color.md_white_1000));
+        binding.chipView.setChipBackgroundColorSelected(getResources().getColor(R.color.md_blue_grey_500));
 
     }
 
@@ -83,10 +97,10 @@ public class DetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         for (int i =0 ; i< productUser.getProducts().getProductTagsArrayList().size() ; i++){
-            tags = tags + productUser.getProducts().getProductTagsArrayList().get(i).getTagName()+" ";
+            chipArrayList.add(new Tag("#"+productUser.getProducts().getProductTagsArrayList().get(i).getTagName()));
+//            tags = tags + productUser.getProducts().getProductTagsArrayList().get(i).getTagName()+" ";
         }
-
-        binding.tvTags.setText(tags);
+        binding.chipView.setChipList(chipArrayList);
     }
 
     public void onViewClicked(View v){
@@ -112,24 +126,24 @@ public class DetailActivity extends BaseActivity {
         productMap.put("buyerName", userName);
         productMap.put("productSoldTime",  String.valueOf(System.currentTimeMillis()));
 
-
-//        CollectionReference userRef = dRef.collection("users").document(userId).collection("products");
         DocumentReference productRef = dRef.collection("products").document(products.getProductId());
        productRef.set(productMap,SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
            @Override
            public void onSuccess(Void aVoid) {
                Log.e(TAG, "onSuccess: " );
                binding.btnBuy.setText("Buyed");
+               binding.btnBuy.setEnabled(false);
            }
        }).addOnFailureListener(new OnFailureListener() {
            @Override
            public void onFailure(@NonNull Exception e) {
                e.printStackTrace();
-               Log.e(TAG, "failure: " );
            }
        });
-
-
     }
 
+    @Override
+    public void onChipClick(Chip chip) {
+        printToast(activity,chip.getText().toString().replace("#",""));
+    }
 }

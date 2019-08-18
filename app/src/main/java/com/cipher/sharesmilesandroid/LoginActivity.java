@@ -20,6 +20,7 @@ import com.cipher.sharesmilesandroid.activities.MainActivity;
 import com.cipher.sharesmilesandroid.interfaces.FacebookInteface;
 import com.cipher.sharesmilesandroid.modals.Users;
 import com.cipher.sharesmilesandroid.ui.FacebookData;
+import com.cipher.sharesmilesandroid.utilities.ProgressDialog;
 import com.cipher.sharesmilesandroid.utilities.Validations;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -90,12 +91,15 @@ public class LoginActivity extends BaseActivity  {
     String profileImage ="" , description="" , dob="",address="",city="",zipcode="";
     private AVLoadingIndicatorView avlLoader;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
 
         auth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(activity);
 
         tilEmail = findViewById(R.id.tilEmail);
         tilPassword = findViewById(R.id.tilPassword);
@@ -141,14 +145,13 @@ public class LoginActivity extends BaseActivity  {
 
             @Override
             public void onCancel() {
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 // App code
             }
 
             @Override
             public void onError(FacebookException exception) {
-                avlLoader.setVisibility(View.GONE);
-
+                progressDialog.dismiss();
                 // App code
             }
         });
@@ -170,7 +173,7 @@ public class LoginActivity extends BaseActivity  {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
-                            avlLoader.setVisibility(View.GONE);
+                            progressDialog.dismiss();
 
                         }
 
@@ -209,7 +212,7 @@ public class LoginActivity extends BaseActivity  {
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,user.getUid());
                 ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,pic);
 
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 Intent intent = new Intent(activity, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -218,7 +221,7 @@ public class LoginActivity extends BaseActivity  {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e(TAG, "failure: " +e.getMessage());
-                avlLoader.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         });
     }
@@ -298,7 +301,7 @@ public class LoginActivity extends BaseActivity  {
             case R.id.btnSignIn:
                 tilEmail.setError(null);
                 tilPassword.setError(null);
-                avlLoader.setVisibility(View.VISIBLE);
+                progressDialog.show();
                 login();
                 break;
 
@@ -306,7 +309,7 @@ public class LoginActivity extends BaseActivity  {
                 break;
 
             case R.id.btnFB:
-                avlLoader.setVisibility(View.VISIBLE);
+                progressDialog.show();
                 login_button.performClick();
                 break;
             default:
@@ -319,7 +322,7 @@ public class LoginActivity extends BaseActivity  {
         if (isValid()){
           logIn(etEmail.getText().toString(), etPassword.getText().toString());
         }else {
-            avlLoader.setVisibility(View.GONE);
+            progressDialog.dismiss();
         }
     }
 
@@ -390,7 +393,7 @@ public class LoginActivity extends BaseActivity  {
                             ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,"Wrong credentials Entered");
                             etEmail.setText("");
                             etPassword.setText("");
-                            avlLoader.setVisibility(View.GONE);
+                            progressDialog.dismiss();
 
                         } else {
                             getProfileData(auth.getUid(),email);
@@ -455,10 +458,10 @@ public class LoginActivity extends BaseActivity  {
                         }
                     } else {
                         Log.d(TAG, "No such document");
-                        avlLoader.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                     }
                 } else {
-                    avlLoader.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
                 }
             }

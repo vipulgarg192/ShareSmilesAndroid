@@ -62,8 +62,9 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
               android:paddingEnd="@dimen/_10sdp">
 
 
-              <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+              <com.google.android.material.button.MaterialButton
                   android:id="@+id/tvPositive"
+                  style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/Ok"
@@ -72,8 +73,9 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
                   android:textColor="@color/colorAccent"
                   android:layout_alignParentRight="true"/>
 
-              <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+              <com.google.android.material.button.MaterialButton
                   android:id="@+id/tvNegative"
+                  style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="@string/cancel"
@@ -93,7 +95,6 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/cardDialog"
-        app:cardCornerRadius="@dimen/_35sdp"
         app:cardBackgroundColor="@color/md_red_600"
         app:layout_anchorGravity="top|center"
         android:elevation="@dimen/_10sdp">
@@ -103,7 +104,7 @@ lsdmflldlfmdlfmldmfldmflmdlfmlsdmflmdlfmldmfldmlfmdlfmldmfldmlfmldmfldmflmdlf"/>
             android:layout_height="@dimen/_50sdp"
             android:elevation="@dimen/_10sdp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/splash_logo_bg"/>
+            app:srcCompat="@drawable/ic_applogo"/>
 
     </com.google.android.material.card.MaterialCardView>
 

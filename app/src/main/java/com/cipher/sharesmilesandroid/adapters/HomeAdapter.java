@@ -56,7 +56,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
         Typeface custom_font = Typeface.createFromAsset(activity.getAssets(),  "fonts/BeautifulPeoplePersonalUse-dE0g.ttf");
 
-        ProductUser productUser = productUserArrayList.get(position);
+
         Products products = productUserArrayList.get(position).getProducts();
         Users users = productUserArrayList.get(position).getUsers();
 
@@ -91,6 +91,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             Glide.with(activity).load(products.getProductImage()).into(holder.imgProduct);
         }
 
+        if (products.isSold()){
+            holder.imgSold.setVisibility(View.VISIBLE);
+        }else {
+            holder.imgSold.setVisibility(View.GONE);
+        }
 
 
 

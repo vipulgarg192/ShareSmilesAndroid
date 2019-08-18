@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:bind="http://schemas.android.com/apk/res/android"
-    xmlns:bind.itemImage="http://schemas.android.com/tools">
+    xmlns:bind.itemImage="http://schemas.android.com/tools"
+    xmlns:chip="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_200sdp"
             android:src="@drawable/placeholer"
+            android:scaleType="fitXY"
             bind:itemImage="@{productsusers.products.productImage}"/>
 
         <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
@@ -62,6 +64,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/productName"
             android:textSize="@dimen/_15sdp"
+            android:textColor="@color/md_red_600"
             android:text="@{productsusers.products.productName}"
            android:layout_margin="@dimen/_10sdp"/>
 
@@ -70,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/price"
+            android:textColor="@color/md_red_600"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:text="@{productsusers.products.productPrice}"
@@ -167,8 +171,9 @@
             <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
-                android:text="@string/description"/>
+                android:textSize="@dimen/_12sdp"
+                android:text="@string/description"
+                />
 
             <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                 android:id="@+id/tvDesc"
@@ -176,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:textColor="@color/md_red_600"
                 android:hint="@string/description"
                 android:text="@{productsusers.products.productDescription}"/>
 
@@ -192,7 +198,7 @@
             <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
+                android:textSize="@dimen/_12sdp"
                 android:text="@string/category"/>
 
             <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
@@ -200,6 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
+                android:textColor="@color/md_red_600"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="@{productsusers.products.productCategory}"
                 android:hint="@string/category"/>
@@ -218,15 +225,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15sdp"
+                android:visibility="gone"
+                android:textColor="@color/md_red_600"
                 android:text="@string/tags"/>
 
-            <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
-                android:id="@+id/tvTags"
-                android:layout_width="wrap_content"
+            <com.cipher.sharesmilesandroid.chipsSet.ChipView
+                android:id="@+id/chipView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_15sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:hint="@string/tags"/>
+                android:minHeight="?attr/actionBarSize"
+                chip:chip_background="@color/red"
+                chip:chip_background_selected="@color/grey"
+                chip:chip_corner_radius="5dp"
+                chip:chip_line_spacing="20dp"
+                chip:chip_padding="10dp"
+                chip:chip_side_padding="10dp"
+                chip:chip_spacing="16dp"/>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
