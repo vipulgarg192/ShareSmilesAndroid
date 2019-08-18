@@ -109,6 +109,7 @@
                     }
                     for (DocumentChange documentChange : documentSnapshots.getDocumentChanges()) {
 
+
                         if (documentChange.getDocument().getData().isEmpty()) {
                             avlLoader.setVisibility(View.GONE);
                         } else {
@@ -159,11 +160,23 @@
                                         itemImage, sellerId, buyerId, productAddedTime, productSoldTime, isSold, productOrganisation
                                         , organisationId, productCategory, productTagsArrayList);
 
-                                Users users = getProductOwner(userID);
-                                ProductUser productUser = new ProductUser();
-                                productUser.setUsers(users);
-                                productUser.setProducts(products);
-                                productUserArrayList.add(productUser);
+
+
+                                if (valueAlreadExited(documentChange.getDocument().getId())!=-1){
+                                    Users users = getProductOwner(userID);
+                                    ProductUser productUser = new ProductUser();
+                                    productUser.setUsers(users);
+                                    productUser.setProducts(products);
+                                    productUserArrayList.set(valueAlreadExited(documentChange.getDocument().getId()) , productUser);
+                                }else {
+                                    Users users = getProductOwner(userID);
+                                    ProductUser productUser = new ProductUser();
+                                    productUser.setUsers(users);
+                                    productUser.setProducts(products);
+                                    productUserArrayList.add(productUser);
+                                }
+
+
 
                             } catch (Exception exception) {
                                 Log.e(TAG, "onEvent: " + exception.getMessage());
@@ -183,8 +196,19 @@
             });
         }
 
+        private int valueAlreadExited(String userID) {
+            for (int i =0 ; i< productUserArrayList.size() ; i++){
+                if (productUserArrayList.get(i).getProducts().getProductId().equalsIgnoreCase(userID)){
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+
         private Users getProductOwner(String userID) {
            for (int i =ShareSmilesSingleton.usersArrayList.size()-1 ; i >=0 ; i--){
+//               Log.e(TAG, "getProductOwner: "+ShareSmilesSingleton.usersArrayList.get(i).getFullName() );
                if (ShareSmilesSingleton.usersArrayList.get(i).getUserID().equalsIgnoreCase(userID)){
                    return ShareSmilesSingleton.usersArrayList.get(i);
                }

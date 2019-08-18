@@ -54,7 +54,7 @@
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_10sdp">
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                             android:id="@+id/tvTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                             android:textSize="@dimen/_13sdp"
                             android:textColor="@color/md_black_1000"/>
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                             android:id="@+id/tvDesc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -127,13 +127,15 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_10sdp">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_16sdp"
                     android:hint="@string/productName"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                     android:id="@+id/tvProductDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

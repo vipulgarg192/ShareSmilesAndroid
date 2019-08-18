@@ -44,4 +44,13 @@ public class Respo {
         });
     }
 
+    public static void deleteUsersTask(UserRoomDatabase userDb) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDb.userDao().deleteUsers();
+            }
+        });
+    }
+
 }

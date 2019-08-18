@@ -45,6 +45,10 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.MyViewHo
          if (users.getUserImage()!=null || !users.getUserImage().equalsIgnoreCase("")){
              Glide.with(activity).load(users.getUserImage()).circleCrop().placeholder(R.drawable.ic_profile).into(holder.imgProfile);
          }
+
+         if (!users.isSocialMedia()){
+             holder.imgFB.setVisibility(View.GONE);
+         }
     }
 
     @Override
@@ -55,7 +59,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.MyViewHo
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout llItem;
-        AppCompatImageView imgProfile;
+        AppCompatImageView imgProfile , imgFB;
         TextView tvName , tvDesc;
 
 
@@ -65,6 +69,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.MyViewHo
             imgProfile = itemView.findViewById(R.id.imgProfile);
             tvName = itemView.findViewById(R.id.tvName);
             tvDesc = itemView.findViewById(R.id.tvDesc);
+             imgFB = itemView.findViewById(R.id.imgFB);
         }
     }
 }

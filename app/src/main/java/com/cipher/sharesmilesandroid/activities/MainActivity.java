@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
     }
 
     private void getUserAllInfo() {
-        Users users = new Users();
+        Respo.deleteUsersTask(UserRoomDatabase.getDatabase(activity));
         dRef.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
                                     String firstName = document.getData().get("firstName").toString();
                                     String lastName = document.getData().get("lastName").toString();
                                     String email = document.getData().get("email").toString();
-
+                                    Users users = new Users();
                                     users.setUserID(userID);
                                     users.setFirstName(firstName);
                                     users.setLastName(lastName);
@@ -313,11 +313,10 @@ public class MainActivity extends AppCompatActivity implements RoomDBCallBacks{
                                         users.setZipcode(document.getData().get("zipcode").toString());
 
                                     }
-                                    if(ShareSmilesSingleton.usersArrayList.size()>0){
-                                        Respo.updateDataTask(UserRoomDatabase.getDatabase(activity), users);
-                                    }else {
-                                        Respo.updateTask(UserRoomDatabase.getDatabase(activity), users);
-                                    }
+
+                                    Respo.updateTask(UserRoomDatabase.getDatabase(activity), users);
+
+                                    Log.e(TAG, "onComplete:getFullName "+users.getFullName() );
                                 }
                             }
                         } else {

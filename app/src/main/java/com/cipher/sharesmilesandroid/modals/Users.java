@@ -80,6 +80,18 @@ public class Users extends BaseObservable implements Serializable {
     @ColumnInfo(name = "zipcode")
     private String zipcode;
 
+    @Bindable
+    public boolean isSocialMedia() {
+        return socialMedia;
+    }
+
+    public void setSocialMedia(boolean socialMedia) {
+        this.socialMedia = socialMedia;
+        notifyPropertyChanged(BR.socialMedia);
+    }
+
+    @ColumnInfo(name = "socialMedia")
+    private boolean socialMedia;
 
 
     public String getUserID() {

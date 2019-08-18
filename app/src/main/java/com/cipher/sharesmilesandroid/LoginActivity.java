@@ -168,7 +168,7 @@ public class LoginActivity extends BaseActivity  {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = auth.getCurrentUser();
-                            addDataToFireStone(user);
+                            addDataFBToFireStone(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity  {
                 });
     }
 
-    private void addDataToFireStone(FirebaseUser user) {
+    private void addDataFBToFireStone(FirebaseUser user) {
 
         String userId = user.getUid();
         String pic = String.valueOf(user.getPhotoUrl());
@@ -237,55 +237,55 @@ public class LoginActivity extends BaseActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getFbInfo() {
-        GraphRequest request = GraphRequest.newMeRequest(
-                AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(
-                            JSONObject object,
-                            GraphResponse response) {
-                        try {
-                            Log.d(TAG, "fb json object: " + object);
-                            Log.d(TAG, "fb graph response: " + response);
-
-                            String id = object.getString("id");
-                            String first_name = object.getString("first_name");
-                            String last_name = object.getString("last_name");
-                            String gender = object.getString("gender");
-
-                            String birthday = "";
-                            if (object.has("birthday")) {
-                                birthday = object.getString("birthday");
-                            }
-
-                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
-                            String email = "";
-                            if (object.has("email")) {
-                                email = object.getString("email");
-                            }
-
-                            Users users = new Users();
-                            users.setUserID(id);
-                            users.setFirstName(first_name);
-                            users.setLastName(last_name);
-                            users.setEmail(email);
-                            users.setGender(gender);
-                            users.setDob(birthday);
-                            users.setUserImage(image_url);
-
-                           setFBInfo(users);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,first_name,last_name,email,gender,birthday,is_verified,link,is_shared_login,verified"); // id,first_name,last_name,email,gender,birthday,cover,picture.type(large)
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
+//    private void getFbInfo() {
+//        GraphRequest request = GraphRequest.newMeRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                new GraphRequest.GraphJSONObjectCallback() {
+//                    @Override
+//                    public void onCompleted(
+//                            JSONObject object,
+//                            GraphResponse response) {
+//                        try {
+//                            Log.d(TAG, "fb json object: " + object);
+//                            Log.d(TAG, "fb graph response: " + response);
+//
+//                            String id = object.getString("id");
+//                            String first_name = object.getString("first_name");
+//                            String last_name = object.getString("last_name");
+//                            String gender = object.getString("gender");
+//
+//                            String birthday = "";
+//                            if (object.has("birthday")) {
+//                                birthday = object.getString("birthday");
+//                            }
+//
+//                            String image_url = "http://graph.facebook.com/" + id + "/picture?type=large";
+//                            String email = "";
+//                            if (object.has("email")) {
+//                                email = object.getString("email");
+//                            }
+//
+//                            Users users = new Users();
+//                            users.setUserID(id);
+//                            users.setFirstName(first_name);
+//                            users.setLastName(last_name);
+//                            users.setEmail(email);
+//                            users.setGender(gender);
+//                            users.setDob(birthday);
+//                            users.setUserImage(image_url);
+//
+//                           setFBInfo(users);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//        Bundle parameters = new Bundle();
+//        parameters.putString("fields", "id,first_name,last_name,email,gender,birthday,is_verified,link,is_shared_login,verified"); // id,first_name,last_name,email,gender,birthday,cover,picture.type(large)
+//        request.setParameters(parameters);
+//        request.executeAsync();
+//    }
 
     @Override
     public void init() {
@@ -356,27 +356,27 @@ public class LoginActivity extends BaseActivity  {
     }
 
 
-    public void setFBInfo(Users users) {
-        auth.createUserWithEmailAndPassword(users.getEmail(), users.getEmail())
-                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.e(TAG, "onComplete: "+"Authentication failed." + task.getException().getMessage());
-                            if (task.getException().getMessage().contains("The email address is already in use by another account")){
-                                logIn(users.getEmail(),users.getEmail());
-                            }
-                        } else {
-                            startActivity(new Intent(activity, MainActivity.class));
-                            finish();
-                        }
-                    }
-                });
-    }
+//    public void setFBInfo(Users users) {
+//        auth.createUserWithEmailAndPassword(users.getEmail(), users.getEmail())
+//                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Log.e(TAG, "onComplete: "+"Authentication failed." + task.getException().getMessage());
+//                            if (task.getException().getMessage().contains("The email address is already in use by another account")){
+//                                logIn(users.getEmail(),users.getEmail());
+//                            }
+//                        } else {
+//                            startActivity(new Intent(activity, MainActivity.class));
+//                            finish();
+//                        }
+//                    }
+//                });
+//    }
 
     public void logIn(String email , String password){
         auth.signInWithEmailAndPassword(email, password)
@@ -397,7 +397,6 @@ public class LoginActivity extends BaseActivity  {
 
                         } else {
                             getProfileData(auth.getUid(),email);
-
                         }
                     }
                 });
@@ -470,4 +469,9 @@ public class LoginActivity extends BaseActivity  {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        progressDialog.dismiss();
+    }
 }

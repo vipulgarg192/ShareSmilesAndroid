@@ -137,10 +137,14 @@ public class CategoriesActivity extends AppCompatActivity {
                                     String lastName = document.getData().get("lastName").toString();
                                     String email = document.getData().get("email").toString();
 
+                                    boolean isSocialMedia =
+                                            Boolean.parseBoolean(document.getData().get("socialMedia").toString());
+
                                     users.setUserID(userID);
                                     users.setFirstName(firstName);
                                     users.setLastName(lastName);
                                     users.setEmail(email);
+                                    users.setSocialMedia(isSocialMedia);
 
                                     if (document.getData().containsKey("profilePic")) {
                                         users.setUserImage(document.getData().get("profilePic").toString());

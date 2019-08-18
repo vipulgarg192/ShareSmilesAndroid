@@ -205,6 +205,7 @@ public class RegisterActivity extends BaseActivity {
         userMap.put("firstName", etFirstName.getText().toString());
         userMap.put("lastName",etLastName.getText().toString());
         userMap.put("password",etPassword.getText().toString());
+        userMap.put("socialMedia",false);
 
         DocumentReference newCityRef = dRef.collection("users").document(userId);
         newCityRef.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -319,6 +320,7 @@ public class RegisterActivity extends BaseActivity {
         userMap.put("firstName", user.getDisplayName());
         userMap.put("lastName",user.getDisplayName());
         userMap.put("profilePic",String.valueOf(user.getPhotoUrl()));
+        userMap.put("socialMedia",true);
 
         DocumentReference usersReference = dRef.collection("users").document(userId);
         usersReference.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -348,68 +350,68 @@ public class RegisterActivity extends BaseActivity {
 
 
 
-    private void getProfileData(String uid, String email) {
-        progressDialog.dismiss();
-        DocumentReference docRef = dRef.collection("users").document(uid);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        if (!document.getData().isEmpty()){
-
-                            String  firstName =  document.getData().get("firstName").toString();
-                            String  lastName =  document.getData().get("lastName").toString();
-
-                            if (document.getData().get("profilePic")!=null){
-                                profileImage =  document.getData().get("profilePic").toString();
-                            }
-
-                            if (document.getData().get("description")!=null){
-                                description =  document.getData().get("description").toString();
-                            }
-
-                            if (document.getData().get("dob")!=null){
-                                dob =  document.getData().get("dob").toString();
-                            }
-
-                            if (document.getData().get("address")!=null){
-                                address =  document.getData().get("address").toString();
-                            }
-
-                            if (document.getData().get("city")!=null){
-                                city =  document.getData().get("city").toString();
-                            }
-
-                            if (document.getData().get("zipcode")!=null){
-                                zipcode =  document.getData().get("zipcode").toString();
-                            }
-
-                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,firstName+" "+lastName);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,uid);
-                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,profileImage);
-
-                            Intent intent = new Intent(activity, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    } else {
-                        Log.d(TAG, "No such document");
-                        progressDialog.dismiss();
-                    }
-                } else {
-                    progressDialog.dismiss();
-                    ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
-                }
-            }
-        });
-
-
-    }
+//    private void getProfileData(String uid, String email) {
+//        progressDialog.dismiss();
+//        DocumentReference docRef = dRef.collection("users").document(uid);
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        if (!document.getData().isEmpty()){
+//
+//                            String  firstName =  document.getData().get("firstName").toString();
+//                            String  lastName =  document.getData().get("lastName").toString();
+//
+//                            if (document.getData().get("profilePic")!=null){
+//                                profileImage =  document.getData().get("profilePic").toString();
+//                            }
+//
+//                            if (document.getData().get("description")!=null){
+//                                description =  document.getData().get("description").toString();
+//                            }
+//
+//                            if (document.getData().get("dob")!=null){
+//                                dob =  document.getData().get("dob").toString();
+//                            }
+//
+//                            if (document.getData().get("address")!=null){
+//                                address =  document.getData().get("address").toString();
+//                            }
+//
+//                            if (document.getData().get("city")!=null){
+//                                city =  document.getData().get("city").toString();
+//                            }
+//
+//                            if (document.getData().get("zipcode")!=null){
+//                                zipcode =  document.getData().get("zipcode").toString();
+//                            }
+//
+//                            ShareSmilesPrefs.writeBool(activity,ShareSmilesPrefs.isLogin,true);
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.emailId,email);
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userName,firstName+" "+lastName);
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userId,uid);
+//                            ShareSmilesPrefs.writeString(activity,ShareSmilesPrefs.userPic,profileImage);
+//
+//                            Intent intent = new Intent(activity, MainActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//
+//                        }
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                        progressDialog.dismiss();
+//                    }
+//                } else {
+//                    progressDialog.dismiss();
+//                    ShareSmilesSingleton.getInstance().getDialogBoxs().showDismissBox(activity,task.getException().getMessage());
+//                }
+//            }
+//        });
+//
+//
+//    }
 
 
     @Override

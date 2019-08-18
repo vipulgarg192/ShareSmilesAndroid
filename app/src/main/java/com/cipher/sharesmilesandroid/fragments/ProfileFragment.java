@@ -148,6 +148,8 @@ public class ProfileFragment extends Fragment {
                             if (document.getData().get("profilePic")!=null){
                                 profileImage =  document.getData().get("profilePic").toString();
                                 Log.e(TAG, "profileImage: "+ profileImage);
+                                Glide.with(getActivity()).load(profileImage).into(imgProfile);
+                                ShareSmilesPrefs.writeString(getActivity(),ShareSmilesPrefs.userPic,profileImage);
                             }
 
                             if (document.getData().get("description")!=null){
