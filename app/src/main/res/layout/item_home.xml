@@ -64,13 +64,22 @@
 
                         <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
                             android:id="@+id/tvDesc"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/description"
+                            android:ellipsize="marquee"
+                            android:singleLine="true"
                             android:ems="10"
                             android:textSize="@dimen/_10sdp"/>
 
 
+                        <com.cipher.sharesmilesandroid.ui.HelveticaNeueTextView
+                            android:id="@+id/tvTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:gravity="right"
+                            android:textSize="@dimen/_10sdp"/>
 
 
                     </LinearLayout>

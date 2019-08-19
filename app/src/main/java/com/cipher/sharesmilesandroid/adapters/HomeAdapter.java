@@ -21,6 +21,7 @@ import com.cipher.sharesmilesandroid.interfaces.Clicklisteners;
 import com.cipher.sharesmilesandroid.modals.ProductUser;
 import com.cipher.sharesmilesandroid.modals.Products;
 import com.cipher.sharesmilesandroid.modals.Users;
+import com.cipher.sharesmilesandroid.utilities.TimeShow;
 import com.google.android.material.card.MaterialCardView;
 
 import java.io.Serializable;
@@ -35,10 +36,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
 
     Clicklisteners clicklisteners;
 
+    TimeShow timeShow ;
     public HomeAdapter(Context activity, ArrayList<ProductUser> productUserArrayList, Clicklisteners clicklisteners){
         this.activity = activity;
         this.productUserArrayList = productUserArrayList;
         this.clicklisteners = clicklisteners;
+        this.timeShow = new TimeShow();
     }
 
 
@@ -76,6 +79,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             }
         }
 
+
         holder.imgBSave.setChecked(true);
 
         holder.tvProductName.setText(products.getProductName());
@@ -105,6 +109,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
                 clicklisteners.onClickListeners(position);
             }
         });
+
+        holder.tvTime.setText(timeShow.getTime(Long.parseLong(products.getProductAddedTime())));
     }
 
     @Override
@@ -117,7 +123,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
         MaterialCardView cardView;
         TextView tvTitle,tvProductName,tvDesc,tvProductDesc;
         AppCompatCheckBox imgBSave;
-        TextView tvPrice;
+        TextView tvPrice,tvTime;
 
         AppCompatImageView imgProduct,imgSold ,imgProfile;
 
@@ -136,6 +142,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeView> {
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvProductDesc = itemView.findViewById(R.id.tvProductDesc);
              imgProfile = itemView.findViewById(R.id.imgProfile);
+
+             tvTime = itemView.findViewById(R.id.tvTime);
         }
     }
 }

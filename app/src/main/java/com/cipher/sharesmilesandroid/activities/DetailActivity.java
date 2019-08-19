@@ -69,6 +69,10 @@ public class DetailActivity extends BaseActivity  implements OnChipClickListener
         }
         String userId = ShareSmilesPrefs.readString(getApplicationContext(),ShareSmilesPrefs.userId,null);
 
+        Log.e(TAG, "onResume:getSellerID "+ productUser.getProducts().getSellerID());
+        Log.e(TAG, "onResume:userId "+ userId);
+        Log.e(TAG, "onResume:getBuyerID "+ productUser.getProducts().getBuyerID());
+
         if (productUser.getProducts().getSellerID().equalsIgnoreCase(userId)){
             if (!productUser.getProducts().getBuyerID().equalsIgnoreCase("")){
                 binding.btnBuy.setText("Sold");
@@ -78,7 +82,11 @@ public class DetailActivity extends BaseActivity  implements OnChipClickListener
                 binding.btnBuy.setEnabled(false);
             }
         }else {
-            if (!productUser.getProducts().getBuyerID().equalsIgnoreCase(userId)){
+            if (productUser.getProducts().getBuyerID().equalsIgnoreCase("")){
+                binding.btnBuy.setText("Buy");
+                binding.btnBuy.setEnabled(true);
+            }
+            else if (!productUser.getProducts().getBuyerID().equalsIgnoreCase(userId)){
                 binding.btnBuy.setText("Not Available");
                 binding.btnBuy.setEnabled(false);
             }else if (productUser.getProducts().getBuyerID().equalsIgnoreCase(userId)){
