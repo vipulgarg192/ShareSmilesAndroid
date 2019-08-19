@@ -8,10 +8,9 @@ As this application helps to raise funds by adding products owner which is selle
 
 ## Splash Screen
 <img src=https://github.com/vipulgarg192/ShareSmilesAndroid/blob/master/screenshots/splash.png height="400" align="left"/>
-* Implemented Splash screen with creating handle.
 
 ```
-* It is achivied by using item name="android:windowBackground" in the styles.
+* item name="android:windowBackground" in the styles.
 ```
 
 ## Intro Screen
